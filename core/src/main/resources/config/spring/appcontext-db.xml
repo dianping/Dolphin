@@ -1,0 +1,42 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!--配置一个数据源,根据上面propertyConfig指定的location去找数据库连接的配置信息-->
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName">
+            <value>com.mysql.jdbc.Driver</value>
+        </property>
+        <property name="url">
+            <value>jdbc:mysql://localhost:3306/paas</value>
+        </property>
+        <property name="username">
+            <value>root</value>
+        </property>
+        <property name="password">
+            <value>123</value>
+        </property>
+    </bean>
+
+    <!--根据dataSource和configLocation创建一个SqlMapClient-->
+    <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation" value="classpath:config/sqlmap/sqlmap-config.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--根据sqlMapClien创建一个SqlMapClient模版类-->
+    <bean id="sqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
+        <property name="sqlMapClient">
+            <ref bean="sqlMapClient"/>
+        </property>
+    </bean>
+
+    <context:component-scan base-package="com.dianping.paas.dao"/>
+
+
+</beans>

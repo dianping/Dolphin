@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.dianping.paas.entity.AppEntity">
+    <typeAlias alias="AppEntity" type="com.dianping.paas.entity.AppEntity"/>
+
+    <insert id="insert" parameterClass="AppEntity">
+        INSERT INTO app(
+        app_id,
+        type,
+        owner,
+        quota_id,
+        level,
+        app_plan_name,
+        creation_date,
+        last_modified_date,
+        image,
+        machine_label
+        )VALUES(
+        #app_id#,
+        #type#,
+        #owner#,
+        #quota_id#,
+        #level#,
+        #app_plan_name#,
+        now(),
+        now(),
+        #image#,
+        #machine_label#
+        );
+        <selectKey resultClass="java.lang.Long" keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <delete id="delete" parameterClass="java.lang.Long">
+        DELETE FROM app WHERE id = #id#;
+    </delete>
+
+    <select id="selectAll" resultClass="AppEntity">
+        SELECT * FROM app;
+    </select>
+
+    <select id="selectOne" resultClass="AppEntity">
+        SELECT * FROM app WHERE id = #id#;
+    </select>
+
+    <update id="update" parameterClass="AppEntity">
+        UPDATE app SET
+                        app_id = #app_id#,
+                        type = #type#,
+                        owner = #owner#,
+                        quota_id = #quota_id#,
+                        level = #level#,
+                        app_plan_name = #app_plan_name#,
+                        creation_date = #creation_date#,
+                        last_modified_date = #last_modified_date#,
+                        image = #image#,
+                        machine_label = #machine_label#
+        WHERE id = #id#
+    </update>
+
+    <select id="getByAppId" resultClass="AppEntity">
+        SELECT * FROM app WHERE app_id = #app_id#;
+    </select>
+
+
+</sqlMap>
