@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+
+    <Properties>
+        <Property name="logPath">/data/applogs/paas</Property>
+        <Property name="patternLayout">%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %class{36}#%M:%L - %msg%xEx%n</Property>
+    </Properties>
+
+    <Appenders>
+        <!--控制台appender-->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${patternLayout}"/>
+        </Console>
+
+        <!-- 打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
+        <!--INFO 级别的Appender-->
+        <RollingFile name="InfoAppender" fileName="${logPath}/appInfo.log"
+                     filePattern="${logPath}/$${date:yyyy-MM}/appInfo-%d{yyyy-MM-dd}-%i.log.gz">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${patternLayout}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+        </RollingFile>
+
+        <!--Error 级别的appender-->
+        <RollingFile name="ErrorAppender" fileName="${logPath}/appError.log"
+                     filePattern="${logPath}/$${date:yyyy-MM}/appError-%d{yyyy-MM-dd}-%i.log.gz">
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${patternLayout}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="50MB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.dianping.paas" level="TRACE" additivity="false">
+            <AppenderRef ref="InfoAppender"/>
+            <AppenderRef ref="ErrorAppender"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Root level="ERROR">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>
