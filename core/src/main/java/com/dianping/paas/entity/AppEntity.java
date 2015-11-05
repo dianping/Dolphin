@@ -19,4 +19,11 @@ public class AppEntity extends Entity {
     private Date last_modified_date;
     private String image;
     private String machine_label;
+
+    public AppEntity(String app_id) {
+        this.app_id = app_id;
+    }
+
+    public AppEntity() {
+    }
 }

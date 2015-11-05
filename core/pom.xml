@@ -62,6 +62,13 @@
             <version>${spring-orm.version}</version>
         </dependency>
 
+        <!--Nats-->
+        <dependency>
+            <groupId>com.github.cloudfoundry-community</groupId>
+            <artifactId>nats-client-spring</artifactId>
+            <version>${nats-client-spring.version}</version>
+        </dependency>
+
     </dependencies>
 
 

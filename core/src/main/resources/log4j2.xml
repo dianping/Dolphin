@@ -44,5 +44,9 @@
         <Root level="ERROR">
             <AppenderRef ref="Console"/>
         </Root>
+
+        <Logger name="org.springframework.core.env.StandardEnvironment" level="TRACE" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
     </Loggers>
 </Configuration>

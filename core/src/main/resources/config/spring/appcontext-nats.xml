@@ -1,0 +1,14 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:nats="http://cloudfoundry-community.github.io/java-nats/schema/spring/nats"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://cloudfoundry-community.github.io/java-nats/schema/spring/nats http://cloudfoundry-community.github.io/java-nats/schema/spring/nats/nats-0.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <nats:annotation-config/>
+    <nats:nats>
+        <nats:url>nats://localhost:4222</nats:url>
+    </nats:nats>
+
+    <context:component-scan base-package="com.dianping.paas.message.nats"/>
+
+</beans>

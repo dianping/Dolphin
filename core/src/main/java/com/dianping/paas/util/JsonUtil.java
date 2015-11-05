@@ -18,6 +18,10 @@ public class JsonUtil {
         });
     }
 
+    public static <T> T toBean(String json, Class<T> requireType) throws IOException {
+        return MAPPER.readValue(json, requireType);
+    }
+
     public static <T> String toJson(T bean) throws IOException {
         StringWriter stringWriter = new StringWriter();
         MAPPER.writeValue(stringWriter, bean);
