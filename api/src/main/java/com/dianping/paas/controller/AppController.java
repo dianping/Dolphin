@@ -31,7 +31,6 @@ public class AppController {
         logger.info("-> /v1/apps");
         String dockerIp = configManager.getDockerIp();
         logger.info("dockerIp is " + dockerIp);
-        logger.error("dockerIp is " + dockerIp);
         return appService.getAll();
     }
 }
