@@ -227,4 +227,6 @@ public interface ConfigManager {
     long getAlarmTaskStartTime();
 
     long getAlarmPeriod();
+
+    List<String> getIpWhiteList();
 }

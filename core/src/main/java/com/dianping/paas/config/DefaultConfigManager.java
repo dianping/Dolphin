@@ -1,5 +1,7 @@
 package com.dianping.paas.config;
 
+import org.springframework.stereotype.Component;
+
 import java.io.File;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -9,6 +11,7 @@ import java.util.regex.Pattern;
  * chao.yu@dianping.com
  * Created by yuchao on 15/11/2.
  */
+@Component
 public class DefaultConfigManager implements ConfigManager {
     public List<String> getNatsServerList() {
         return null;
@@ -446,5 +449,9 @@ public class DefaultConfigManager implements ConfigManager {
 
     public long getAlarmPeriod() {
         return 0;
+    }
+
+    public List<String> getIpWhiteList() {
+        return null;
     }
 }
