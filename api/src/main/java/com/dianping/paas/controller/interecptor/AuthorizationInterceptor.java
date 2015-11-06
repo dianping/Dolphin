@@ -31,7 +31,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter implemen
 
         boolean authorized = ipWhiteList.contains(ipAddress);
         if (!authorized) {
-            logger.warn("ip[" + ipAddress + "] is not authorized!");
+            logger.warn(String.format("ip[%s] is not authorized!", ipAddress));
         }
 
         return authorized;
