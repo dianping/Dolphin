@@ -24,19 +24,21 @@ public abstract class MessageCallBack<Res> implements MessageHandler {
 
     public void onMessage(Message message) {
 
-        Res response = null;
+        Res response;
         try {
             response = JsonUtil.toBean(message.getBody(), responseType);
+            callback(response);
         } catch (IOException e) {
-
+            onError(e);
+        } finally {
+            tryCountDown();
         }
-        callback(response);
-
-        tryCountDown();
 
     }
 
     public abstract void callback(Res res);
+
+    public abstract void onError(Throwable throwable);
 
     private void tryCountDown() {
         if (countDownLatch != null) {

@@ -35,6 +35,11 @@ public class MessageBusTest {
                 flag[0] = false;
                 logger.trace("testRequestSync callback: " + responsePayload);
             }
+
+            @Override
+            public void onError(Throwable throwable) {
+                logger.error(throwable);
+            }
         });
 
         Assert.assertFalse(flag[0]);
@@ -55,6 +60,11 @@ public class MessageBusTest {
                     e.printStackTrace();
                 }
             }
+
+            @Override
+            public void onError(Throwable throwable) {
+                logger.error(throwable);
+            }
         });
 
 
@@ -72,6 +82,14 @@ public class MessageBusTest {
             this.name = name;
         }
 
+        @Override
+        public String toString() {
+            return "RequestPayload{" +
+                    "name='" + name + '\'' +
+                    ", date=" + date +
+                    '}';
+        }
+
         public RequestPayload() {
         }
     }
@@ -84,6 +102,14 @@ public class MessageBusTest {
         public ResponsePayload(String name, Date date) {
             this.name = name;
             this.date = date;
+        }
+
+        @Override
+        public String toString() {
+            return "ResponsePayload{" +
+                    "name='" + name + '\'' +
+                    ", date=" + date +
+                    '}';
         }
 
         public ResponsePayload() {

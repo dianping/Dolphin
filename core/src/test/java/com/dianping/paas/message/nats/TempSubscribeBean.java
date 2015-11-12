@@ -1,6 +1,6 @@
 package com.dianping.paas.message.nats;
 
-import com.dianping.paas.util.JsonUtil;
+import com.dianping.paas.message.nats.subscribe.SubscribeBean;
 import nats.client.Message;
 import nats.client.spring.Subscribe;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +14,7 @@ import java.util.Date;
  * Created by yuchao on 2015/11/05 18:50.
  */
 @Component
-public class TempSubscribeBean {
+public class TempSubscribeBean extends SubscribeBean {
 
     public static final String NATS_SUBJECT = "nats_subject";
     private final static Logger logger = LogManager.getLogger(TempSubscribeBean.class);
@@ -22,15 +22,14 @@ public class TempSubscribeBean {
     @Subscribe(NATS_SUBJECT)
     public void subscribe(Message message) {
         try {
-            MessageBusTest.RequestPayload requestPayload = JsonUtil.toBean(message.getBody(), MessageBusTest.RequestPayload.class);
+            MessageBusTest.RequestPayload requestPayload = getPayload(message, MessageBusTest.RequestPayload.class);
             logger.trace("TempSubscribeBean#subscribe receive message: " + requestPayload);
 
             Thread.sleep(500);
 
-            String response = JsonUtil.toJson(new MessageBusTest.ResponsePayload("chao.yu", new Date()));
-            logger.trace("TempSubscribeBean#subscribe receive message: " + response);
-            message.reply(response);
-
+            MessageBusTest.ResponsePayload responsePayload = new MessageBusTest.ResponsePayload("chao.yu", new Date());
+            logger.trace("TempSubscribeBean#subscribe reply message: " + responsePayload);
+            reply(message, responsePayload);
         } catch (Exception e) {
             e.printStackTrace();
         }

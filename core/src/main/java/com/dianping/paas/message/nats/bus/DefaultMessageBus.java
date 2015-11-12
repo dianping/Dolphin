@@ -23,23 +23,33 @@ public class DefaultMessageBus implements MessageBus {
     /**
      * 同步获取响应
      */
-    public <T> void requestSync(String subject, T payload, MessageCallBack messageCallBack) throws IOException, InterruptedException {
+    public <REQUEST_T> void requestSync(String subject, REQUEST_T payload, MessageCallBack messageCallBack) {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         messageCallBack.setCountDownLatch(countDownLatch);
         doRequest(subject, payload, messageCallBack);
-        countDownLatch.await();
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            messageCallBack.onError(e);
+        }
     }
 
     /**
      * 异步获取响应
      */
-    public <T> void requestAsync(String subject, T payload, MessageCallBack messageCallBack) throws IOException, InterruptedException {
+    public <REQUEST_T> void requestAsync(String subject, REQUEST_T payload, MessageCallBack messageCallBack) {
         doRequest(subject, payload, messageCallBack);
     }
 
 
-    private <T> void doRequest(String subject, T payload, MessageCallBack messageCallBack) throws IOException {
-        String body = JsonUtil.toJson(payload);
-        nats.request(subject, body, 5, TimeUnit.SECONDS, messageCallBack);
+    private <REQUEST_T> void doRequest(String subject, REQUEST_T payload, MessageCallBack messageCallBack) {
+        String body;
+        try {
+            body = JsonUtil.toJson(payload);
+            nats.request(subject, body, 5, TimeUnit.SECONDS, messageCallBack);
+        } catch (IOException e) {
+            messageCallBack.onError(e);
+        }
+
     }
 }
