@@ -55,24 +55,7 @@ public class MessageBusTest {
         RequestPayload requestPayload = new RequestPayload("testRequestSync", new Date());
         final AtomicInteger flag = new AtomicInteger(FLAG_INITIAL);
 
-        messageBus.requestSync(TestSubscribeBean.NATS_SUBJECT, requestPayload, new MessageCallBack<ResponsePayload>(ResponsePayload.class) {
-
-            @Override
-            public void success(ResponsePayload responsePayload) {
-                flag.set(FLAG_NOT_TIMEOUT);
-            }
-
-            @Override
-            public void error(Throwable throwable) {
-                flag.set(FLAG_ERROR);
-            }
-
-            @Override
-            public void timeout() {
-                flag.set(FLAG_TIMEOUT);
-            }
-
-        }, timeout);
+        messageBus.requestSync(TestSubscribeBean.NATS_SUBJECT, requestPayload, newMessageCallBack(flag), timeout);
 
         Assert.assertEquals(expectedFlag, flag.get());
     }
@@ -87,7 +70,13 @@ public class MessageBusTest {
         RequestPayload requestPayload = new RequestPayload("testRequestAsync", new Date());
         final AtomicInteger flag = new AtomicInteger(FLAG_INITIAL);
 
-        messageBus.requestAsync(TestSubscribeBean.NATS_SUBJECT, requestPayload, new MessageCallBack<ResponsePayload>(ResponsePayload.class) {
+        messageBus.requestAsync(TestSubscribeBean.NATS_SUBJECT, requestPayload, newMessageCallBack(flag));
+
+        Assert.assertEquals(FLAG_INITIAL, flag.get());
+    }
+
+    private MessageCallBack<ResponsePayload> newMessageCallBack(final AtomicInteger flag) {
+        return new MessageCallBack<ResponsePayload>(ResponsePayload.class) {
 
             @Override
             public void success(ResponsePayload responsePayload) {
@@ -104,9 +93,7 @@ public class MessageBusTest {
                 flag.set(FLAG_TIMEOUT);
             }
 
-        });
-
-        Assert.assertEquals(FLAG_INITIAL, flag.get());
+        };
     }
 
     @Data

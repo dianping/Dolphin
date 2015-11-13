@@ -1,12 +1,11 @@
 package com.dianping.paas.message.nats.bus;
 
+import com.dianping.paas.message.codec.Codec;
 import com.dianping.paas.message.nats.MessageCallBack;
-import com.dianping.paas.util.JsonUtil;
 import nats.client.Nats;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -17,6 +16,9 @@ import java.util.concurrent.TimeUnit;
 public class DefaultMessageBus implements MessageBus {
     @Resource
     private Nats nats;
+
+    @Resource
+    private Codec codec;
 
     /**
      * 默认同步获取响应时间为5000毫秒
@@ -76,9 +78,9 @@ public class DefaultMessageBus implements MessageBus {
     private <REQUEST_T> void doRequest(String subject, REQUEST_T payload, MessageCallBack messageCallBack, long timeout) {
         String body;
         try {
-            body = JsonUtil.toJson(payload);
+            body = codec.decode(payload);
             nats.request(subject, body, timeout, TimeUnit.SECONDS, messageCallBack);
-        } catch (IOException e) {
+        } catch (Exception e) {
             messageCallBack.error(e);
         }
 

@@ -9,6 +9,6 @@
         <nats:url>nats://localhost:4222</nats:url>
     </nats:nats>
 
-    <context:component-scan base-package="com.dianping.paas.message.nats"/>
+    <context:component-scan base-package="com.dianping.paas.message"/>
 
 </beans>
