@@ -5,8 +5,10 @@ import lombok.Data;
 import nats.client.Message;
 import nats.client.MessageHandler;
 
-import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * chao.yu@dianping.com
@@ -14,31 +16,39 @@ import java.util.concurrent.CountDownLatch;
  */
 @Data
 public abstract class MessageCallBack<Res> implements MessageHandler {
+    private static final ExecutorService threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
+
     private CountDownLatch countDownLatch;
 
     private Class<Res> responseType;
+
+    private boolean called = false;
+
+    private int timeout;
+
 
     public MessageCallBack(Class<Res> responseType) {
         this.responseType = responseType;
     }
 
-    public void onMessage(Message message) {
-
+    public void onMessage(final Message message) {
         Res response;
         try {
             response = JsonUtil.toBean(message.getBody(), responseType);
-            callback(response);
-        } catch (IOException e) {
-            onError(e);
+            success(response);
+            called = true;
+        } catch (Exception e) {
+            error(e);
         } finally {
             tryCountDown();
         }
-
     }
 
-    public abstract void callback(Res res);
+    public abstract void success(Res res);
 
-    public abstract void onError(Throwable throwable);
+    public abstract void timeout();
+
+    public abstract void error(Throwable throwable);
 
     private void tryCountDown() {
         if (countDownLatch != null) {
@@ -46,5 +56,13 @@ public abstract class MessageCallBack<Res> implements MessageHandler {
         }
     }
 
+    public void beginSync(int timeout) {
+        countDownLatch = new CountDownLatch(1);
+        this.timeout = timeout;
+    }
+
+    public void endSync() throws InterruptedException {
+        countDownLatch.await(timeout, TimeUnit.MILLISECONDS);
+    }
 
 }
