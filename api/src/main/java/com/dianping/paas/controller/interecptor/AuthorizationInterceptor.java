@@ -34,6 +34,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter implemen
             logger.warn(String.format("ip[%s] is not authorized!", ipAddress));
         }
 
+        authorized = true; //TODO 开发完毕之后移除这一行
         return authorized;
     }
 

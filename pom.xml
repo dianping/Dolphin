@@ -34,6 +34,7 @@
         <jackson-databind.version>2.4.1</jackson-databind.version>
         <spring-jdbc.version>2.5.6</spring-jdbc.version>
         <tomcat-jdbc.version>8.0.28</tomcat-jdbc.version>
+        <httpclient.version>4.4.1</httpclient.version>
 
         <core.version>1.0-SNAPSHOT</core.version>
         <nats-client-spring.version>0.6.4</nats-client-spring.version>

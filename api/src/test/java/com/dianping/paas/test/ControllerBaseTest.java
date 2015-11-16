@@ -101,11 +101,11 @@ public abstract class ControllerBaseTest {
     protected <T> T getResponseAsBean(String path, Map<String, String> params) throws Exception {
         String json = getResponseAsString(path, params);
 
-        return JsonUtil.toBean(json);
+        return JsonUtil.toCollectionBean(json);
     }
 
     protected <T> T postResponseAsBean(String path, Map<String, String> params) throws Exception {
         String json = postResponseAsString(path, params);
-        return JsonUtil.toBean(json);
+        return JsonUtil.toCollectionBean(json);
     }
 }
