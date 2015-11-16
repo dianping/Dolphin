@@ -29,17 +29,18 @@ public class HttpUtil {
     private static final RequestConfig CONFIG = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).build();
     public static final HashMap<String, String> NULL_MAP = new HashMap<String, String>();
 
-
     public static String post(String url) throws Exception {
         return post(url, NULL_MAP);
     }
 
     public static String post(String url, Map<String, String> params) throws Exception {
         CloseableHttpClient client = HttpClients.createDefault();
+
         HttpPost post = createPost(url, params);
-        post.setConfig(CONFIG);
         String body = invoke(client, post);
+
         closeClient(client);
+
         return body;
     }
 
@@ -66,6 +67,7 @@ public class HttpUtil {
 
     private static String invoke(HttpClient httpclient, HttpUriRequest httpUriRequest) throws Exception {
         HttpResponse response = httpclient.execute(httpUriRequest);
+
         return parseResponse(response);
     }
 
@@ -78,6 +80,7 @@ public class HttpUtil {
         String body = invoke(client, post);
 
         closeClient(client);
+
         return body;
     }
 
@@ -89,6 +92,7 @@ public class HttpUtil {
         String body = invoke(client, get);
 
         closeClient(client);
+
         return body;
     }
 

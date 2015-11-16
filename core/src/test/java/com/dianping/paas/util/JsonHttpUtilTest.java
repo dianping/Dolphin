@@ -53,7 +53,6 @@ public class JsonHttpUtilTest {
         Assert.hasLength(userList.get(0).getName());
     }
 
-
     @Test
     public void testGet() throws Exception {
         String url = buildUrl("getOne");

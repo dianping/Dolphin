@@ -14,16 +14,18 @@ public class JsonUtil {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     public static <T> T toCollectionBean(String json) throws IOException {
+
         return toCollectionBean(json, new TypeReference<T>() {
         });
     }
 
-
     public static <T> T toCollectionBean(String json, TypeReference<T> typeReference) throws IOException {
+
         return MAPPER.readValue(json, typeReference);
     }
 
     public static <T> T toBean(String json, Class<T> requireType) throws IOException {
+
         return MAPPER.readValue(json, requireType);
     }
 

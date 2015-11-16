@@ -15,7 +15,6 @@ public class JsonHttpUtil {
         return JsonUtil.toBean(responseStr, responseType);
     }
 
-
     public static <RESPONSE_T> RESPONSE_T postOne(String url, Class<RESPONSE_T> responseType) throws Exception {
         String responseStr = HttpUtil.post(url);
 
@@ -24,7 +23,6 @@ public class JsonHttpUtil {
 
     public static <REQUEST_T, RESPONSE_T> RESPONSE_T postCollection(String url, REQUEST_T requestBodyObject, TypeReference<RESPONSE_T> typeReference) throws Exception {
         String requestBodyStr = JsonUtil.toJson(requestBodyObject);
-
         String responseStr = HttpUtil.post(url, requestBodyStr);
 
         return JsonUtil.toCollectionBean(responseStr, typeReference);
@@ -36,7 +34,6 @@ public class JsonHttpUtil {
         return JsonUtil.toCollectionBean(responseStr, typeReference);
     }
 
-
     public static <RESPONSE_T> RESPONSE_T getOne(String url, Class<RESPONSE_T> responseType) throws Exception {
         String responseStr = HttpUtil.get(url);
 
@@ -45,6 +42,7 @@ public class JsonHttpUtil {
 
     public static <RESPONSE_T> RESPONSE_T getCollection(String url, TypeReference<RESPONSE_T> typeReference) throws Exception {
         String responseStr = HttpUtil.get(url);
+
         return JsonUtil.toCollectionBean(responseStr, typeReference);
     }
 }
