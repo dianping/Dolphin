@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Created by yuchao on 2015/11/05 18:20.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath*:/config/spring/appcontext-nats.xml")
+@ContextConfiguration("classpath*:/config/spring/appcontext-*.xml")
 public class MessageBusTest {
     public static final int FLAG_INITIAL = -1;
     public static final int FLAG_TIMEOUT = 1;

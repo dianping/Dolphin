@@ -8,7 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * Created by yuchao on 15/8/13.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath*:/config/spring/appcontext-db.xml")
+@ContextConfiguration("classpath*:/config/spring/appcontext-*.xml")
 public abstract class DaoTest {
 
 }

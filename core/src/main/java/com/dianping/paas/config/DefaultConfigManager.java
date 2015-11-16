@@ -3,6 +3,7 @@ package com.dianping.paas.config;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -452,6 +453,6 @@ public class DefaultConfigManager implements ConfigManager {
     }
 
     public List<String> getIpWhiteList() {
-        return null;
+        return new ArrayList<String>();
     }
 }
