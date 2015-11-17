@@ -36,7 +36,7 @@ public class NginxRouteTable implements RouteTable {
         logger.info(String.format("Add RouteEntry, AppId: %s, Request: %s", routeEntry.getAppId(), nginxSlbRequest));
 
         NginxSlbResponse nginxSlbResponse = doAdd(nginxSlbRequest, upstream, DEFAULT_TRY_COUNT);
-        if (nginxSlbResponse != null) {
+        if (nginxSlbResponse != null && nginxSlbResponse.success()) {
             success = deploy(nginxSlbResponse, upstream, DEFAULT_TRY_COUNT);
         }
 
@@ -83,7 +83,7 @@ public class NginxRouteTable implements RouteTable {
     }
 
     private boolean doDeploy(String upstream) {
-        boolean result = false;
+        boolean success = false;
 
         try {
             logger.info("Deploying upstream " + upstream);
@@ -92,7 +92,7 @@ public class NginxRouteTable implements RouteTable {
             NginxSlbResponse slbResponse = JsonHttpUtil.postOne(url, NginxSlbResponse.class);
 
             if (slbResponse.success()) {
-                result = true;
+                success = true;
                 logger.info(String.format("SLB Deploy Success(TaskID: %d)", slbResponse.getTaskId()));
             } else if (StringUtils.hasText(slbResponse.getMessage())) {
                 logger.error(String.format("Error When deploying, Request is %s", slbResponse));
@@ -102,7 +102,7 @@ public class NginxRouteTable implements RouteTable {
             logger.error("SLB Deploy Exception", e);
         }
 
-        return result;
+        return success;
     }
 
     public boolean remove(RouteEntry entry) {
