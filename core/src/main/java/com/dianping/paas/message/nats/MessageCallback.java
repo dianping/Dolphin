@@ -1,11 +1,11 @@
 package com.dianping.paas.message.nats;
 
+import com.dianping.paas.extension.ExtensionLoader;
 import com.dianping.paas.message.codec.Codec;
 import lombok.Data;
 import nats.client.Message;
 import nats.client.MessageHandler;
 
-import javax.annotation.Resource;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,8 +27,7 @@ public abstract class MessageCallBack<Res> implements MessageHandler {
 
     private int timeout;
 
-    @Resource
-    private Codec codec;
+    private Codec codec = ExtensionLoader.getExtension(Codec.class);
 
     public MessageCallBack(Class<Res> responseType) {
         this.responseType = responseType;
@@ -37,9 +36,9 @@ public abstract class MessageCallBack<Res> implements MessageHandler {
     public void onMessage(final Message message) {
         Res response;
         try {
+            called = true;
             response = codec.decode(message.getBody(), responseType);
             success(response);
-            called = true;
         } catch (Exception e) {
             error(e);
         } finally {

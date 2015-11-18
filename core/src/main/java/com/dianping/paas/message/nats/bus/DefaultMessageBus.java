@@ -1,5 +1,6 @@
 package com.dianping.paas.message.nats.bus;
 
+import com.dianping.paas.extension.ExtensionLoader;
 import com.dianping.paas.message.codec.Codec;
 import com.dianping.paas.message.nats.MessageCallBack;
 import nats.client.Nats;
@@ -14,16 +15,13 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class DefaultMessageBus implements MessageBus {
-    @Resource
-    private Nats nats;
-
-    @Resource
-    private Codec codec;
-
     /**
      * 默认同步获取响应时间为5000毫秒
      */
     public static final int DEFAULT_TIMEOUT = 5000;
+    @Resource
+    private Nats nats;
+    private Codec codec = ExtensionLoader.getExtension(Codec.class);
 
     public <REQUEST_T> void requestSync(String subject, REQUEST_T payload, final MessageCallBack messageCallBack, int timeout) {
         timeout = normalizeTimeout(timeout);

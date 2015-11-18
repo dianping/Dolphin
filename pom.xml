@@ -44,7 +44,6 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>com.dianping.paas</groupId>
             <artifactId>core</artifactId>

@@ -12,7 +12,6 @@ import java.io.IOException;
  * Created by yuchao on 2015/11/13 17:11.
  */
 
-@Component
 public class DefaultCodec implements Codec {
     public <T> String encode(T payload) throws IOException {
         return JsonUtil.toJson(payload);
