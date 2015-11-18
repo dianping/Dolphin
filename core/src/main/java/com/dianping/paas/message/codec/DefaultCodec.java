@@ -14,11 +14,11 @@ import java.io.IOException;
 
 @Component
 public class DefaultCodec implements Codec {
-    public <T> String decode(T payload) throws IOException {
+    public <T> String encode(T payload) throws IOException {
         return JsonUtil.toJson(payload);
     }
 
-    public <T> T encode(String body, Class<T> clazz) throws IOException {
+    public <T> T decode(String body, Class<T> clazz) throws IOException {
         return JsonUtil.toBean(body, clazz);
     }
 }

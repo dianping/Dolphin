@@ -78,7 +78,7 @@ public class DefaultMessageBus implements MessageBus {
     private <REQUEST_T> void doRequest(String subject, REQUEST_T payload, MessageCallBack messageCallBack, long timeout) {
         String body;
         try {
-            body = codec.decode(payload);
+            body = codec.encode(payload);
             nats.request(subject, body, timeout, TimeUnit.SECONDS, messageCallBack);
         } catch (Exception e) {
             messageCallBack.error(e);
