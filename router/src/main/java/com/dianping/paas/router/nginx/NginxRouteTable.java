@@ -4,13 +4,14 @@ import com.dianping.paas.config.ConfigManager;
 import com.dianping.paas.extension.ExtensionLoader;
 import com.dianping.paas.router.RouteEntry;
 import com.dianping.paas.router.RouteTable;
+import com.dianping.paas.router.nginx.url.NginxUrlBuilder;
+import com.dianping.paas.util.ArrayUtil;
 import com.dianping.paas.util.JsonHttpUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,107 +23,122 @@ import java.util.List;
 public class NginxRouteTable implements RouteTable {
 
     public static final Logger logger = LogManager.getLogger(NginxRouteTable.class);
+    private static final int DEFAULT_HTTP_TRY_COUNT = 1;
 
-    private static final int DEFAULT_TRY_COUNT = 3;
+    @Resource
+    private NginxUrlBuilder nginxUrlBuilder;
     private ConfigManager configManager = ExtensionLoader.getExtension(ConfigManager.class);
 
     public boolean add(RouteEntry routeEntry) {
+        logger.info(String.format("add routeEntry %s", routeEntry));
+
+        String url = nginxUrlBuilder.buildAddMemberUrl(routeEntry.getAppId());
+
+        return route(url, routeEntry);
+    }
+
+    public boolean remove(RouteEntry routeEntry) {
+        logger.info(String.format("remove routeEntry %s", routeEntry));
+
+        String url = nginxUrlBuilder.buildDelMemberUrl(routeEntry.getAppId());
+
+        return route(url, routeEntry, NginxSlbResponse.MEMBER_NOT_FOUND, NginxSlbResponse.NOT_SUCCESS_ALL);
+    }
+
+    public boolean enable(RouteEntry routeEntry) {
+        routeEntry.enable();
+
+        logger.info(String.format("Enable routeEntry %s", routeEntry));
+
+        String url = nginxUrlBuilder.buildUpdateMemberUrl(routeEntry.getAppId());
+
+        return !route(url, routeEntry) && add(routeEntry);
+    }
+
+    public boolean disable(RouteEntry routeEntry) {
+        if (!configManager.shouldNotifySlb()) {
+            logger.info("ShouldNotifySlb is false, skip and return.");
+            return true;
+        }
+
+        logger.info(String.format("Disable routeEntry %s", routeEntry));
+
+        routeEntry.disable();
+        String url = nginxUrlBuilder.buildUpdateMemberUrl(routeEntry.getAppId());
+
+        return route(url, routeEntry, NginxSlbResponse.MEMBER_NOT_FOUND);
+    }
+
+    private boolean deploy(NginxSlbRequest nginxSlbRequest, String upstream) {
+        String url = nginxUrlBuilder.buildDeployUrl(upstream);
+
+        logger.info(String.format("Deploy nginxSlbRequest = %s, upstream = %s", nginxSlbRequest, upstream));
+
+        return getResponse(url, nginxSlbRequest, DEFAULT_HTTP_TRY_COUNT).success();
+    }
+
+    /**
+     * 所有路由相关的操作都调用这个方法处理
+     *
+     * @param url                   路由操作的url
+     * @param routeEntry            路由实体
+     * @param ignoredErrorCodeArray 忽略的错误码, example [1,2,3] 返回码为1或2或3 都表示success,默认0表示success
+     * @return {@code true} 表示操作成功, {@code false} 表示操作失败
+     */
+    private boolean route(String url, RouteEntry routeEntry, int... ignoredErrorCodeArray) {
         String upstream = routeEntry.getAppId();
-        Assert.notNull(upstream);
-
-        boolean success = false;
-        NginxSlbRequest nginxSlbRequest = NginxSlbRequest.newFrom(routeEntry);
-
-        logger.info(String.format("Add RouteEntry, AppId: %s, Request: %s", routeEntry.getAppId(), nginxSlbRequest));
-
-        NginxSlbResponse nginxSlbResponse = doAdd(nginxSlbRequest, upstream, DEFAULT_TRY_COUNT);
-        if (nginxSlbResponse != null && nginxSlbResponse.success()) {
-            success = deploy(nginxSlbResponse, upstream, DEFAULT_TRY_COUNT);
-        }
-
-        if (!success) {
-            logger.error(String.format("Add RouteEntry Error! Request: %s, Response: %s", nginxSlbRequest, nginxSlbResponse));
-        }
-
-        return success;
-    }
-
-    private NginxSlbResponse doAdd(NginxSlbRequest nginxSlbRequest, String upstream, int tryCount) {
+        NginxSlbRequest nginxSlbRequest = null;
         NginxSlbResponse nginxSlbResponse = null;
-        try {
-            String url = buildAddMemberUrl(upstream);
-            List<NginxSlbRequest> requestBodyObject = Collections.singletonList(nginxSlbRequest);
-            nginxSlbResponse = JsonHttpUtil.postOne(url, requestBodyObject, NginxSlbResponse.class);
-        } catch (Exception e) {
-            logger.error(String.format("Http Exception When SLB Post To Nginx Server, Request: %s", nginxSlbRequest), e);
-            if (tryCount > 0) {
-                logger.info(String.format("Http Exception When SLB Post, try again with retries == %s", tryCount));
-                return doAdd(nginxSlbRequest, upstream, tryCount - 1);
+
+        if (upstream != null) {
+            nginxSlbRequest = NginxSlbRequest.createInstanceFrom(routeEntry);
+
+            logger.info(String.format("Route operation begin, url = %s, NginxSlbRequest = %s ", url, nginxSlbRequest));
+
+            nginxSlbResponse = getResponse(url, nginxSlbRequest, DEFAULT_HTTP_TRY_COUNT);
+
+            logger.info(String.format("Route operation end, url = %s, NginxSlbResponse = %s ", url, nginxSlbResponse));
+
+            /** 所有的操作都忽略poolNotFound该错误并终止, 特定的操作会忽略特定的错误并终止*/
+            if (nginxSlbResponse.poolNotFound() || ArrayUtil.contains(ignoredErrorCodeArray, nginxSlbResponse.getErrorCode())) {
+                logger.info(String.format("Ignore error %s when request %s!", nginxSlbResponse.getErrorDesc()), url);
+                return true;
+            }
+
+            /** 操作成功才会部署 */
+            if (nginxSlbResponse.success()) {
+                return deploy(nginxSlbRequest, upstream);
             }
         }
+
+        logger.error(String.format("Error occurs when do route operation! NginxSlbRequest = %s, NginxSlbResponse = %s!"), nginxSlbRequest, nginxSlbResponse);
+
+        return false;
+    }
+
+    /**
+     * 给一个指定的URL发送请求获取响应, 直到没有出现未知错误
+     *
+     * @param url             请求的URL
+     * @param nginxSlbRequest 请求对象
+     * @param tryCount        尝试次数
+     * @return 响应对象
+     */
+    private NginxSlbResponse getResponse(String url, NginxSlbRequest nginxSlbRequest, int tryCount) {
+        NginxSlbResponse nginxSlbResponse = new NginxSlbResponse();
+        List<NginxSlbRequest> requestBodyObject = Collections.singletonList(nginxSlbRequest);
+
+        for (int i = 0; i < tryCount; i++) {
+            try {
+                nginxSlbResponse = JsonHttpUtil.postOne(url, requestBodyObject, NginxSlbResponse.class);
+                if (!nginxSlbResponse.unknownError()) {
+                    break;
+                }
+            } catch (Exception e) {
+                logger.error(String.format("Http Exception When Post to %s, Request is %s, TryCount is %s", url, nginxSlbRequest, tryCount), e);
+            }
+        }
+
         return nginxSlbResponse;
-    }
-
-    private boolean deploy(NginxSlbResponse nginxSlbResponse, String upstream, int tryCount) {
-        boolean success = false;
-
-        if (nginxSlbResponse.success()) {
-            success = doDeploy(upstream);
-        } else if (nginxSlbResponse.poolNotFound()) {
-            success = true;
-            logger.info(String.format("SLB pool %s not found, will treat as success", upstream));
-        } else if (nginxSlbResponse.unknownError()) {
-            if (tryCount > 0) {
-                logger.info(String.format("unknown environment error SLB pool %s , try again with retries == %s",
-                        upstream, tryCount));
-                return deploy(nginxSlbResponse, upstream, tryCount);
-            }
-        }
-
-        return success;
-    }
-
-    private boolean doDeploy(String upstream) {
-        boolean success = false;
-
-        try {
-            logger.info("Deploying upstream " + upstream);
-            String url = buildDeployUrl(upstream);
-
-            NginxSlbResponse slbResponse = JsonHttpUtil.postOne(url, NginxSlbResponse.class);
-
-            if (slbResponse.success()) {
-                success = true;
-                logger.info(String.format("SLB Deploy Success(TaskID: %d)", slbResponse.getTaskId()));
-            } else if (StringUtils.hasText(slbResponse.getMessage())) {
-                logger.error(String.format("Error When deploying, Request is %s", slbResponse));
-            }
-
-        } catch (Exception e) {
-            logger.error("SLB Deploy Exception", e);
-        }
-
-        return success;
-    }
-
-    public boolean remove(RouteEntry entry) {
-        return false;
-    }
-
-    public boolean enable(RouteEntry entry) {
-        return false;
-    }
-
-    public boolean disable(RouteEntry entry) {
-        return false;
-    }
-
-
-    private String buildAddMemberUrl(String upstream) {
-        return String.format("http://%s/api/v2/pool/%s/addMember", configManager.getSlbDomain(), upstream);
-    }
-
-    private String buildDeployUrl(String upstream) {
-        return String.format("http://%s/api/pool/%s/deploy", configManager.getSlbDomain(), upstream);
     }
 }

@@ -5,13 +5,14 @@ import lombok.Data;
 @Data
 public class NginxSlbResponse {
     public static final int SUCCESS = 0;
+    public static final int FAIL = -8;
 
-    private static final int MEMBER_NOT_FOUND = -1;
-    private static final int POOL_NOT_FOUND = -2;
-    private static final int NOT_SUCCESS_ALL = -4;
+    public static final int MEMBER_NOT_FOUND = -1;
+    public static final int POOL_NOT_FOUND = -2;
+    public static final int NOT_SUCCESS_ALL = -4;
 
 
-    private int errorCode;
+    private int errorCode = FAIL;
 
     private String message;
 
@@ -35,5 +36,23 @@ public class NginxSlbResponse {
 
     public boolean unknownError() {
         return errorCode > 0;
+    }
+
+    public String getErrorDesc() {
+        String desc;
+        switch (errorCode) {
+            case MEMBER_NOT_FOUND:
+                desc = "MEMBER_NOT_FOUND";
+                break;
+            case POOL_NOT_FOUND:
+                desc = "POOL_NOT_FOUND";
+                break;
+            case NOT_SUCCESS_ALL:
+                desc = "NOT_SUCCESS_ALL";
+                break;
+            default:
+                desc = "";
+        }
+        return desc;
     }
 }

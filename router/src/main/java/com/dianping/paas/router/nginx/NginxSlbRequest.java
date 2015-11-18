@@ -18,13 +18,16 @@ public class NginxSlbRequest {
 
     private int weight;
 
-    public static NginxSlbRequest newFrom(RouteEntry routeEntry) {
+    private String state;
+
+    public static NginxSlbRequest createInstanceFrom(RouteEntry routeEntry) {
         NginxSlbRequest nginxSlbRequest = new NginxSlbRequest();
 
         nginxSlbRequest.setIp(routeEntry.getServerIp());
         nginxSlbRequest.setName(routeEntry.getServerIp() + "-" + routeEntry.getServerPort());
         nginxSlbRequest.setWeight(DEFAULT_WEIGHT);
         nginxSlbRequest.setPort(routeEntry.getServerPort());
+        nginxSlbRequest.setState(routeEntry.getState());
 
         return nginxSlbRequest;
     }

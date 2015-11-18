@@ -4,7 +4,7 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!--配置一个数据源,根据上面propertyConfig指定的location去找数据库连接的配置信息-->
-    <bean id="dataSource"
+    <bean id="dataSource" lazy-init="true"
           class="org.apache.tomcat.jdbc.pool.DataSource">
         <property name="driverClassName">
             <value>com.mysql.jdbc.Driver</value>
