@@ -101,7 +101,7 @@ public class NginxRouteTable implements RouteTable {
 
             /** 所有的操作都忽略poolNotFound该错误并终止, 特定的操作会忽略特定的错误并终止*/
             if (nginxSlbResponse.poolNotFound() || ArrayUtil.contains(ignoredErrorCodeArray, nginxSlbResponse.getErrorCode())) {
-                logger.info(String.format("Ignore error %s when request %s!", nginxSlbResponse.getErrorDesc()), url);
+                logger.info(String.format("Ignore error %s when request %s!", nginxSlbResponse.getErrorDesc(), url));
                 return true;
             }
 
@@ -111,7 +111,7 @@ public class NginxRouteTable implements RouteTable {
             }
         }
 
-        logger.error(String.format("Error occurs when do route operation! NginxSlbRequest = %s, NginxSlbResponse = %s!"), nginxSlbRequest, nginxSlbResponse);
+        logger.error(String.format("Error occurs when do route operation! NginxSlbRequest = %s, NginxSlbResponse = %s!", nginxSlbRequest, nginxSlbResponse));
 
         return false;
     }
