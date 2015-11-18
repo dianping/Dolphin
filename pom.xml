@@ -22,6 +22,8 @@
     </modules>
 
     <properties>
+        <core.version>1.0-SNAPSHOT</core.version>
+
         <spring.version>4.1.1.RELEASE</spring.version>
         <ibatis-sqlmap.version>2.3.4.726</ibatis-sqlmap.version>
         <spring-orm.version>2.5.6</spring-orm.version>
@@ -35,38 +37,25 @@
         <spring-jdbc.version>2.5.6</spring-jdbc.version>
         <tomcat-jdbc.version>8.0.28</tomcat-jdbc.version>
         <httpclient.version>4.4.1</httpclient.version>
-
-        <core.version>1.0-SNAPSHOT</core.version>
         <nats-client-spring.version>0.6.4</nats-client-spring.version>
         <slf4j-log4j12.version>1.7.7</slf4j-log4j12.version>
         <log4j2.version>2.3</log4j2.version>
+        <tomcat-servlet-api.version>7.0.54</tomcat-servlet-api.version>
     </properties>
-
 
     <dependencies>
 
-        <!--log4j 2-->
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>${log4j2.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>${log4j2.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${log4j2.version}</version>
+            <groupId>com.dianping.paas</groupId>
+            <artifactId>core</artifactId>
+            <version>${core.version}</version>
         </dependency>
 
         <!--test-->
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-servlet-api</artifactId>
-            <version>7.0.54</version>
+            <version>${tomcat-servlet-api.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -81,7 +70,6 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
 </project>
