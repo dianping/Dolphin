@@ -455,4 +455,12 @@ public class DefaultConfigManager implements ConfigManager {
     public List<String> getIpWhiteList() {
         return new ArrayList<String>();
     }
+
+    public String getAgentModuleFile() {
+        return "/data/paas/module/agent";
+    }
+
+    public String getHealthManagerModule() {
+        return "/data/paas/module/healthManager";
+    }
 }

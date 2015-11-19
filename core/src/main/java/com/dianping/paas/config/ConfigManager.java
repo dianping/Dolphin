@@ -229,4 +229,10 @@ public interface ConfigManager {
     long getAlarmPeriod();
 
     List<String> getIpWhiteList();
+
+    /** 获取需要启动的Agent模块的文件或目录 */
+    String getAgentModuleFile();
+
+    /** 获取需要启动的healthManager的文件或目录 */
+    String getHealthManagerModule();
 }
