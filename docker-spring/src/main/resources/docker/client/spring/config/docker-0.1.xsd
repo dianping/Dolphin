@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="https://github.com/dianping/paas2/schema/spring/docker"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="https://github.com/dianping/paas2/schema/spring/docker"
+            elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+    <xsd:element name="docker">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="serverUrl" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            </xsd:sequence>
+            <xsd:attribute name="id" type="xsd:string" default="docker"/>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>
