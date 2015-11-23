@@ -11,5 +11,18 @@
 
     <artifactId>agent</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.dianping.paas</groupId>
+            <artifactId>docker-spring</artifactId>
+            <version>${docker-spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>${freemarker.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

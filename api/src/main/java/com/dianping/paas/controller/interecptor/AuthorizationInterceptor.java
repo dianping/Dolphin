@@ -29,12 +29,11 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter implemen
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String ipAddress = IpUtil.getIpAddress(request);
 
-        boolean authorized = ipWhiteList.contains(ipAddress);
+        boolean authorized = ipWhiteList.contains("0.0.0.0") || ipWhiteList.contains(ipAddress);
         if (!authorized) {
             logger.warn(String.format("ip[%s] is not authorized!", ipAddress));
         }
 
-        authorized = true; //TODO 开发完毕之后移除这一行
         return authorized;
     }
 

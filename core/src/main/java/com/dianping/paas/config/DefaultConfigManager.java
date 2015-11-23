@@ -3,7 +3,7 @@ package com.dianping.paas.config;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -453,7 +453,7 @@ public class DefaultConfigManager implements ConfigManager {
     }
 
     public List<String> getIpWhiteList() {
-        return new ArrayList<String>();
+        return Arrays.asList("0.0.0.0");
     }
 
     public String getAgentModuleFile() {
@@ -462,5 +462,9 @@ public class DefaultConfigManager implements ConfigManager {
 
     public String getHealthManagerModule() {
         return "/data/paas/module/healthManager";
+    }
+
+    public String getTempDir() {
+        return "/data/temp";
     }
 }

@@ -235,4 +235,6 @@ public interface ConfigManager {
 
     /** 获取需要启动的healthManager的文件或目录 */
     String getHealthManagerModule();
+
+    String getTempDir();
 }
