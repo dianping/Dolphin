@@ -467,4 +467,8 @@ public class DefaultConfigManager implements ConfigManager {
     public String getTempDir() {
         return "/data/temp";
     }
+
+    public String getRepositoryUrl() {
+        return "docker.dp";
+    }
 }

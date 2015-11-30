@@ -237,4 +237,6 @@ public interface ConfigManager {
     String getHealthManagerModule();
 
     String getTempDir();
+
+    String getRepositoryUrl();
 }

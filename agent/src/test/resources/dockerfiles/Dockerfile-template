@@ -1,3 +1,0 @@
-FROM busybox:latest
-
-RUN echo "buildImageFromDockerfileTemplateLocation() created this image!" >> ${path}

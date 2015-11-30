@@ -9,7 +9,8 @@
         >
 
     <docker:docker>
-        <docker:serverUrl>http://192.168.33.10:2376</docker:serverUrl>
+        <docker:uri>http://192.168.3.11:2375</docker:uri>
+        <docker:serverAddress>http://docker.dp/v1/</docker:serverAddress>
     </docker:docker>
 
 </beans>

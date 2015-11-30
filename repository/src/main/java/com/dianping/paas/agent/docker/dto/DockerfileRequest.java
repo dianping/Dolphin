@@ -10,11 +10,6 @@ import java.util.Map;
 @Data
 public class DockerfileRequest {
     /**
-     * Dockerfile 模板的路径, example: path/to/dockerfiles/Dockerfile-template
-     */
-    private String dockerfileTemplateLocation;
-
-    /**
      * Dockerfile 模板内容
      * for example:
      * FROM busybox:latest

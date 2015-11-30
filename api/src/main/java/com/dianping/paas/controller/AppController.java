@@ -1,11 +1,13 @@
 package com.dianping.paas.controller;
 
 import com.dianping.paas.config.ConfigManager;
+import com.dianping.paas.controller.dto.AppInfo;
 import com.dianping.paas.entity.AppEntity;
 import com.dianping.paas.extension.ExtensionLoader;
 import com.dianping.paas.service.AppService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,5 +34,11 @@ public class AppController {
         String dockerIp = configManager.getDockerIp();
         logger.info("dockerIp is " + dockerIp);
         return appService.getAll();
+    }
+
+
+    @RequestMapping(method = RequestMethod.POST)
+    public void initApp(@RequestBody AppInfo appInfo) {
+
     }
 }
