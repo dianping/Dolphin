@@ -6,7 +6,7 @@
 
     <mvc:annotation-driven/>
     <mvc:interceptors>
-        <bean class="com.dianping.paas.controller.interecptor.AuthorizationInterceptor"/>
+        <bean class="com.dianping.paas.api.controller.interecptor.AuthorizationInterceptor"/>
     </mvc:interceptors>
 
 </beans>

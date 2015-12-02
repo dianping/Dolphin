@@ -1,6 +1,6 @@
 package com.dianping.paas.api.controller.interecptor;
 
-import com.dianping.paas.config.ConfigManager;
+import com.dianping.paas.core.config.ConfigManager;
 import com.dianping.paas.api.util.IpUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

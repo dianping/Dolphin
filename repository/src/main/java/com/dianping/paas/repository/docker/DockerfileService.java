@@ -1,7 +1,7 @@
 package com.dianping.paas.repository.docker;
 
-import com.dianping.paas.repository.docker.dto.DockerfileRequest;
-import com.dianping.paas.repository.docker.dto.DockerfileResponse;
+import com.dianping.paas.core.dto.DockerfileRequest;
+import com.dianping.paas.core.dto.DockerfileResponse;
 
 /**
  * Created by yuchao on 11/23/15.

@@ -1,6 +1,6 @@
 package com.dianping.paas.test;
 
-import com.dianping.paas.util.JsonUtil;
+import com.dianping.paas.core.util.JsonUtil;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

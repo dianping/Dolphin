@@ -19,12 +19,7 @@ import javax.annotation.Resource;
 @Component
 public class InstanceSubscriber extends SubscribeBean {
 
-    public InstanceSubscriber() {
-
-    }
-
     private static final Logger logger = LogManager.getLogger(InstanceSubscriber.class);
-
     @Resource
     private DockerfileService dockerfileService;
 
@@ -43,6 +38,5 @@ public class InstanceSubscriber extends SubscribeBean {
                 }
             }
         });
-
     }
 }

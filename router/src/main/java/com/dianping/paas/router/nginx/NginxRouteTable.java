@@ -1,12 +1,12 @@
 package com.dianping.paas.router.nginx;
 
-import com.dianping.paas.config.ConfigManager;
-import com.dianping.paas.extension.ExtensionLoader;
+import com.dianping.paas.core.config.ConfigManager;
+import com.dianping.paas.core.extension.ExtensionLoader;
 import com.dianping.paas.router.RouteTable;
 import com.dianping.paas.router.nginx.url.NginxUrlBuilder;
-import com.dianping.paas.util.JsonHttpUtil;
+import com.dianping.paas.core.util.JsonHttpUtil;
 import com.dianping.paas.router.RouteEntry;
-import com.dianping.paas.util.ArrayUtil;
+import com.dianping.paas.core.util.ArrayUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;

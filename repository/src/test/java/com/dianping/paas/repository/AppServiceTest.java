@@ -2,7 +2,6 @@ package com.dianping.paas.repository;
 
 import com.dianping.paas.core.dto.AppInfo;
 import com.dianping.paas.core.service.AppService;
-import com.dianping.paas.test.SpringTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +15,7 @@ import javax.annotation.Resource;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:config/spring/appcontext-*.xml")
-public class AppServiceTest extends SpringTest {
+public class AppServiceTest {
     @Resource
     private AppService appService;
 
@@ -25,12 +24,13 @@ public class AppServiceTest extends SpringTest {
     @Before
     public void setUp() throws Exception {
         appInfo = new AppInfo();
-        appInfo.setApp_Id("test_app");
+        appInfo.setApp_Id("test_app_1");
         appInfo.setImage_type("busybox");
     }
 
     @Test
     public void testInit() throws Exception {
         appService.init(appInfo);
+        Thread.sleep(10000);
     }
 }

@@ -1,7 +1,7 @@
 package com.dianping.paas.router.nginx.url;
 
-import com.dianping.paas.config.ConfigManager;
-import com.dianping.paas.extension.ExtensionLoader;
+import com.dianping.paas.core.config.ConfigManager;
+import com.dianping.paas.core.extension.ExtensionLoader;
 import org.springframework.stereotype.Component;
 
 /**
