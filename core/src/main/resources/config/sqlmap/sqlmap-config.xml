@@ -9,5 +9,6 @@
               maxTransactions="3000" useStatementNamespaces="true"/>
 
     <sqlMap resource="config/sqlmap/sqlmap-app.xml"/>
+    <sqlMap resource="config/sqlmap/sqlmap-image.xml"/>
 
 </sqlMapConfig>
