@@ -1,8 +1,8 @@
 package com.dianping.paas.repository.docker;
 
 import com.dianping.paas.core.config.ConfigManager;
-import com.dianping.paas.core.dto.DockerfileRequest;
-import com.dianping.paas.core.dto.DockerfileResponse;
+import com.dianping.paas.core.dto.request.DockerfileRequest;
+import com.dianping.paas.core.dto.response.DockerfileResponse;
 import com.dianping.paas.core.extension.ExtensionLoader;
 import com.dianping.paas.core.util.FileUtil;
 import com.dianping.paas.repository.template.TemplateService;
@@ -23,17 +23,18 @@ import java.io.File;
  * Created by yuchao on 11/23/15.
  */
 @Component
-public class DockerfileServiceImpl implements DockerfileService {
-    private static final Logger logger = LogManager.getLogger(DockerfileServiceImpl.class);
+public class DockerServiceImpl implements DockerService {
+    private static final Logger logger = LogManager.getLogger(DockerServiceImpl.class);
 
     private ConfigManager configManager = ExtensionLoader.getExtension(ConfigManager.class);
     @Resource
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     private DockerClient dockerClient;
 
     @Resource
     private TemplateService templateService;
 
-    public DockerfileResponse buildAndPushImage(DockerfileRequest request) throws Exception {
+    public DockerfileResponse buildImageAndPush(DockerfileRequest request) throws Exception {
         DockerfileResponse response = new DockerfileResponse();
 
         buildImage(request, response);
@@ -48,8 +49,7 @@ public class DockerfileServiceImpl implements DockerfileService {
         String dockerfileContent = templateService.getContentFromTemplateContent(request.getDockerfileTemplateContent(), request.getDockerfileParams());
         response.setDockerfileContent(dockerfileContent);
 
-        String dockerfileLocation = request.getDockerfileLocation();
-        File dockerfile = FileUtil.write(dockerfileLocation, dockerfileContent);
+        File dockerfile = FileUtil.write(request.getDockerfileLocation(), dockerfileContent);
 
         String imageId = dockerClient.buildImageCmd(dockerfile).withTag(buildImageTag(request)).exec(new BuildImageResultCallback()).awaitImageId();
         response.setImageId(imageId);

@@ -11,6 +11,12 @@
 
     <artifactId>repository</artifactId>
     <dependencies>
+
+        <dependency>
+            <groupId>com.dianping.paas</groupId>
+            <artifactId>core</artifactId>
+            <version>${core.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.dianping.paas</groupId>
             <artifactId>docker-spring</artifactId>

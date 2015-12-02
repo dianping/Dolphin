@@ -19,7 +19,9 @@ public class DefaultMessageBus implements MessageBus {
      * 默认同步获取响应时间为5000毫秒
      */
     public static final int DEFAULT_TIMEOUT = 5000;
+
     @Resource
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     private Nats nats;
     private Codec codec = ExtensionLoader.getExtension(Codec.class);
 

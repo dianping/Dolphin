@@ -1,6 +1,6 @@
 package com.dianping.paas.core.message.nats;
 
-import com.dianping.paas.core.message.nats.subscribe.SubscribeBean;
+import com.dianping.paas.core.message.nats.subscribe.Subscriber;
 import nats.client.Message;
 import nats.client.spring.Subscribe;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import java.util.Date;
  * Created by yuchao on 2015/11/05 18:50.
  */
 @Component
-public class TestSubscribeBean extends SubscribeBean {
+public class TestSubscriber extends Subscriber {
     public static final String NATS_SUBJECT = "nats_subject";
     public static final int PROCESS_TIME = 200;
 

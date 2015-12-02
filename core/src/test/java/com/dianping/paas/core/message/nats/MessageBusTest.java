@@ -29,20 +29,20 @@ public class MessageBusTest {
 
     /**
      * 测试未超时同步调用
-     * 将超时时间设置得比处理时间 {@link TestSubscribeBean#PROCESS_TIME} 长,那么就不会超时 {@link #FLAG_NOT_TIMEOUT}
+     * 将超时时间设置得比处理时间 {@link TestSubscriber#PROCESS_TIME} 长,那么就不会超时 {@link #FLAG_NOT_TIMEOUT}
      */
     @Test
     public void testRequestSyncNotTimeout() throws Exception {
-        doTestRequestSync(FLAG_NOT_TIMEOUT, TestSubscribeBean.PROCESS_TIME + 100);
+        doTestRequestSync(FLAG_NOT_TIMEOUT, TestSubscriber.PROCESS_TIME + 100);
     }
 
     /**
      * 测试超时同步调用
-     * 将超时时间设置得比处理时间 {@link TestSubscribeBean#PROCESS_TIME} 短,那么就会超时 {@link #FLAG_TIMEOUT}
+     * 将超时时间设置得比处理时间 {@link TestSubscriber#PROCESS_TIME} 短,那么就会超时 {@link #FLAG_TIMEOUT}
      */
     @Test
     public void testRequestSyncTimeout() throws Exception {
-        doTestRequestSync(FLAG_TIMEOUT, TestSubscribeBean.PROCESS_TIME - 100);
+        doTestRequestSync(FLAG_TIMEOUT, TestSubscriber.PROCESS_TIME - 100);
     }
 
     /**
@@ -55,7 +55,7 @@ public class MessageBusTest {
         RequestPayload requestPayload = new RequestPayload("testRequestSync", new Date());
         final AtomicInteger flag = new AtomicInteger(FLAG_INITIAL);
 
-        messageBus.requestSync(TestSubscribeBean.NATS_SUBJECT, requestPayload, newMessageCallBack(flag), timeout);
+        messageBus.requestSync(TestSubscriber.NATS_SUBJECT, requestPayload, newMessageCallBack(flag), timeout);
 
         Assert.assertEquals(expectedFlag, flag.get());
     }
@@ -70,7 +70,7 @@ public class MessageBusTest {
         RequestPayload requestPayload = new RequestPayload("testRequestAsync", new Date());
         final AtomicInteger flag = new AtomicInteger(FLAG_INITIAL);
 
-        messageBus.requestAsync(TestSubscribeBean.NATS_SUBJECT, requestPayload, newMessageCallBack(flag));
+        messageBus.requestAsync(TestSubscriber.NATS_SUBJECT, requestPayload, newMessageCallBack(flag));
 
         Assert.assertEquals(FLAG_INITIAL, flag.get());
     }

@@ -124,6 +124,8 @@ public interface Subject {
         String BLACKHOLE_REMOVED = "instance_blackhole_removed";
 
         String UNAVAILABLE = "instance_unavailable";
+
+        String PULL_IMAGE_AND_RUN = "pull_image_and_run";
     }
 
 }

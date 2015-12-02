@@ -1,4 +1,4 @@
-package com.dianping.paas.core.dto;
+package com.dianping.paas.core.dto.response;
 
 import lombok.Data;
 

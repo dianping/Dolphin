@@ -2,6 +2,7 @@ package com.dianping.paas.core.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -12,6 +13,9 @@ import java.io.StringWriter;
  */
 public class JsonUtil {
     private static final ObjectMapper MAPPER = new ObjectMapper();
+    static {
+        MAPPER.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+    }
 
     public static <T> T toCollectionBean(String json) throws IOException {
 
@@ -30,6 +34,7 @@ public class JsonUtil {
     }
 
     public static <T> String toJson(T bean) throws IOException {
+
         StringWriter stringWriter = new StringWriter();
         MAPPER.writeValue(stringWriter, bean);
 

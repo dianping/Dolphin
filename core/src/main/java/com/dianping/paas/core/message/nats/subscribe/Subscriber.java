@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-public abstract class SubscribeBean {
+public abstract class Subscriber {
     private static final ExecutorService threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 2);
     private Codec codec = ExtensionLoader.getExtension(Codec.class);
 

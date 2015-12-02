@@ -3,13 +3,14 @@ package com.dianping.paas.core.service.impl;
 import com.dianping.paas.core.config.ConfigManager;
 import com.dianping.paas.core.dao.AppDao;
 import com.dianping.paas.core.dto.AppInfo;
-import com.dianping.paas.core.dto.DockerfileRequest;
-import com.dianping.paas.core.dto.DockerfileResponse;
+import com.dianping.paas.core.dto.request.DockerfileRequest;
+import com.dianping.paas.core.dto.response.DockerfileResponse;
 import com.dianping.paas.core.entity.AppEntity;
 import com.dianping.paas.core.extension.ExtensionLoader;
 import com.dianping.paas.core.message.nats.MessageCallBack;
 import com.dianping.paas.core.message.nats.bus.MessageBus;
 import com.dianping.paas.core.message.nats.subscribe.Subject;
+import com.dianping.paas.core.service.AgentService;
 import com.dianping.paas.core.service.AppService;
 import com.dianping.paas.core.service.ImageService;
 import org.apache.logging.log4j.LogManager;
@@ -39,28 +40,21 @@ public class AppServiceImpl implements AppService {
     @Resource
     private ImageService imageService;
 
+    @Resource
+    private AgentService agentService;
+
     public List<AppEntity> getAll() {
         return appDao.findAll();
     }
 
     public void init(final AppInfo appInfo) {
-        DockerfileRequest dockerfileRequest = new DockerfileRequest();
-
-        dockerfileRequest.setAppName(appInfo.getApp_Id());
-        dockerfileRequest.setDockerfileLocation(buildDockerfileLocation(appInfo));
-        dockerfileRequest.setDockerfileTemplateContent(imageService.getDockerfileTemplateContent(appInfo.getImage_type()));
-
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("path", "/tmp/1.txt");
-
-        dockerfileRequest.setDockerfileParams(params);
-        dockerfileRequest.setAppTag("v1");
+        final DockerfileRequest dockerfileRequest = buildDockerfileRequest(appInfo);
 
         messageBus.requestAsync(Subject.Instance.NEW_AND_DEPLOY, dockerfileRequest, new MessageCallBack<DockerfileResponse>(DockerfileResponse.class) {
             @Override
             public void success(DockerfileResponse dockerfileResponse) {
-                //TODO 发消息让Agent拉Image
                 logger.info("init app success, AppInfo ==> " + appInfo + ", response is " + dockerfileResponse);
+                agentService.pullImageAndRun(dockerfileRequest, dockerfileResponse);
             }
 
             @Override
@@ -74,6 +68,20 @@ public class AppServiceImpl implements AppService {
             }
         });
 
+    }
+
+    private DockerfileRequest buildDockerfileRequest(AppInfo appInfo) {
+        DockerfileRequest dockerfileRequest = new DockerfileRequest();
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("path", "/tmp/1.txt");
+
+        dockerfileRequest.setAppName(appInfo.getApp_Id());
+        dockerfileRequest.setDockerfileLocation(buildDockerfileLocation(appInfo));
+        dockerfileRequest.setDockerfileTemplateContent(imageService.getDockerfileTemplateContent(appInfo.getImage_type()));
+        dockerfileRequest.setDockerfileParams(params);
+
+        return dockerfileRequest;
     }
 
     private String buildDockerfileLocation(AppInfo appInfo) {

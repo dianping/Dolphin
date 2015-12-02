@@ -1,4 +1,4 @@
-package com.dianping.paas.repository;
+package com.dianping.paas.agent.service;
 
 import com.dianping.paas.core.dto.AppInfo;
 import com.dianping.paas.core.service.AppService;
@@ -24,13 +24,13 @@ public class AppServiceTest {
     @Before
     public void setUp() throws Exception {
         appInfo = new AppInfo();
-        appInfo.setApp_Id("test_app_1");
+        appInfo.setApp_Id("test_app_4");
         appInfo.setImage_type("busybox");
     }
 
     @Test
     public void testInit() throws Exception {
         appService.init(appInfo);
-        Thread.sleep(10000);
+        Thread.sleep(30000);
     }
 }

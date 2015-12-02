@@ -1,7 +1,7 @@
 package com.dianping.paas.repository.docker;
 
-import com.dianping.paas.core.dto.DockerfileRequest;
-import com.dianping.paas.core.dto.DockerfileResponse;
+import com.dianping.paas.core.dto.request.DockerfileRequest;
+import com.dianping.paas.core.dto.response.DockerfileResponse;
 import com.google.common.io.Files;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -25,11 +25,11 @@ import java.util.Map;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:config/spring/appcontext-*.xml")
-public class DockerfileServiceTest {
-    private static final Logger logger = LogManager.getLogger(DockerfileServiceTest.class);
+public class DockerServiceTest {
+    private static final Logger logger = LogManager.getLogger(DockerServiceTest.class);
 
     @Resource
-    private DockerfileService dockerfileService;
+    private DockerService dockerService;
 
     private DockerfileRequest dockerfileRequest;
 
@@ -49,7 +49,7 @@ public class DockerfileServiceTest {
     @Test
     public void buildAndPushImage() throws Exception {
         dockerfileRequest.setAppTag(System.currentTimeMillis() + "");
-        DockerfileResponse dockerfileResponse = dockerfileService.buildAndPushImage(dockerfileRequest);
+        DockerfileResponse dockerfileResponse = dockerService.buildImageAndPush(dockerfileRequest);
         logger.info("\ndockerfileResponse ==>\n" + dockerfileResponse);
         Assert.notNull(dockerfileResponse.getImageId());
     }
