@@ -9,4 +9,5 @@
         <bean class="com.dianping.paas.api.controller.interecptor.AuthorizationInterceptor"/>
     </mvc:interceptors>
 
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 </beans>

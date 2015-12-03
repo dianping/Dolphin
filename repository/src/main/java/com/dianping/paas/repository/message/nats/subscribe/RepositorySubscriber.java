@@ -1,10 +1,11 @@
 package com.dianping.paas.repository.message.nats.subscribe;
 
+import com.dianping.paas.core.dto.request.AllocateWebPackageRequest;
 import com.dianping.paas.core.dto.request.DockerfileRequest;
-import com.dianping.paas.core.dto.response.DockerfileResponse;
 import com.dianping.paas.core.message.nats.subscribe.Subject;
 import com.dianping.paas.core.message.nats.subscribe.Subscriber;
 import com.dianping.paas.repository.docker.DockerService;
+import com.dianping.paas.repository.service.RepositoryService;
 import nats.client.Message;
 import nats.client.spring.Subscribe;
 import org.apache.logging.log4j.LogManager;
@@ -23,8 +24,11 @@ public class RepositorySubscriber extends Subscriber {
     @Resource
     private DockerService dockerService;
 
+    @Resource
+    private RepositoryService repositoryService;
+
     @Subscribe(Subject.Instance.NEW_AND_DEPLOY)
-    public void subscribe(final Message message) {
+    public void newAndDeploy(final Message message) {
         run(new Runnable() {
             public void run() {
                 DockerfileRequest dockerfileRequest = null;
@@ -34,6 +38,23 @@ public class RepositorySubscriber extends Subscriber {
                     reply(message, dockerService.buildImageAndPush(dockerfileRequest));
                 } catch (Exception e) {
                     logger.error("buildImageAndPush error, request is " + dockerfileRequest, e);
+                }
+            }
+        });
+    }
+
+
+    @Subscribe(Subject.Repository.ALLOCATE_WEB_PACKAGE_REQUEST)
+    public void allocateWebPackageUploadUrl(final Message message) {
+        run(new Runnable() {
+            public void run() {
+                AllocateWebPackageRequest request = null;
+
+                try {
+                    request = getPayload(message, AllocateWebPackageRequest.class);
+                    reply(message, repositoryService.allocateWebPackageUploadUrl(request));
+                } catch (Exception e) {
+                    logger.error("allocateWebPackageUploadUrl error, request is " + request, e);
                 }
             }
         });

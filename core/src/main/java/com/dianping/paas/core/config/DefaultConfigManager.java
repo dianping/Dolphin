@@ -169,12 +169,16 @@ public class DefaultConfigManager implements ConfigManager {
         return 0;
     }
 
+    private String getRepositoryHost() {
+        return "http://localhost:8080";
+    }
+
     public String getRepositoryDownloadUrl(String token) {
-        return null;
+        return String.format("%s/%s&token=%s", getRepositoryHost(), "repositories/webpackages/downloads", token);
     }
 
     public String getRepositoryUploadUrl(String token) {
-        return null;
+        return String.format("%s/%s?token=%s", getRepositoryHost(), "repositories/webpackages/uploads", token);
     }
 
     public int getAgentMonitorPeriod() {

@@ -1,7 +1,9 @@
 package com.dianping.paas.agent.service;
 
 import com.dianping.paas.core.dto.AppInfo;
+import com.dianping.paas.core.dto.request.AllocateWebPackageRequest;
 import com.dianping.paas.core.service.AppService;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,5 +34,13 @@ public class AppServiceTest {
     public void testInit() throws Exception {
         appService.init(appInfo);
         Thread.sleep(30000);
+    }
+
+    @Test
+    public void uploadWebPackage() throws Exception {
+        AllocateWebPackageRequest request = new AllocateWebPackageRequest();
+        request.setApp_id("test");
+        request.setApp_version("v1");
+        Assert.assertNotNull(appService.allocateWebPackage(request));
     }
 }

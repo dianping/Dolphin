@@ -21,6 +21,9 @@
 > 删除应用
 > 原: POST /v1/apps/{app_id}/delete
 
+- `POST` */apps/{app_id}/webpackages?(app_version=xxx)*
+> 上传指定版本的war或zip包
+
 ## 应用套餐
 - `GET` */appplans*
 > 获取所有的应用套餐

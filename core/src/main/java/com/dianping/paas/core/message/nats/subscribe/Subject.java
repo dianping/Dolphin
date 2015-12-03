@@ -77,7 +77,7 @@ public interface Subject {
 
         String DELETE_WAR_REPOSITORY_REQUEST = "delete_war_repository_request";
 
-        String ALLOCATE_REPOSITORY_REQUEST = "allocate_repository_request";
+        String ALLOCATE_WEB_PACKAGE_REQUEST = "allocate_repository_request";
 
         String ALLOCATE_REPOSITORY_RESPONSE = "allocate_repository_response";
 
