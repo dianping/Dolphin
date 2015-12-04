@@ -15,10 +15,4 @@ public interface AppService {
     List<AppEntity> getAll();
 
     void init(AppInfo appInfo);
-
-    /**
-     * 分配上传地址
-     * @param request
-     */
-    AllocateWebPackageResponse allocateWebPackage(AllocateWebPackageRequest request);
 }

@@ -35,12 +35,4 @@ public class AppServiceTest {
         appService.init(appInfo);
         Thread.sleep(30000);
     }
-
-    @Test
-    public void uploadWebPackage() throws Exception {
-        AllocateWebPackageRequest request = new AllocateWebPackageRequest();
-        request.setApp_id("test");
-        request.setApp_version("v1");
-        Assert.assertNotNull(appService.allocateWebPackage(request));
-    }
 }

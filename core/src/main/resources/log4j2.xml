@@ -3,7 +3,7 @@
 
     <Properties>
         <Property name="logPath">/data/applogs/paas</Property>
-        <Property name="patternLayout">%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %class{36}#%M:%L - %msg%xEx%n</Property>
+        <Property name="patternLayout">%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %class{1}#%M:%L ==> %msg%xEx%n</Property>
     </Properties>
 
     <Appenders>

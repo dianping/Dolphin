@@ -50,7 +50,7 @@ public class DockerServiceTest {
     public void buildAndPushImage() throws Exception {
         dockerfileRequest.setAppTag(System.currentTimeMillis() + "");
         DockerfileResponse dockerfileResponse = dockerService.buildImageAndPush(dockerfileRequest);
-        logger.info("\ndockerfileResponse ==>\n" + dockerfileResponse);
+        logger.info(dockerfileResponse);
         Assert.notNull(dockerfileResponse.getImageId());
     }
 

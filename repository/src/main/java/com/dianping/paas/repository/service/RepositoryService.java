@@ -10,7 +10,7 @@ import com.dianping.paas.core.dto.response.UploadWebPackageResponse;
  * Created by yuchao on 12/3/15.
  */
 public interface RepositoryService {
-    AllocateWebPackageResponse allocateWebPackageUploadUrl(AllocateWebPackageRequest request);
+    AllocateWebPackageResponse allocateWebPackage(AllocateWebPackageRequest request);
 
     UploadWebPackageResponse uploadWebPackage(UploadWebPackageRequest request);
 

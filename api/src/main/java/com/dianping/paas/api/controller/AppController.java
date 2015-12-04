@@ -30,7 +30,7 @@ public class AppController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<AppEntity> getAll() {
-        logger.info("-> /v1/apps");
+        logger.info("/v1/apps");
         String dockerIp = configManager.getDockerIp();
         logger.info("dockerIp is " + dockerIp);
         return appService.getAll();

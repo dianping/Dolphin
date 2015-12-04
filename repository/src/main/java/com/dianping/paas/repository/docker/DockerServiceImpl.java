@@ -44,7 +44,7 @@ public class DockerServiceImpl implements DockerService {
     }
 
     private void buildImage(DockerfileRequest request, DockerfileResponse response) throws Exception {
-        logger.info(String.format("\nbegin buildImage, request ==>\n%s", request));
+        logger.info(String.format("begin buildImage: %s", request));
 
         String dockerfileContent = templateService.getContentFromTemplateContent(request.getDockerfileTemplateContent(), request.getDockerfileParams());
         response.setDockerfileContent(dockerfileContent);
@@ -54,11 +54,11 @@ public class DockerServiceImpl implements DockerService {
         String imageId = dockerClient.buildImageCmd(dockerfile).withTag(buildImageTag(request)).exec(new BuildImageResultCallback()).awaitImageId();
         response.setImageId(imageId);
 
-        logger.info(String.format("\nend buildImage, response ==>\n%s", response));
+        logger.info(String.format("end buildImage: %s", response));
     }
 
     private void pushImage(DockerfileRequest request, DockerfileResponse response) {
-        logger.info(String.format("\nbegin pushImage, request ==>\n%s", request));
+        logger.info(String.format("begin pushImage: %s", request));
 
         String repositoryName = buildRepositoryName(request);
         Repository repository = new Repository(repositoryName);
@@ -73,7 +73,7 @@ public class DockerServiceImpl implements DockerService {
 
         response.setRepository(String.format("%s:%s", repositoryName, request.getAppTag()));
 
-        logger.info(String.format("\nend pushImage, response ==>\n%s", response));
+        logger.info(String.format("end pushImage: %s", response));
     }
 
     private String buildImageTag(DockerfileRequest request) {

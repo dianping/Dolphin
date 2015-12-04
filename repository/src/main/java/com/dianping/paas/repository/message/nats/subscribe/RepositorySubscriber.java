@@ -52,9 +52,9 @@ public class RepositorySubscriber extends Subscriber {
 
                 try {
                     request = getPayload(message, AllocateWebPackageRequest.class);
-                    reply(message, repositoryService.allocateWebPackageUploadUrl(request));
+                    reply(message, repositoryService.allocateWebPackage(request));
                 } catch (Exception e) {
-                    logger.error("allocateWebPackageUploadUrl error, request is " + request, e);
+                    logger.error("allocateWebPackage error, request is " + request, e);
                 }
             }
         });

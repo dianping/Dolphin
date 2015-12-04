@@ -34,7 +34,7 @@ public class AgentSubscriber extends Subscriber {
                     instanceStartRequest = getPayload(message, InstanceStartRequest.class);
                     reply(message, instanceService.pullImageAndRun(instanceStartRequest));
                 } catch (Exception e) {
-                    logger.error(String.format("error when pullImageAndRun, request ==>%s", instanceStartRequest), e);
+                    logger.error(String.format("error when pullImageAndRun: %s", instanceStartRequest), e);
                 }
             }
         });

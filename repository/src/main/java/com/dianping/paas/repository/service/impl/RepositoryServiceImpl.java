@@ -20,7 +20,7 @@ public class RepositoryServiceImpl implements RepositoryService {
     private ConfigManager configManager = ExtensionLoader.getExtension(ConfigManager.class);
 
 
-    public AllocateWebPackageResponse allocateWebPackageUploadUrl(AllocateWebPackageRequest request) {
+    public AllocateWebPackageResponse allocateWebPackage(AllocateWebPackageRequest request) {
         AllocateWebPackageResponse response = new AllocateWebPackageResponse();
 
         String token = UUID.randomUUID().toString();

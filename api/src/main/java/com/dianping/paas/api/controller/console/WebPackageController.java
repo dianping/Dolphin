@@ -5,7 +5,7 @@ import com.dianping.paas.core.dto.request.DownloadWebPackageRequest;
 import com.dianping.paas.core.dto.request.UploadWebPackageRequest;
 import com.dianping.paas.core.dto.response.AllocateWebPackageResponse;
 import com.dianping.paas.core.dto.response.UploadWebPackageResponse;
-import com.dianping.paas.core.service.AppService;
+import com.dianping.paas.core.message.nats.request.RepositoryRequester;
 import com.dianping.paas.repository.service.RepositoryService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,10 +23,10 @@ import java.io.IOException;
 public class WebPackageController {
 
     @Resource
-    private AppService appService;
+    private RepositoryService repositoryService;
 
     @Resource
-    private RepositoryService repositoryService;
+    private RepositoryRequester repositoryRequester;
 
 
     /**
@@ -35,7 +35,7 @@ public class WebPackageController {
     @RequestMapping(value = "/allocations", method = RequestMethod.POST)
     public AllocateWebPackageResponse allocateWebPackage(AllocateWebPackageRequest request) {
 
-        return appService.allocateWebPackage(request);
+        return repositoryRequester.allocateWebPackage(request);
     }
 
     /**

@@ -37,7 +37,7 @@ public class TemplateServiceTest {
     @Test
     public void getContentFromTemplateFile() throws Exception {
         String content = templateService.getContentFromTemplateFile(templateFile, root);
-        logger.info("The content is ==> " + content);
+        logger.info(content);
         Assert.assertNotNull(content);
 
     }
@@ -45,7 +45,7 @@ public class TemplateServiceTest {
     @Test
     public void getContentFromTemplateContent() throws Exception {
         String content = templateService.getContentFromTemplateContent(templateContent, root);
-        logger.info("The content is ==> " + content);
+        logger.info(content);
         Assert.assertNotNull(content);
     }
 }

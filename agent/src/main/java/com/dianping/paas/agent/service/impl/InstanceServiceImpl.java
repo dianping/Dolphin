@@ -36,7 +36,7 @@ public class InstanceServiceImpl implements InstanceService {
     }
 
     private void pullImage(InstanceStartRequest instanceStartRequest, InstanceStartResponse instanceStartResponse) {
-        logger.info(String.format("\nbegin pullImage, request ==>\n%s", instanceStartRequest));
+        logger.info(String.format("begin pullImage: %s", instanceStartRequest));
 
         dockerClient.pullImageCmd(instanceStartRequest.getRepository()).exec(new PullImageResultCallback() {
             @Override
@@ -46,11 +46,11 @@ public class InstanceServiceImpl implements InstanceService {
             }
         }).awaitSuccess();
 
-        logger.info(String.format("\nend pullImage, response ==>\n%s", instanceStartResponse));
+        logger.info(String.format("end pullImage: %s", instanceStartResponse));
     }
 
     private void runImage(InstanceStartRequest instanceStartRequest, InstanceStartResponse instanceStartResponse) throws Exception {
-        logger.info(String.format("\nbegin runImage, request ==>\n%s", instanceStartRequest));
+        logger.info(String.format("begin runImage: %s", instanceStartRequest));
 
         String imageId = instanceStartRequest.getImageId();
         CreateContainerResponse createContainerResponse = dockerClient.createContainerCmd(imageId).withCmd("touch", "/test").exec();
@@ -62,6 +62,6 @@ public class InstanceServiceImpl implements InstanceService {
         }
         dockerClient.startContainerCmd(containerId).exec();
 
-        logger.info(String.format("\nend runImage, response ==>\n%s", instanceStartResponse));
+        logger.info(String.format("end runImage: %s", instanceStartResponse));
     }
 }
