@@ -28,20 +28,22 @@ public class DockerContainerServiceImpl implements DockerContainerService {
         logger.info(String.format("begin createContainer: %s", request));
 
         String imageId = request.getImageId();
-        String containerId = null;
+        String containerId;
         try {
             CreateContainerResponse createContainerResponse = dockerClient.createContainerCmd(imageId).withCmd("touch", "/test").exec();
             containerId = createContainerResponse.getId();
             response.setContainerId(containerId);
-            response.success();
+
+            if (containerId == null) {
+                response.fail("create container failed, created containerId is null!");
+            } else {
+                response.success();
+            }
         } catch (Exception e) {
             response.fail(e.toString());
             logger.error(String.format("error createContainer: %s", request), e);
         }
 
-        if (containerId == null) {
-            response.fail("create container failed!");
-        }
 
         logger.info(String.format("end createContainer: %s", response));
 
@@ -63,6 +65,8 @@ public class DockerContainerServiceImpl implements DockerContainerService {
     }
 
     public void restartContainer(InstanceRestartRequest request, InstanceRestartResponse response) {
+        logger.info(String.format("begin startContainer: %s", request));
+
         try {
             dockerClient.restartContainerCmd(request.getContainerId()).exec();
             response.success();
@@ -70,5 +74,7 @@ public class DockerContainerServiceImpl implements DockerContainerService {
             response.fail(e.toString());
             logger.error(String.format("restartInstance error: %s", request), e);
         }
+
+        logger.info(String.format("end startContainer: %s", response));
     }
 }
