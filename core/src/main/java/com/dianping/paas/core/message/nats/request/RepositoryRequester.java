@@ -29,7 +29,7 @@ public class RepositoryRequester extends Requester {
      * @param request
      */
     public AllocateWebPackageResponse allocateWebPackage(final AllocateWebPackageRequest request) {
-        logger.info(String.format("begin allocateWebPackage request: %s" + request));
+        logger.info(String.format(String.format("begin allocateWebPackage request: %s", request)));
 
         final AllocateWebPackageResponse[] allocateWebPackageResponse = new AllocateWebPackageResponse[1];
 
@@ -51,7 +51,7 @@ public class RepositoryRequester extends Requester {
                     }
                 });
 
-        logger.info(String.format("end allocateWebPackage response: %s" + allocateWebPackageResponse[0]));
+        logger.info(String.format("end allocateWebPackage response: %s" , allocateWebPackageResponse[0]));
 
         return allocateWebPackageResponse[0];
     }
