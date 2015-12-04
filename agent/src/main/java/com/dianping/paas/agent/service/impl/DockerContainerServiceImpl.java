@@ -43,7 +43,7 @@ public class DockerContainerServiceImpl implements DockerContainerService {
             response.fail("create container failed!");
         }
 
-        logger.info(String.format("end createContainer%s", response));
+        logger.info(String.format("end createContainer: %s", response));
 
         return response.isSuccess();
     }
