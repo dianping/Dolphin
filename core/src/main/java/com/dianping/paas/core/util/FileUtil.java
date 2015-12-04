@@ -27,4 +27,20 @@ public class FileUtil {
 
         return file;
     }
+
+    /**
+     * 创建或者获取某个目录
+     *
+     * @param location 目录路径
+     * @return
+     */
+    public static File createOrGetDir(String location) {
+        File file = new File(location);
+
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+
+        return file;
+    }
 }

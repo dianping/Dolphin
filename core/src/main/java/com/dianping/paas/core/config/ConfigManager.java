@@ -238,4 +238,6 @@ public interface ConfigManager {
     String getTempDir();
 
     String getRepositoryUrl();
+
+    String getWebPackageBaseDir();
 }

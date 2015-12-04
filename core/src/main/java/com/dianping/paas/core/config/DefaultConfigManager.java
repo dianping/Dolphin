@@ -474,4 +474,8 @@ public class DefaultConfigManager implements ConfigManager {
     public String getRepositoryUrl() {
         return "docker.dp";
     }
+
+    public String getWebPackageBaseDir() {
+        return "/data/paas/webPackages";
+    }
 }

@@ -45,7 +45,7 @@ public class RepositorySubscriber extends Subscriber {
 
 
     @Subscribe(Subject.Repository.ALLOCATE_WEB_PACKAGE_REQUEST)
-    public void allocateWebPackageUploadUrl(final Message message) {
+    public void allocateWebPackage(final Message message) {
         run(new Runnable() {
             public void run() {
                 AllocateWebPackageRequest request = null;
