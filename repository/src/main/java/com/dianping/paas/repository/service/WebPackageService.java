@@ -4,15 +4,16 @@ import com.dianping.paas.core.dto.request.AllocateWebPackageRequest;
 import com.dianping.paas.core.dto.request.DownloadWebPackageRequest;
 import com.dianping.paas.core.dto.request.UploadWebPackageRequest;
 import com.dianping.paas.core.dto.response.AllocateWebPackageResponse;
+import com.dianping.paas.core.dto.response.DownloadWebPackageResponse;
 import com.dianping.paas.core.dto.response.UploadWebPackageResponse;
 
 /**
  * Created by yuchao on 12/3/15.
  */
-public interface RepositoryService {
-    AllocateWebPackageResponse allocateWebPackage(AllocateWebPackageRequest request);
+public interface WebPackageService {
+    AllocateWebPackageResponse allocate(AllocateWebPackageRequest request);
 
-    UploadWebPackageResponse uploadWebPackage(UploadWebPackageRequest request);
+    UploadWebPackageResponse upload(UploadWebPackageRequest request);
 
-    UploadWebPackageResponse downloadWebPackage(DownloadWebPackageRequest request);
+    DownloadWebPackageResponse download(DownloadWebPackageRequest request);
 }

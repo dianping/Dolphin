@@ -20,7 +20,7 @@ public abstract class Response {
     /**
      * fail附加信息
      */
-    private String reason;
+    private String reason = "";
 
 
     public void success() {

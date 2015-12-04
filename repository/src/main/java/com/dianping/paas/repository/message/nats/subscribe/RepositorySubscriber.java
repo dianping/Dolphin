@@ -5,7 +5,7 @@ import com.dianping.paas.core.dto.request.DockerfileRequest;
 import com.dianping.paas.core.message.nats.subscribe.Subject;
 import com.dianping.paas.core.message.nats.subscribe.Subscriber;
 import com.dianping.paas.repository.docker.DockerService;
-import com.dianping.paas.repository.service.RepositoryService;
+import com.dianping.paas.repository.service.WebPackageService;
 import nats.client.Message;
 import nats.client.spring.Subscribe;
 import org.apache.logging.log4j.LogManager;
@@ -25,7 +25,7 @@ public class RepositorySubscriber extends Subscriber {
     private DockerService dockerService;
 
     @Resource
-    private RepositoryService repositoryService;
+    private WebPackageService webPackageService;
 
     @Subscribe(Subject.Instance.NEW_AND_DEPLOY)
     public void newAndDeploy(final Message message) {
@@ -52,9 +52,9 @@ public class RepositorySubscriber extends Subscriber {
 
                 try {
                     request = getPayload(message, AllocateWebPackageRequest.class);
-                    reply(message, repositoryService.allocateWebPackage(request));
+                    reply(message, webPackageService.allocate(request));
                 } catch (Exception e) {
-                    logger.error("allocateWebPackage error, request is " + request, e);
+                    logger.error("allocate error, request is " + request, e);
                 }
             }
         });

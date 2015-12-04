@@ -6,11 +6,12 @@ import com.dianping.paas.core.dto.request.UploadWebPackageRequest;
 import com.dianping.paas.core.dto.response.AllocateWebPackageResponse;
 import com.dianping.paas.core.dto.response.UploadWebPackageResponse;
 import com.dianping.paas.core.message.nats.request.RepositoryRequester;
-import com.dianping.paas.repository.service.RepositoryService;
+import com.dianping.paas.repository.service.WebPackageService;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -23,7 +24,7 @@ import java.io.IOException;
 public class WebPackageController {
 
     @Resource
-    private RepositoryService repositoryService;
+    private WebPackageService webPackageService;
 
     @Resource
     private RepositoryRequester repositoryRequester;
@@ -41,19 +42,18 @@ public class WebPackageController {
     /**
      * 上传 web package 的时候已经落在了本机,所以直接执行,不用nats来发消息
      */
-    @RequestMapping(value = "/uploads", method = RequestMethod.POST)
-    public UploadWebPackageResponse uploadWebPackage(MultipartFile file, UploadWebPackageRequest request) throws IOException {
-        request.setBytes(file.getBytes());
+    @RequestMapping(method = RequestMethod.POST)
+    public UploadWebPackageResponse uploadWebPackage(UploadWebPackageRequest request) throws IOException {
 
-        return repositoryService.uploadWebPackage(request);
+        return webPackageService.upload(request);
     }
 
     /**
      * 下载 web package 的时候已经落在了本机,所以直接执行,不用nats来发消息
      */
-    @RequestMapping(value = "/downloads", method = RequestMethod.POST)
-    public UploadWebPackageResponse downloadWebPackage(DownloadWebPackageRequest request) {
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public FileSystemResource downloadWebPackage(DownloadWebPackageRequest request) {
 
-        return repositoryService.downloadWebPackage(request);
+        return webPackageService.download(request).getFileSystemResource();
     }
 }
