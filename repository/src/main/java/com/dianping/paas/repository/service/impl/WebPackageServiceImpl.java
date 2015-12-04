@@ -67,7 +67,7 @@ public class WebPackageServiceImpl implements WebPackageService {
         response.setFileSystemResource(new FileSystemResource(webPackageFile));
         response.success();
 
-        logger.info(String.format("begin download WebPackage: %s", response));
+        logger.info(String.format("end download WebPackage: %s", response));
 
         return response;
     }
