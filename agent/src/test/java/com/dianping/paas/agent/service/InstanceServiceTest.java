@@ -1,6 +1,10 @@
 package com.dianping.paas.agent.service;
 
+import com.dianping.paas.core.dto.request.InstanceRestartRequest;
 import com.dianping.paas.core.dto.request.InstanceStartRequest;
+import com.dianping.paas.core.dto.response.InstanceRestartResponse;
+import com.dianping.paas.core.dto.response.InstanceStartResponse;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,16 +26,32 @@ public class InstanceServiceTest {
 
     private InstanceStartRequest instanceStartRequest;
 
+    private InstanceRestartRequest instanceRestartRequest;
+
     @Before
     public void setUp() throws Exception {
         instanceStartRequest = new InstanceStartRequest();
-        instanceStartRequest.setRepository("docker.dp/test_app:latest");
-        instanceStartRequest.setImageId("d1b2d3578fe0");
-        instanceStartRequest.setAppName("test_app");
+        instanceStartRequest.setRepository("docker.dp/dp:latest");
+        instanceStartRequest.setImageId("ab09aec5fa98");
+        instanceStartRequest.setAppName("dp");
+
+        instanceRestartRequest = new InstanceRestartRequest();
     }
 
     @Test
-    public void testPullImageAndRun() throws Exception {
-        instanceService.pullImageAndRun(instanceStartRequest);
+    public void pullImageAndRun() throws Exception {
+        InstanceStartResponse response = instanceService.pullImageAndRun(instanceStartRequest);
+
+        Assert.assertTrue(response.isSuccess());
+    }
+
+    @Test
+    public void restartInstance() throws Exception {
+        InstanceStartResponse instanceStartResponse = instanceService.pullImageAndRun(instanceStartRequest);
+
+        instanceRestartRequest.setContainerId(instanceStartResponse.getContainerId());
+        InstanceRestartResponse instanceRestartResponse = instanceService.restartInstance(instanceRestartRequest);
+
+        Assert.assertTrue(instanceRestartResponse.isSuccess());
     }
 }

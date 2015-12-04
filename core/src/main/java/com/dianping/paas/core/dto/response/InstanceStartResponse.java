@@ -7,5 +7,13 @@ import lombok.Data;
  * Created by yuchao on 2015/12/02 14:36.
  */
 @Data
-public class InstanceStartResponse {
+public class InstanceStartResponse extends Response {
+    private String containerId;
+
+    @Override
+    public String toString() {
+        return "InstanceStartResponse{" +
+                "containerId='" + containerId + '\'' +
+                "} " + super.toString();
+    }
 }

@@ -7,7 +7,7 @@ import lombok.Data;
  */
 
 @Data
-public class DockerfileResponse {
+public class DockerfileResponse extends Response {
     /**
      * 基于dockerfile模板和参数build出来的镜像id
      */
@@ -22,4 +22,13 @@ public class DockerfileResponse {
      * docker pull 的URI
      */
     private String repository;
+
+    @Override
+    public String toString() {
+        return "DockerfileResponse{" +
+                "imageId='" + imageId + '\'' +
+                ", dockerfileContent='" + dockerfileContent + '\'' +
+                ", repository='" + repository + '\'' +
+                "} " + super.toString();
+    }
 }
