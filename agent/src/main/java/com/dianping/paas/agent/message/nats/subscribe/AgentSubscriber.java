@@ -2,7 +2,7 @@ package com.dianping.paas.agent.message.nats.subscribe;
 
 import com.dianping.paas.agent.service.InstanceService;
 import com.dianping.paas.core.dto.request.InstanceStartRequest;
-import com.dianping.paas.core.dto.response.InstanceStartResponse;
+import com.dianping.paas.core.dto.request.UpgradeInstanceRequest;
 import com.dianping.paas.core.message.nats.subscribe.Subject;
 import com.dianping.paas.core.message.nats.subscribe.Subscriber;
 import nats.client.Message;
@@ -25,7 +25,7 @@ public class AgentSubscriber extends Subscriber {
     private InstanceService instanceService;
 
     @Subscribe(Subject.Instance.PULL_IMAGE_AND_RUN)
-    public void subscribe(final Message message) {
+    public void pullImageAndRun(final Message message) {
         run(new Runnable() {
             public void run() {
                 InstanceStartRequest instanceStartRequest = null;
@@ -39,4 +39,23 @@ public class AgentSubscriber extends Subscriber {
             }
         });
     }
+
+    @Subscribe(Subject.Instance.UPGRADE)
+    public void upgradeInstance(final Message message) {
+        run(new Runnable() {
+            public void run() {
+                UpgradeInstanceRequest upgradeInstanceRequest = null;
+
+                try {
+                    upgradeInstanceRequest = getPayload(message, UpgradeInstanceRequest.class);
+                    // upgrade 为 异步,不需要响应
+                    instanceService.upgrade(upgradeInstanceRequest);
+                } catch (Exception e) {
+                    logger.error(String.format("error when upgradeInstance: %s", upgradeInstanceRequest), e);
+                }
+
+            }
+        });
+    }
+
 }

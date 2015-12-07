@@ -105,7 +105,7 @@ public interface Subject {
 
         String REMOVED = "instance_removed";
 
-        String UPGRADE_REQUEST = "instance_upgrade_request";
+        String UPGRADE = "instance_upgrade";
 
         String UPGRADED = "instance_upgraded";
 

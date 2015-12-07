@@ -40,17 +40,24 @@ public abstract class Requester {
         messageBus.requestSync(subject, payload, messageCallBack, timeout);
     }
 
+    /**
+     * 异步请求
+     *
+     * @param <REQUEST_T> 请求类型
+     * @param subject     主题
+     */
+    protected <REQUEST_T> void requestAsync(String subject, REQUEST_T payload) {
+        requestAsync(subject, payload, null);
+    }
 
     /**
      * 异步请求
      *
-     * @param subject         主题
-     * @param payload         请求内容
-     * @param messageCallBack 消息回调
-     * @param <REQUEST_T>     请求类型
+     * @param <REQUEST_T> 请求类型
+     * @param subject     主题
+     * @param payload     请求内容
      */
     protected <REQUEST_T> void requestAsync(String subject, REQUEST_T payload, MessageCallBack messageCallBack) {
         messageBus.requestAsync(subject, payload, messageCallBack);
     }
-
 }
