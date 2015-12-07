@@ -17,7 +17,6 @@
         <module>web</module>
         <module>monitor</module>
         <module>repository</module>
-        <module>resource-manager</module>
         <module>router</module>
         <module>docker-spring</module>
     </modules>
@@ -31,7 +30,8 @@
         <ibatis-sqlmap.version>2.3.4.726</ibatis-sqlmap.version>
         <spring-orm.version>2.5.6</spring-orm.version>
         <mysql-connector-java.version>5.1.35</mysql-connector-java.version>
-        <mybatis.version>3.2.8</mybatis.version>
+        <mybatis.version>3.3.0</mybatis.version>
+        <mybatis.spring.version>1.2.3</mybatis.spring.version>
         <lombok.version>1.14.8</lombok.version>
         <junit.version>4.11</junit.version>
         <servlet-api.version>2.5</servlet-api.version>

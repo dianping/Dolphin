@@ -3,6 +3,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!-- 引入配置文件 -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:config/jdbc.properties</value>
+            </list>
+        </property>
+    </bean>
+
     <!--配置一个数据源,根据上面propertyConfig指定的location去找数据库连接的配置信息-->
     <bean id="dataSource" lazy-init="true"
           class="org.apache.tomcat.jdbc.pool.DataSource">
@@ -16,21 +26,18 @@
             <value>root</value>
         </property>
         <property name="password">
-            <value></value>
+            <value>123456</value>
         </property>
     </bean>
 
-    <!--根据dataSource和configLocation创建一个SqlMapClient-->
-    <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
-        <property name="configLocation" value="classpath:config/sqlmap/sqlmap-config.xml"/>
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations" value="classpath*:com.dianping.paas.core.dao/*.xml" />
+        <property name="typeAliasesPackage" value="com.dianping.paas.core.entity" />
     </bean>
-
-    <!--根据sqlMapClien创建一个SqlMapClient模版类-->
-    <bean id="sqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
-        <property name="sqlMapClient">
-            <ref bean="sqlMapClient"/>
-        </property>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.dianping.paas.core.dao" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
 
 </beans>

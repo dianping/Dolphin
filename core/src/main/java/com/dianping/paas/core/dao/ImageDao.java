@@ -1,11 +1,10 @@
 package com.dianping.paas.core.dao;
 
-import com.dianping.paas.core.dao.support.CrudDao;
 import com.dianping.paas.core.entity.ImageEntity;
 
 /**
  * Created by yuchao on 12/1/15.
  */
-public interface ImageDao extends CrudDao<ImageEntity>{
+public interface ImageDao {
     ImageEntity getByImageType(String image_type);
 }
