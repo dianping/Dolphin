@@ -1,10 +1,15 @@
 package com.dianping.paas.core.util;
 
+import com.google.common.io.ByteStreams;
+import com.google.common.io.Closeables;
 import com.google.common.io.Files;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * chao.yu@dianping.com
@@ -42,5 +47,29 @@ public class FileUtil {
         }
 
         return file;
+    }
+
+
+    public static void unZip(ZipInputStream zis, String baseDirLocation) throws IOException {
+        File baseDir = createOrGetDir(baseDirLocation);
+
+        ZipEntry entry;
+        while ((entry = zis.getNextEntry()) != null) {
+            if (entry.isDirectory()) {
+
+                new File(baseDir, entry.getName()).mkdirs();
+
+            } else {
+                File target = new File(baseDir, entry.getName());
+
+                target.getParentFile().mkdirs();
+
+                FileOutputStream outputStream = new FileOutputStream(target);
+                ByteStreams.copy(zis, outputStream);
+
+                Closeables.close(outputStream, true);
+            }
+        }
+        Closeables.close(zis, true);
     }
 }
