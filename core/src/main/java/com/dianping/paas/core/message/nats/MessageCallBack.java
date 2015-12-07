@@ -23,6 +23,8 @@ public abstract class MessageCallBack<Res> implements MessageHandler {
 
     private Class<Res> responseType;
 
+    private Res response;
+
     private boolean called = false;
 
     private int timeout;
@@ -34,7 +36,6 @@ public abstract class MessageCallBack<Res> implements MessageHandler {
     }
 
     public void onMessage(final Message message) {
-        Res response;
         try {
             called = true;
             response = codec.decode(message.getBody(), responseType);
@@ -46,7 +47,9 @@ public abstract class MessageCallBack<Res> implements MessageHandler {
         }
     }
 
-    public abstract void success(Res res);
+    public void success(Res res) {
+        // ignore
+    }
 
     public abstract void error(Throwable throwable);
 

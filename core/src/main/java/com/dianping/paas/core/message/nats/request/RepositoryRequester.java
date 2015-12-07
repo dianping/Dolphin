@@ -31,29 +31,23 @@ public class RepositoryRequester extends Requester {
     public AllocateWebPackageResponse allocateWebPackage(final AllocateWebPackageRequest request) {
         logger.info(String.format(String.format("begin allocateWebPackage request: %s", request)));
 
-        final AllocateWebPackageResponse[] allocateWebPackageResponse = new AllocateWebPackageResponse[1];
+        AllocateWebPackageResponse allocateWebPackageResponse =
+                requestSync(Subject.Repository.ALLOCATE_WEB_PACKAGE_REQUEST, request,
+                        new MessageCallBack<AllocateWebPackageResponse>(AllocateWebPackageResponse.class) {
+                            @Override
+                            public void error(Throwable throwable) {
+                                logger.error(String.format("error when allocateWebPackage: %s", request));
+                            }
 
-        requestSync(Subject.Repository.ALLOCATE_WEB_PACKAGE_REQUEST, request,
-                new MessageCallBack<AllocateWebPackageResponse>(AllocateWebPackageResponse.class) {
-                    @Override
-                    public void success(AllocateWebPackageResponse response) {
-                        allocateWebPackageResponse[0] = response;
-                    }
+                            @Override
+                            public void timeout() {
+                                logger.error(String.format("timeout when allocateWebPackage: %s", request));
+                            }
+                        });
 
-                    @Override
-                    public void error(Throwable throwable) {
-                        logger.error(String.format("error when allocateWebPackage: %s", request));
-                    }
+        logger.info(String.format("end allocateWebPackage response: %s", allocateWebPackageResponse));
 
-                    @Override
-                    public void timeout() {
-                        logger.error(String.format("timeout when allocateWebPackage: %s", request));
-                    }
-                });
-
-        logger.info(String.format("end allocateWebPackage response: %s" , allocateWebPackageResponse[0]));
-
-        return allocateWebPackageResponse[0];
+        return allocateWebPackageResponse;
     }
 
     public void newAndDeploy(final DockerfileRequest dockerfileRequest) {

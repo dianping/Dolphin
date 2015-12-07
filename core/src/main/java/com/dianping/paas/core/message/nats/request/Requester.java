@@ -23,8 +23,10 @@ public abstract class Requester {
      * @param messageCallBack 消息回调
      * @param <REQUEST_T>     请求内容的类型, 主要用于序列化
      */
-    protected <REQUEST_T> void requestSync(String subject, REQUEST_T payload, MessageCallBack messageCallBack) {
+    protected <REQUEST_T, RESPONSE_T> RESPONSE_T requestSync(String subject, REQUEST_T payload, MessageCallBack<RESPONSE_T> messageCallBack) {
         messageBus.requestSync(subject, payload, messageCallBack);
+
+        return messageCallBack.getResponse();
     }
 
     /**
@@ -36,8 +38,10 @@ public abstract class Requester {
      * @param timeout         超时时间,默认为 {@link DefaultMessageBus#DEFAULT_TIMEOUT}
      * @param <REQUEST_T>     请求内容的类型, 主要用于序列化
      */
-    protected <REQUEST_T> void requestSync(String subject, REQUEST_T payload, MessageCallBack messageCallBack, int timeout) {
+    protected <REQUEST_T, RESPONSE_T> RESPONSE_T requestSync(String subject, REQUEST_T payload, MessageCallBack<RESPONSE_T> messageCallBack, int timeout) {
         messageBus.requestSync(subject, payload, messageCallBack, timeout);
+
+        return messageCallBack.getResponse();
     }
 
     /**
