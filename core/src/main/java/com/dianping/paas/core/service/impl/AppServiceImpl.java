@@ -8,7 +8,6 @@ import com.dianping.paas.core.entity.AppEntity;
 import com.dianping.paas.core.extension.ExtensionLoader;
 import com.dianping.paas.core.message.nats.request.RepositoryRequester;
 import com.dianping.paas.core.service.AppService;
-import com.dianping.paas.core.service.ImageService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -32,9 +31,6 @@ public class AppServiceImpl implements AppService {
     private ConfigManager configManager = ExtensionLoader.getExtension(ConfigManager.class);
 
     @Resource
-    private ImageService imageService;
-
-    @Resource
     private RepositoryRequester repositoryRequester;
 
     public List<AppEntity> getAll() {
@@ -50,18 +46,21 @@ public class AppServiceImpl implements AppService {
     private DockerfileRequest buildDockerfileRequest(AppInfo appInfo) {
         DockerfileRequest dockerfileRequest = new DockerfileRequest();
 
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("path", "/tmp/1.txt");
+        Map<String, Object> params = buildParams(appInfo);
 
         dockerfileRequest.setAppName(appInfo.getApp_Id());
-        dockerfileRequest.setDockerfileLocation(buildDockerfileLocation(appInfo));
-        dockerfileRequest.setDockerfileTemplateContent(imageService.getDockerfileTemplateContent(appInfo.getImage_type()));
+        dockerfileRequest.setDockerfileLocation(configManager.getDockerfileLocation(appInfo.getApp_Id()));
+        dockerfileRequest.setDockerfileTemplateLocation(configManager.getDockerfileTemplateDir(appInfo.getImage_type()));
         dockerfileRequest.setDockerfileParams(params);
 
         return dockerfileRequest;
     }
 
-    private String buildDockerfileLocation(AppInfo appInfo) {
-        return String.format("%s/%s/dockerfiles/Dockerfile", configManager.getBaseWebappDir(), appInfo.getApp_Id());
+    // TODO
+    private Map<String, Object> buildParams(AppInfo appInfo) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("path", String.format("/tmp/%s/1.txt", appInfo.getApp_Id()));
+
+        return params;
     }
 }
