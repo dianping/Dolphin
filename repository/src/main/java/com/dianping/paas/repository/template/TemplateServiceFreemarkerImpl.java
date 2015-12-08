@@ -7,6 +7,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
@@ -17,7 +18,7 @@ import java.util.Map;
 /**
  * Created by yuchao on 11/23/15.
  */
-@AgentModule
+@Service
 public class TemplateServiceFreemarkerImpl implements TemplateService {
     private static final Logger logger = LogManager.getLogger(TemplateServiceFreemarkerImpl.class);
 

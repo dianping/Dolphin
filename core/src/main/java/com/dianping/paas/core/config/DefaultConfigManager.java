@@ -476,6 +476,16 @@ public class DefaultConfigManager implements ConfigManager {
     }
 
     public String getWebPackageBaseDir() {
-        return "/data/paas/webPackages";
+        return "/data/paas/webpackages";
     }
+
+    public String getDockerfileTemplateDir(String imageType) {
+        return String.format("/data/paas/repository/dockerfile-template/%s/Dockerfile", imageType);
+    }
+
+    public String getDockerfileLocation(String app_id) {
+        return String.format("/data/paas/repository/webapps/%s/dockerfiles/Dockerfile", app_id);
+    }
+
+
 }

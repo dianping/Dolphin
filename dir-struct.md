@@ -6,8 +6,11 @@
   - `/webpackages`
   > 存放所有的war、zip，按token名字存取，token与app映射关系存DB
   
-  - `/dockerfiles/{image_type}`
-  > 存放所有镜像的dockerfile
+  - `/dockerfile-template/{image_type}`
+  > 存放所有镜像的dockerfile Template
+  
+  - `/webapps/{app_id}/dockerfiles/Dockerfile`
+  > 存放所有应用的Dockerfile
 
 ## agent
 
@@ -15,7 +18,7 @@
   - `/config.json`
   > agent的配置
   
-  - `/webapps/{instance_id}/ROOT`
+  - `/webapps/{app_id}/{instance_id}/ROOT`
   > 映射到 容器内部 `/data/webapps/paas/ROOT`
 
 ## demo

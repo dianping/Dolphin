@@ -9,13 +9,11 @@ import java.util.Map;
  */
 @Data
 public class DockerfileRequest {
+
     /**
-     * Dockerfile 模板内容
-     * for example:
-     * FROM busybox:latest
-     * RUN echo "hello world!" >> ${path}
+     * Dockerfile 模板的路径, example: path/to/dockerfiles/Dockerfile-template
      */
-    private String dockerfileTemplateContent;
+    private String dockerfileTemplateLocation;
 
     /**
      * Dockerfile文件中的占位符对应的值

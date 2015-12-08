@@ -37,41 +37,56 @@ public class DockerServiceImpl implements DockerService {
     public DockerfileResponse buildImageAndPush(DockerfileRequest request) throws Exception {
         DockerfileResponse response = new DockerfileResponse();
 
-        buildImage(request, response);
-        pushImage(request, response);
+        if (buildImage(request, response)) {
+            pushImage(request, response);
+        }
 
         return response;
     }
 
-    private void buildImage(DockerfileRequest request, DockerfileResponse response) throws Exception {
+    private boolean buildImage(DockerfileRequest request, DockerfileResponse response) throws Exception {
         logger.info(String.format("begin buildImage: %s", request));
 
-        String dockerfileContent = templateService.getContentFromTemplateContent(request.getDockerfileTemplateContent(), request.getDockerfileParams());
-        response.setDockerfileContent(dockerfileContent);
+        try {
+            File dockerFileTemplate = new File(request.getDockerfileTemplateLocation());
+            String dockerfileContent = templateService.getContentFromTemplateFile(dockerFileTemplate, request.getDockerfileParams());
+            response.setDockerfileContent(dockerfileContent);
 
-        File dockerfile = FileUtil.write(request.getDockerfileLocation(), dockerfileContent);
+            File dockerfile = FileUtil.write(request.getDockerfileLocation(), dockerfileContent);
 
-        String imageId = dockerClient.buildImageCmd(dockerfile).withTag(buildImageTag(request)).exec(new BuildImageResultCallback()).awaitImageId();
-        response.setImageId(imageId);
+            String imageId = dockerClient.buildImageCmd(dockerfile).withTag(buildImageTag(request)).exec(new BuildImageResultCallback()).awaitImageId();
+            response.setImageId(imageId);
+            response.success();
+        } catch (Exception e) {
+            response.fail(e.toString());
+            logger.error(String.format("error buildImage: %s", request), e);
+        }
 
         logger.info(String.format("end buildImage: %s", response));
+
+        return response.isSuccess();
     }
 
     private void pushImage(DockerfileRequest request, DockerfileResponse response) {
         logger.info(String.format("begin pushImage: %s", request));
 
-        String repositoryName = buildRepositoryName(request);
-        Repository repository = new Repository(repositoryName);
-        Identifier identifier = new Identifier(repository, request.getAppTag());
-        dockerClient.pushImageCmd(identifier).exec(new PushImageResultCallback() {
-            @Override
-            public void onNext(PushResponseItem item) {
-                super.onNext(item);
-                logger.info(item);
-            }
-        }).awaitSuccess();
+        try {
+            String repositoryName = buildRepositoryName(request);
+            Repository repository = new Repository(repositoryName);
+            Identifier identifier = new Identifier(repository, request.getAppTag());
+            dockerClient.pushImageCmd(identifier).exec(new PushImageResultCallback() {
+                @Override
+                public void onNext(PushResponseItem item) {
+                    super.onNext(item);
+                    logger.info(item);
+                }
+            }).awaitSuccess();
 
-        response.setRepository(String.format("%s:%s", repositoryName, request.getAppTag()));
+            response.setRepository(String.format("%s:%s", repositoryName, request.getAppTag()));
+        } catch (Exception e) {
+            response.fail(e.toString());
+            logger.error(String.format("error pushImage: %s", request), e);
+        }
 
         logger.info(String.format("end pushImage: %s", response));
     }

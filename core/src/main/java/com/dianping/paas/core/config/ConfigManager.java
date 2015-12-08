@@ -240,4 +240,8 @@ public interface ConfigManager {
     String getRepositoryUrl();
 
     String getWebPackageBaseDir();
+
+    String getDockerfileTemplateDir(String imageType);
+
+    String getDockerfileLocation(String app_id);
 }
