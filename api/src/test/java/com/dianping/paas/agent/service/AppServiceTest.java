@@ -26,8 +26,8 @@ public class AppServiceTest {
     @Before
     public void setUp() throws Exception {
         appInfo = new AppInfo();
-        appInfo.setApp_Id("test_app_4");
-        appInfo.setImage_type("busybox");
+        appInfo.setApp_Id("tomcat-app");
+        appInfo.setImage_type("tomcat-8.0");
     }
 
     @Test

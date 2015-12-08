@@ -30,7 +30,7 @@ public class DockerContainerServiceImpl implements DockerContainerService {
         String imageId = request.getImageId();
         String containerId;
         try {
-            CreateContainerResponse createContainerResponse = dockerClient.createContainerCmd(imageId).withCmd("touch", "/test").exec();
+            CreateContainerResponse createContainerResponse = dockerClient.createContainerCmd(imageId).exec();
             containerId = createContainerResponse.getId();
             response.setContainerId(containerId);
 

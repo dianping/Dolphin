@@ -59,7 +59,7 @@ public class AppServiceImpl implements AppService {
     // TODO
     private Map<String, Object> buildParams(AppInfo appInfo) {
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("path", String.format("/tmp/%s/1.txt", appInfo.getApp_Id()));
+        params.put("path", String.format("/tmp/1.txt", appInfo.getApp_Id()));
 
         return params;
     }

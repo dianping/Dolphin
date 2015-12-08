@@ -56,8 +56,12 @@ public class RepositoryRequester extends Requester {
         requestAsync(Subject.Instance.NEW_AND_DEPLOY, dockerfileRequest, new MessageCallBack<DockerfileResponse>(DockerfileResponse.class) {
             @Override
             public void success(DockerfileResponse dockerfileResponse) {
-                logger.info("init app success, request: " + dockerfileRequest + ", response: " + dockerfileResponse);
-                agentRequester.pullImageAndRun(buildStartInstanceRequest(dockerfileRequest, dockerfileResponse));
+                if (dockerfileResponse.isSuccess()) {
+                    logger.info("init app success, request: " + dockerfileRequest + ", response: " + dockerfileResponse);
+                    agentRequester.pullImageAndRun(buildStartInstanceRequest(dockerfileRequest, dockerfileResponse));
+                } else {
+                    logger.error("init app error, request: " + dockerfileRequest + ", response: " + dockerfileResponse);
+                }
             }
 
             @Override

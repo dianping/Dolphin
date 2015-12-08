@@ -39,10 +39,8 @@ public class RepositoryRequesterTest extends SpringTest {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("path", "/tmp/1.txt");
 
-        dockerfileRequest.setAppName("dp1");
-        dockerfileRequest.setDockerfileTemplateContent("FROM");
+        dockerfileRequest.setAppName("tomcat");
         dockerfileRequest.setDockerfileLocation(buildDockerfileLocation("dp"));
-        dockerfileRequest.setDockerfileTemplateContent("FROM busybox:latest\necho 'hello' > ${path}");
         dockerfileRequest.setDockerfileParams(params);
 
         repositoryRequester.newAndDeploy(dockerfileRequest);
