@@ -26,6 +26,7 @@ import java.util.Map;
 public class AppServiceImpl implements AppService {
     private static final Logger logger = LogManager.getLogger(AppServiceImpl.class);
     @Resource
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     private AppDao appDao;
 
     private ConfigManager configManager = ExtensionLoader.getExtension(ConfigManager.class);

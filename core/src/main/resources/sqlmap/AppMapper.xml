@@ -4,11 +4,11 @@
 <mapper namespace="com.dianping.paas.core.dao.AppDao">
 
     <select id="findAll" resultType="AppEntity">
-        SELECT * FROM app;
+        SELECT * FROM app
     </select>
 
     <select id="getByAppId" resultType="AppEntity">
-        SELECT * FROM app WHERE app_id = #app_id#;
+        SELECT * FROM app WHERE app_id = #{app_id}
     </select>
 </mapper>
 
