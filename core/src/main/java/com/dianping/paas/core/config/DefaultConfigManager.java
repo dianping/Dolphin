@@ -49,8 +49,8 @@ public class DefaultConfigManager implements ConfigManager {
         return null;
     }
 
-    public String getInnerWarRoot(String imageId) {
-        return null;
+    public String getInnerWebPackageRootDir() {
+        return "/data/webapps/paas/ROOT";
     }
 
     public int getStartHostPort() {
@@ -485,6 +485,10 @@ public class DefaultConfigManager implements ConfigManager {
 
     public String getDockerfileLocation(String app_id) {
         return String.format("/data/paas/repository/webapps/%s/dockerfiles/Dockerfile", app_id);
+    }
+
+    public String getOuterWebPackageRootDir(String appName, int instanceIndex) {
+        return String.format("/data/paas/agent/webapps/%s/%d/ROOT", appName, instanceIndex);
     }
 
 

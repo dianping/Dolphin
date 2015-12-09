@@ -23,7 +23,7 @@ public interface ConfigManager {
 
     String getDockerImage(String imageId);
 
-    String getInnerWarRoot(String imageId);
+    String getInnerWebPackageRootDir();
 
     int getStartHostPort();
 
@@ -244,4 +244,6 @@ public interface ConfigManager {
     String getDockerfileTemplateDir(String imageType);
 
     String getDockerfileLocation(String app_id);
+
+    String getOuterWebPackageRootDir(String appName, int instanceIndex);
 }

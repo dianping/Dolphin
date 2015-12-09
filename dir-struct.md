@@ -18,7 +18,7 @@
   - `/config.json`
   > agent的配置
   
-  - `/webapps/{app_id}/{instance_id}/ROOT`
+  - `/webapps/{app_id}/{instance_index}/ROOT`
   > 映射到 容器内部 `/data/webapps/paas/ROOT`
 
 ## demo

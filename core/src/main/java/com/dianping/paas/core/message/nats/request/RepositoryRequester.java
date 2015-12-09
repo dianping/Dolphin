@@ -77,12 +77,14 @@ public class RepositoryRequester extends Requester {
     }
 
     private InstanceStartRequest buildStartInstanceRequest(DockerfileRequest dockerfileRequest, DockerfileResponse dockerfileResponse) {
-        InstanceStartRequest startInstanceContext = new InstanceStartRequest();
+        InstanceStartRequest instanceStartRequest = new InstanceStartRequest();
 
-        startInstanceContext.setRepository(dockerfileResponse.getRepository());
-        startInstanceContext.setAppName(dockerfileRequest.getAppName());
-        startInstanceContext.setImageId(dockerfileResponse.getImageId());
+        instanceStartRequest.setRepository(dockerfileResponse.getRepository());
+        instanceStartRequest.setAppName(dockerfileRequest.getAppName());
+        instanceStartRequest.setImageId(dockerfileResponse.getImageId());
+        // TODO 计算当前实例为第几个实例
+        instanceStartRequest.setInstanceIndex(1);
 
-        return startInstanceContext;
+        return instanceStartRequest;
     }
 }

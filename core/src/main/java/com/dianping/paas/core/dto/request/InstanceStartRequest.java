@@ -11,4 +11,5 @@ public class InstanceStartRequest {
     private String repository;
     private String appName;
     private String imageId;
+    private int instanceIndex;
 }
