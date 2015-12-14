@@ -1,6 +1,8 @@
 package com.dianping.paas.agent.service.impl;
 
 import com.dianping.paas.agent.context.CreateContainerContext;
+import com.dianping.paas.agent.context.RestartContainerContext;
+import com.dianping.paas.agent.context.StartContainerContext;
 import com.dianping.paas.agent.context.support.PostProcessorContainerDelegate;
 import com.dianping.paas.agent.service.DockerContainerService;
 import com.dianping.paas.core.dto.request.InstanceRestartRequest;
@@ -10,6 +12,8 @@ import com.dianping.paas.core.dto.response.InstanceStartResponse;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerCmd;
 import com.github.dockerjava.api.command.CreateContainerResponse;
+import com.github.dockerjava.api.command.RestartContainerCmd;
+import com.github.dockerjava.api.command.StartContainerCmd;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -37,15 +41,18 @@ public class DockerContainerServiceImpl implements DockerContainerService {
         String imageId = request.getImageId();
         String containerId;
         try {
-
             // 1. create cmd
             CreateContainerCmd containerCmd = dockerClient.createContainerCmd(imageId);
 
-            // 2. invoke post processor
-            invokeCreateContainerPostProcessors(buildCreateContainerContext(request, containerCmd));
+            // 2. invoke post processor before create container
+            CreateContainerContext createContainerContext = buildCreateContainerContext(request, containerCmd);
+            applyCreateContainerProcessorsBeforeCreate(createContainerContext);
 
             // 3. exec cmd
             CreateContainerResponse createContainerResponse = containerCmd.exec();
+
+            // 4. invoke post processor after create container
+            applyCreateContainerProcessorsAfterCreate(createContainerContext);
 
             containerId = createContainerResponse.getId();
             response.setContainerId(containerId);
@@ -66,24 +73,23 @@ public class DockerContainerServiceImpl implements DockerContainerService {
         return response.isSuccess();
     }
 
-    private void invokeCreateContainerPostProcessors(CreateContainerContext createContainerContext) {
-        postProcessorContainerDelegate.invokeCreateContainerPostProcessors(createContainerContext);
-    }
-
-    private CreateContainerContext buildCreateContainerContext(InstanceStartRequest instanceStartRequest, CreateContainerCmd containerCmd) {
-        CreateContainerContext createContainerContext = new CreateContainerContext();
-
-        createContainerContext.setCreateContainerCmd(containerCmd);
-        createContainerContext.setInstanceStartRequest(instanceStartRequest);
-
-        return createContainerContext;
-    }
-
     public void startContainer(InstanceStartRequest request, InstanceStartResponse response) {
         logger.info(String.format("begin startContainer: %s", request));
 
         try {
-            dockerClient.startContainerCmd(response.getContainerId()).exec();
+            // 1. create cmd
+            StartContainerCmd startContainerCmd = dockerClient.startContainerCmd(response.getContainerId());
+
+            // 2. invoke post processor before start container
+            StartContainerContext startContainerContext = buildStartContainerContext(request, startContainerCmd);
+            applyStartContainerProcessorsBeforeStart(startContainerContext);
+
+            // 3. exec cmd
+            startContainerCmd.exec();
+
+            // 4. invoke post processor after start container
+            applyStartContainerProcessorsAfterStart(startContainerContext);
+
             response.success();
         } catch (Exception e) {
             response.fail(e.toString());
@@ -97,7 +103,19 @@ public class DockerContainerServiceImpl implements DockerContainerService {
         logger.info(String.format("begin startContainer: %s", request));
 
         try {
-            dockerClient.restartContainerCmd(request.getContainerId()).exec();
+            // 1. create cmd
+            RestartContainerCmd restartContainerCmd = dockerClient.restartContainerCmd(request.getContainerId());
+
+            // 2. invoke post processors before restart container
+            RestartContainerContext context = buildRestartContainerContext(request, restartContainerCmd);
+            applyRestartContainerProcessorsBeforeRestart(context);
+
+            // 3. exec cmd
+            restartContainerCmd.exec();
+
+            // 4. invoke post processors after restart container
+            applyRestartContainerProcessorsAfterRestart(context);
+
             response.success();
         } catch (Exception e) {
             response.fail(e.toString());
@@ -107,5 +125,57 @@ public class DockerContainerServiceImpl implements DockerContainerService {
         logger.info(String.format("end startContainer: %s", response));
     }
 
+    private void applyCreateContainerProcessorsBeforeCreate(CreateContainerContext context) {
+        postProcessorContainerDelegate.postProcessBeforeCreateContainer(context);
+    }
+
+    private void applyCreateContainerProcessorsAfterCreate(CreateContainerContext context) {
+        postProcessorContainerDelegate.postProcessAfterCreateContainer(context);
+    }
+
+    private void applyStartContainerProcessorsBeforeStart(StartContainerContext context) {
+        postProcessorContainerDelegate.postProcessBeforeStartContainer(context);
+    }
+
+    private void applyStartContainerProcessorsAfterStart(StartContainerContext context) {
+        postProcessorContainerDelegate.postProcessAfterStartContainer(context);
+    }
+
+    private void applyRestartContainerProcessorsBeforeRestart(RestartContainerContext context) {
+        postProcessorContainerDelegate.postProcessBeforeRestartContainer(context);
+    }
+
+
+    private void applyRestartContainerProcessorsAfterRestart(RestartContainerContext context) {
+        postProcessorContainerDelegate.postProcessAfterRestartContainer(context);
+    }
+
+    private CreateContainerContext buildCreateContainerContext(InstanceStartRequest instanceStartRequest, CreateContainerCmd containerCmd) {
+        CreateContainerContext createContainerContext = new CreateContainerContext();
+
+        createContainerContext.setCreateContainerCmd(containerCmd);
+        createContainerContext.setInstanceStartRequest(instanceStartRequest);
+
+        return createContainerContext;
+    }
+
+
+    private StartContainerContext buildStartContainerContext(InstanceStartRequest request, StartContainerCmd startContainerCmd) {
+        StartContainerContext containerContext = new StartContainerContext();
+
+        containerContext.setInstanceStartRequest(request);
+        containerContext.setStartContainerCmd(startContainerCmd);
+
+        return containerContext;
+    }
+
+    private RestartContainerContext buildRestartContainerContext(InstanceRestartRequest request, RestartContainerCmd restartContainerCmd) {
+        RestartContainerContext restartContainerContext = new RestartContainerContext();
+
+        restartContainerContext.setInstanceRestartRequest(request);
+        restartContainerContext.setRestartContainerCmd(restartContainerCmd);
+
+        return restartContainerContext;
+    }
 
 }

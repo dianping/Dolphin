@@ -9,5 +9,7 @@ import org.springframework.core.Ordered;
  */
 public interface CreateContainerPostProcessor extends Ordered {
 
-    void postProcessContainer(CreateContainerContext createContainerContext);
+    void beforeCreateContainer(CreateContainerContext createContainerContext);
+
+    void afterCreateContainer(CreateContainerContext createContainerContext);
 }

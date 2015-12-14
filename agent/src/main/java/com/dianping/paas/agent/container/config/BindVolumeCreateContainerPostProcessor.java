@@ -14,17 +14,22 @@ import org.springframework.stereotype.Component;
  * chao.yu@dianping.com
  * Created by yuchao on 2015/12/14 11:51.
  */
-@Component("BindVolumeCreateContainerPostProcessor")
+@Component
 public class BindVolumeCreateContainerPostProcessor implements CreateContainerPostProcessor {
 
     private ConfigManager configManager = ExtensionLoader.getExtension(ConfigManager.class);
 
     @Override
-    public void postProcessContainer(CreateContainerContext createContainerContext) {
+    public void beforeCreateContainer(CreateContainerContext createContainerContext) {
         CreateContainerCmd createContainerCmd = createContainerContext.getCreateContainerCmd();
 
         Bind bind = createBind(createContainerContext.getInstanceStartRequest());
         createContainerCmd.withBinds(bind);
+    }
+
+    @Override
+    public void afterCreateContainer(CreateContainerContext createContainerContext) {
+        // do nothing
     }
 
     @Override

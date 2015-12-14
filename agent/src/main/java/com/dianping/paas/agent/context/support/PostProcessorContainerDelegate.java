@@ -1,14 +1,15 @@
 package com.dianping.paas.agent.context.support;
 
 import com.dianping.paas.agent.container.config.CreateContainerPostProcessor;
+import com.dianping.paas.agent.container.config.Period;
+import com.dianping.paas.agent.container.config.RestartContainerPostProcessor;
+import com.dianping.paas.agent.container.config.StartContainerPostProcessor;
 import com.dianping.paas.agent.context.CreateContainerContext;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.core.OrderComparator;
+import com.dianping.paas.agent.context.RestartContainerContext;
+import com.dianping.paas.agent.context.StartContainerContext;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,31 +18,100 @@ import java.util.List;
  * Created by yuchao on 2015/12/14 11:13.
  */
 @Component
-public class PostProcessorContainerDelegate implements ApplicationContextAware {
-    private ApplicationContext applicationContext;
+public class PostProcessorContainerDelegate {
 
-    public void invokeCreateContainerPostProcessors(CreateContainerContext createContainerContext) {
-        String[] beanNames = applicationContext.getBeanNamesForType(CreateContainerPostProcessor.class);
+    @Resource
+    private BeanDiscover beanDiscover;
 
-        List<CreateContainerPostProcessor> createContainerPostProcessorList = new ArrayList<CreateContainerPostProcessor>();
+    //  ________________________________________________________________________
+    // |                                                                        |
+    // | do something before or after create container                          |
+    // |________________________________________________________________________|
+    //
 
-        for (String beanName : beanNames) {
-            CreateContainerPostProcessor createContainerPostProcessor = applicationContext.getBean(beanName, CreateContainerPostProcessor.class);
-            createContainerPostProcessorList.add(createContainerPostProcessor);
-        }
-
-        OrderComparator.sort(createContainerPostProcessorList);
-        invokeCreateContainerPostProcessors(createContainerPostProcessorList, createContainerContext);
+    public void postProcessBeforeCreateContainer(CreateContainerContext context) {
+        invokeCreateContainerPostProcessors(context, Period.BEFORE);
     }
 
-    private static void invokeCreateContainerPostProcessors(List<CreateContainerPostProcessor> createContainerPostProcessorList, CreateContainerContext createContainerContext) {
-        for (CreateContainerPostProcessor createContainerPostProcessor : createContainerPostProcessorList) {
-            createContainerPostProcessor.postProcessContainer(createContainerContext);
+    public void postProcessAfterCreateContainer(CreateContainerContext context) {
+        invokeCreateContainerPostProcessors(context, Period.AFTER);
+    }
+
+    private void invokeCreateContainerPostProcessors(CreateContainerContext context, Period period) {
+        List<CreateContainerPostProcessor> postProcessors = beanDiscover.getSortedBeanList(CreateContainerPostProcessor.class);
+
+        invokeCreateContainerPostProcessors(postProcessors, context, period);
+    }
+
+    private void invokeRestartContainerPostProcessors(List<RestartContainerPostProcessor> postProcessors, RestartContainerContext context, Period period) {
+        for (RestartContainerPostProcessor postProcessor : postProcessors) {
+            if (Period.BEFORE.equals(period)) {
+                postProcessor.beforeRestartContainer(context);
+            } else if (Period.AFTER.equals(period)) {
+                postProcessor.afterRestartContainer(context);
+            }
         }
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
+
+    //  ________________________________________________________________________
+    // |                                                                        |
+    // | do something before or after start container                           |
+    // |________________________________________________________________________|
+    //
+
+    public void postProcessBeforeStartContainer(StartContainerContext context) {
+        invokeStartContainerPostProcessors(context, Period.BEFORE);
+    }
+
+    public void postProcessAfterStartContainer(StartContainerContext context) {
+        invokeStartContainerPostProcessors(context, Period.AFTER);
+    }
+
+    private void invokeStartContainerPostProcessors(StartContainerContext context, Period period) {
+        List<StartContainerPostProcessor> postProcessors = beanDiscover.getSortedBeanList(StartContainerPostProcessor.class);
+
+        invokeStartContainerPostProcessors(postProcessors, context, period);
+    }
+
+    private void invokeStartContainerPostProcessors(List<StartContainerPostProcessor> postProcessors, StartContainerContext context, Period period) {
+        for (StartContainerPostProcessor postProcessor : postProcessors) {
+            if (Period.BEFORE.equals(period)) {
+                postProcessor.beforeStartContainer(context);
+            } else if (Period.AFTER.equals(period)) {
+                postProcessor.afterStartContainer(context);
+            }
+        }
+    }
+
+
+    //  ________________________________________________________________________
+    // |                                                                        |
+    // | do something before or after restart container                         |
+    // |________________________________________________________________________|
+    //
+
+    public void postProcessBeforeRestartContainer(RestartContainerContext context) {
+        invokeRestartContainerPostProcessors(context, Period.BEFORE);
+    }
+
+    public void postProcessAfterRestartContainer(RestartContainerContext context) {
+        invokeRestartContainerPostProcessors(context, Period.AFTER);
+    }
+
+    private void invokeRestartContainerPostProcessors(RestartContainerContext context, Period period) {
+        List<RestartContainerPostProcessor> postProcessors = beanDiscover.getSortedBeanList(RestartContainerPostProcessor.class);
+
+        invokeRestartContainerPostProcessors(postProcessors, context, period);
+    }
+
+    private static void invokeCreateContainerPostProcessors(List<CreateContainerPostProcessor> postProcessors, CreateContainerContext context, Period period) {
+        for (CreateContainerPostProcessor postProcessor : postProcessors) {
+            if (Period.BEFORE.equals(period)) {
+                postProcessor.beforeCreateContainer(context);
+            } else if (Period.AFTER.equals(period)) {
+                postProcessor.beforeCreateContainer(context);
+            }
+        }
     }
 }
