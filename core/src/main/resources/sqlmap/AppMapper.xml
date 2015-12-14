@@ -11,4 +11,3 @@
         SELECT * FROM app WHERE app_id = #{app_id}
     </select>
 </mapper>
-
