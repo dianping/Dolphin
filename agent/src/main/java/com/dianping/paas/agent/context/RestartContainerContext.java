@@ -10,9 +10,7 @@ import lombok.Data;
  */
 @Data
 public class RestartContainerContext {
-
-
-
     private InstanceRestartRequest instanceRestartRequest;
+
     private RestartContainerCmd restartContainerCmd;
 }

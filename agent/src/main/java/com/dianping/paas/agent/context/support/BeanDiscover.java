@@ -18,7 +18,6 @@ public class BeanDiscover {
     @Resource
     private ApplicationContext applicationContext;
 
-
     public <T> List<T> getBeanList(Class<T> type) {
         String[] beanNames = applicationContext.getBeanNamesForType(type);
 
