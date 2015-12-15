@@ -1,14 +1,13 @@
 package com.dianping.paas.agent.service;
 
-import org.junit.runner.RunWith;
-
-import com.dianping.paas.core.dto.request.AppInitRequest;
 import com.dianping.paas.controller.service.AppService;
+import com.dianping.paas.core.dto.request.AppInitRequest;
+import com.dianping.paas.core.test.Globals;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import javax.annotation.Resource;
 
 /**
@@ -25,8 +24,8 @@ public class AppServiceTest {
     @Before
     public void setUp() throws Exception {
         appInitRequest = new AppInitRequest();
-        appInitRequest.setAppId("tomcat-app");
-        appInitRequest.setImageType("tomcat-8.0");
+        appInitRequest.setAppId(Globals.APP_ID);
+        appInitRequest.setImageType(Globals.IMAGE_TYPE);
         appInitRequest.setInstanceCount(1);
     }
 

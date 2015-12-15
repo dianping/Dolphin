@@ -2,6 +2,7 @@ package com.dianping.paas.repository.docker;
 
 import com.dianping.paas.core.dto.request.DockerfileRequest;
 import com.dianping.paas.core.dto.response.DockerfileResponse;
+import com.dianping.paas.core.test.Globals;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Before;
@@ -31,19 +32,19 @@ public class DockerServiceTest {
     @Before
     public void setUp() throws Exception {
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("path", "/tmp/hello.text");
+
+        params.put("repository", Globals.REPOSITORY);
 
         dockerfileRequest = new DockerfileRequest();
 
         dockerfileRequest.setDockerfileParams(params);
         dockerfileRequest.setDockerfileTemplateLocation(getDockerfileTemplateLocation());
         dockerfileRequest.setDockerfileLocation("/data/temp/Dockerfile");
-        dockerfileRequest.setAppName("dockerfile");
+        dockerfileRequest.setAppName(Globals.APP_ID);
     }
 
     @Test
-    public void buildAndPushImage() throws Exception {
-        dockerfileRequest.setAppTag(System.currentTimeMillis() + "");
+    public void buildImageAndPush() throws Exception {
         DockerfileResponse dockerfileResponse = dockerService.buildImageAndPush(dockerfileRequest);
         logger.info(dockerfileResponse);
         Assert.notNull(dockerfileResponse.getImageId());
