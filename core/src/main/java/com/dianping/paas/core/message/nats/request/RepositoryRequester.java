@@ -29,7 +29,7 @@ public class RepositoryRequester extends Requester {
      * @param request
      */
     public AllocateWebPackageResponse allocateWebPackage(final AllocateWebPackageRequest request) {
-        logger.info(String.format(String.format("begin allocateWebPackage request: %s", request)));
+        logger.info(String.format("begin allocateWebPackage request: %s", request));
 
         AllocateWebPackageResponse allocateWebPackageResponse =
                 requestSync(Subject.Repository.ALLOCATE_WEB_PACKAGE_REQUEST, request,

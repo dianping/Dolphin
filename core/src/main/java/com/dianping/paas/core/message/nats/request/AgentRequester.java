@@ -42,6 +42,8 @@ public class AgentRequester extends Requester {
         logger.info(String.format("begin upgradeInstance: %s", request));
 
         request.setInstance_id("b6175f138d8e");
-        requestAsync(Subject.Instance.UPGRADE + request.getAgent_ip(), request);
+//      requestAsync(Subject.Instance.UPGRADE + request.getAgent_ip(), request);
+        requestAsync(Subject.Instance.UPGRADE, request);
+
     }
 }

@@ -100,7 +100,7 @@ public class DockerContainerServiceImpl implements DockerContainerService {
     }
 
     public void restartContainer(InstanceRestartRequest request, InstanceRestartResponse response) {
-        logger.info(String.format("begin startContainer: %s", request));
+        logger.info(String.format("begin restartContainer: %s", request));
 
         try {
             // 1. create cmd
@@ -122,7 +122,7 @@ public class DockerContainerServiceImpl implements DockerContainerService {
             logger.error(String.format("restartInstance error: %s", request), e);
         }
 
-        logger.info(String.format("end startContainer: %s", response));
+        logger.info(String.format("end restartContainer: %s", response));
     }
 
     private void applyCreateContainerProcessorsBeforeCreate(CreateContainerContext context) {

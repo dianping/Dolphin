@@ -82,14 +82,21 @@ public class InstanceServiceImpl implements InstanceService {
         String webPackageRootDir = locateWebPackageRootDir(request);
 
         // 1. downLoad web package
-        URL url = new URL(request.getWebPackageUrl());
+        downLoadWebPackage(webPackageRootDir, request.getWebPackageUrl());
+
+        // 2. restart container
+        restartInstance(buildInstanceRestartRequest(request));
+
+    }
+
+    private void downLoadWebPackage(String webPackageRootDir, String webPackageUrl) throws IOException {
+        logger.info(String.format("begin downLoadWebPackage: %s->%s", webPackageUrl, webPackageRootDir));
+
+        URL url = new URL(webPackageUrl);
         ZipInputStream zipInputStream = new ZipInputStream(url.openStream());
         FileUtil.unZip(zipInputStream, webPackageRootDir);
 
-        // 2. restart container
-
-        restartInstance(buildInstanceRestartRequest(request));
-
+        logger.info(String.format("end downLoadWebPackage: %s->%s", webPackageUrl, webPackageRootDir));
     }
 
     private InstanceRestartRequest buildInstanceRestartRequest(UpgradeInstanceRequest request) {
@@ -100,11 +107,9 @@ public class InstanceServiceImpl implements InstanceService {
         return instanceRestartRequest;
     }
 
-    // TODO
     private String locateWebPackageRootDir(UpgradeInstanceRequest request) {
 
-        configManager.getOuterWebPackageRootDir(request.getApp_id(), request.getInstance_index());
-        return String.format("/data/paas/webapps/%s", request.getApp_id());
+        return configManager.getOuterWebPackageRootDir(request.getApp_id(), request.getInstance_index());
     }
 }
 

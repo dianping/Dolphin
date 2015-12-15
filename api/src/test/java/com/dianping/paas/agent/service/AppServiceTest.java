@@ -2,6 +2,7 @@ package com.dianping.paas.agent.service;
 
 import com.dianping.paas.controller.service.AppService;
 import com.dianping.paas.core.dto.AppInfo;
+import com.dianping.paas.core.test.Globals;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,8 +25,8 @@ public class AppServiceTest {
     @Before
     public void setUp() throws Exception {
         appInfo = new AppInfo();
-        appInfo.setApp_Id("tomcat-app");
-        appInfo.setImage_type("tomcat-8.0");
+        appInfo.setApp_Id(Globals.APP_ID);
+        appInfo.setImage_type(Globals.IMAGE_TYPE);
     }
 
     @Test

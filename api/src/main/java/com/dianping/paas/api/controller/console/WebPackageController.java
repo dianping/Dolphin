@@ -20,7 +20,7 @@ import java.io.IOException;
  * Created by yuchao on 12/3/15.
  */
 @RestController
-@RequestMapping("/v1/repositories/webpackages")
+@RequestMapping("/v1/repository/webpackages")
 public class WebPackageController {
 
     @Resource

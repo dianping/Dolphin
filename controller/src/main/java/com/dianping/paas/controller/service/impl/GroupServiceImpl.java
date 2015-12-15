@@ -52,6 +52,6 @@ public class GroupServiceImpl implements GroupService {
     //TODO
     private String getWebPackageUrl(String app_id, String app_version) {
 
-        return "http://localhost:8080/v1/repositories/webpackages?token=token";
+        return "http://localhost:8080/v1/repository/webpackages?token=token";
     }
 }
