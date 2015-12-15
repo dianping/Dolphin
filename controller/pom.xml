@@ -12,4 +12,12 @@
     <artifactId>controller</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>com.dianping.paas</groupId>
+            <artifactId>core</artifactId>
+            <version>${core.version}</version>
+        </dependency>
+
+    </dependencies>
 </project>

@@ -1,9 +1,7 @@
 package com.dianping.paas.agent.service;
 
+import com.dianping.paas.controller.service.AppService;
 import com.dianping.paas.core.dto.AppInfo;
-import com.dianping.paas.core.dto.request.AllocateWebPackageRequest;
-import com.dianping.paas.core.service.AppService;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

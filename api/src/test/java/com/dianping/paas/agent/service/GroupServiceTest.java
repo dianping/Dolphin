@@ -1,6 +1,6 @@
 package com.dianping.paas.agent.service;
 
-import com.dianping.paas.core.service.GroupService;
+import com.dianping.paas.controller.service.GroupService;
 import com.dianping.paas.test.SpringTest;
 import org.junit.Before;
 import org.junit.Test;

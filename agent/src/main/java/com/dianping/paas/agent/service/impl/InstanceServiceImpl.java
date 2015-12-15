@@ -3,11 +3,13 @@ package com.dianping.paas.agent.service.impl;
 import com.dianping.paas.agent.service.DockerContainerService;
 import com.dianping.paas.agent.service.DockerImageService;
 import com.dianping.paas.agent.service.InstanceService;
+import com.dianping.paas.core.config.ConfigManager;
 import com.dianping.paas.core.dto.request.InstanceRestartRequest;
 import com.dianping.paas.core.dto.request.InstanceStartRequest;
 import com.dianping.paas.core.dto.request.UpgradeInstanceRequest;
 import com.dianping.paas.core.dto.response.InstanceRestartResponse;
 import com.dianping.paas.core.dto.response.InstanceStartResponse;
+import com.dianping.paas.core.extension.ExtensionLoader;
 import com.dianping.paas.core.util.FileUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,6 +33,8 @@ public class InstanceServiceImpl implements InstanceService {
 
     @Resource
     private DockerContainerService dockerContainerService;
+
+    private ConfigManager configManager = ExtensionLoader.getExtension(ConfigManager.class);
 
 
     public InstanceStartResponse pullImageAndRun(final InstanceStartRequest request) {
@@ -99,6 +103,7 @@ public class InstanceServiceImpl implements InstanceService {
     // TODO
     private String locateWebPackageRootDir(UpgradeInstanceRequest request) {
 
+        configManager.getOuterWebPackageRootDir(request.getApp_id(), request.getInstance_index());
         return String.format("/data/paas/webapps/%s", request.getApp_id());
     }
 }

@@ -1,13 +1,13 @@
-package com.dianping.paas.core.service.impl;
+package com.dianping.paas.controller.service.impl;
 
+import com.dianping.paas.controller.service.AppService;
 import com.dianping.paas.core.config.ConfigManager;
-import com.dianping.paas.core.dao.AppDao;
+import com.dianping.paas.core.dal.AppDal;
 import com.dianping.paas.core.dto.AppInfo;
 import com.dianping.paas.core.dto.request.DockerfileRequest;
-import com.dianping.paas.core.entity.AppEntity;
+import com.dianping.paas.core.dal.entity.AppEntity;
 import com.dianping.paas.core.extension.ExtensionLoader;
 import com.dianping.paas.core.message.nats.request.RepositoryRequester;
-import com.dianping.paas.core.service.AppService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -25,8 +25,7 @@ import java.util.Map;
 public class AppServiceImpl implements AppService {
     private static final Logger logger = LogManager.getLogger(AppServiceImpl.class);
     @Resource
-    @SuppressWarnings("SpringJavaAutowiringInspection")
-    private AppDao appDao;
+    private AppDal appDal;
 
     private ConfigManager configManager = ExtensionLoader.getExtension(ConfigManager.class);
 
@@ -34,7 +33,7 @@ public class AppServiceImpl implements AppService {
     private RepositoryRequester repositoryRequester;
 
     public List<AppEntity> getAll() {
-        return appDao.findAll();
+        return appDal.getAll();
     }
 
     public void init(final AppInfo appInfo) {

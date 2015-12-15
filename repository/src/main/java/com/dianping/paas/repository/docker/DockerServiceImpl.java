@@ -78,7 +78,9 @@ public class DockerServiceImpl implements DockerService {
                 @Override
                 public void onNext(PushResponseItem item) {
                     super.onNext(item);
-                    logger.info(item);
+                    if (logger.isDebugEnabled()) {
+                        logger.debug(item);
+                    }
                 }
             }).awaitSuccess();
 

@@ -1,6 +1,6 @@
 package com.dianping.paas.api.controller;
 
-import com.dianping.paas.core.entity.AppEntity;
+import com.dianping.paas.core.dal.entity.AppEntity;
 import com.dianping.paas.test.ControllerBaseTest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

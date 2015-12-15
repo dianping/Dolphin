@@ -16,28 +16,20 @@
     <!--配置一个数据源,根据上面propertyConfig指定的location去找数据库连接的配置信息-->
     <bean id="dataSource" lazy-init="true"
           class="org.apache.tomcat.jdbc.pool.DataSource">
-        <property name="driverClassName">
-            <value>com.mysql.jdbc.Driver</value>
-        </property>
-        <property name="url">
-            <value>jdbc:mysql://localhost:3306/paas</value>
-        </property>
-        <property name="username">
-            <value>root</value>
-        </property>
-        <property name="password">
-            <value>123456</value>
-        </property>
+        <property name="driverClassName" value="${driverClassName}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
     </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="mapperLocations" value="classpath*:sqlmap/*.xml" />
-        <property name="typeAliasesPackage" value="com.dianping.paas.core.entity" />
+        <property name="mapperLocations" value="classpath*:sqlmap/*.xml"/>
+        <property name="typeAliasesPackage" value="com.dianping.paas.core.dal.entity"/>
     </bean>
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.dianping.paas.core.dao" />
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+        <property name="basePackage" value="com.dianping.paas.core.dal.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
 </beans>

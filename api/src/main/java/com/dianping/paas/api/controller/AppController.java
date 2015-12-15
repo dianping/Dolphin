@@ -1,10 +1,10 @@
 package com.dianping.paas.api.controller;
 
+import com.dianping.paas.controller.service.AppService;
 import com.dianping.paas.core.config.ConfigManager;
+import com.dianping.paas.core.dal.entity.AppEntity;
 import com.dianping.paas.core.dto.AppInfo;
-import com.dianping.paas.core.entity.AppEntity;
 import com.dianping.paas.core.extension.ExtensionLoader;
-import com.dianping.paas.core.service.AppService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestBody;

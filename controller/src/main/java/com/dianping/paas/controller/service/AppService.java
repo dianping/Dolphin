@@ -1,9 +1,7 @@
-package com.dianping.paas.core.service;
+package com.dianping.paas.controller.service;
 
 import com.dianping.paas.core.dto.AppInfo;
-import com.dianping.paas.core.dto.request.AllocateWebPackageRequest;
-import com.dianping.paas.core.dto.response.AllocateWebPackageResponse;
-import com.dianping.paas.core.entity.AppEntity;
+import com.dianping.paas.core.dal.entity.AppEntity;
 
 import java.util.List;
 

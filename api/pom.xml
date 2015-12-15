@@ -56,6 +56,12 @@
             <version>${repository.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.dianping.paas</groupId>
+            <artifactId>controller</artifactId>
+            <version>${controller.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>
