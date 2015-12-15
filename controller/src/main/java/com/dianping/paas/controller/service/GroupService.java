@@ -1,4 +1,4 @@
-package com.dianping.paas.core.service;
+package com.dianping.paas.controller.service;
 
 /**
  * Created by yuchao on 12/7/15.

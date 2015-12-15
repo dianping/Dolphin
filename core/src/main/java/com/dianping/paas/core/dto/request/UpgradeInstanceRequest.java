@@ -8,7 +8,14 @@ import lombok.Data;
 @Data
 public class UpgradeInstanceRequest {
     private String app_id;
+
     private String app_version;
+
     private String webPackageUrl;
+
     private String instance_id;
+
+    private int instance_index;
+
+    private String agent_ip;
 }

@@ -1,6 +1,6 @@
 package com.dianping.paas.api.controller;
 
-import com.dianping.paas.core.service.GroupService;
+import com.dianping.paas.controller.service.GroupService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

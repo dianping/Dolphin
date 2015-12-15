@@ -1,4 +1,4 @@
-package com.dianping.paas.core.entity;
+package com.dianping.paas.core.dal.entity;
 
 import lombok.Data;
 

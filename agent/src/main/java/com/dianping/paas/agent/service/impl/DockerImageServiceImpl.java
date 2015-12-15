@@ -33,7 +33,9 @@ public class DockerImageServiceImpl implements DockerImageService {
                 @Override
                 public void onNext(PullResponseItem item) {
                     super.onNext(item);
-                    logger.info(item);
+                    if (logger.isDebugEnabled()) {
+                        logger.debug(item);
+                    }
                 }
             }).awaitSuccess();
             response.success();

@@ -1,6 +1,6 @@
-package com.dianping.paas.core.dao;
+package com.dianping.paas.core.dal.dao;
 
-import com.dianping.paas.core.entity.AppEntity;
+import com.dianping.paas.core.dal.entity.AppEntity;
 
 import java.util.List;
 
