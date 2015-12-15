@@ -2,7 +2,7 @@ package com.dianping.paas.core.service.impl;
 
 import com.dianping.paas.core.config.ConfigManager;
 import com.dianping.paas.core.dao.AppDao;
-import com.dianping.paas.core.dto.AppInfo;
+import com.dianping.paas.core.dto.request.AppInitRequest;
 import com.dianping.paas.core.dto.request.DockerfileRequest;
 import com.dianping.paas.core.entity.AppEntity;
 import com.dianping.paas.core.extension.ExtensionLoader;
@@ -37,29 +37,29 @@ public class AppServiceImpl implements AppService {
         return appDao.findAll();
     }
 
-    public void init(final AppInfo appInfo) {
+    public void init(final AppInitRequest appInfo) {
         logger.info(String.format("begin init app: %s", appInfo));
 
         repositoryRequester.newAndDeploy(buildDockerfileRequest(appInfo));
     }
 
-    private DockerfileRequest buildDockerfileRequest(AppInfo appInfo) {
+    private DockerfileRequest buildDockerfileRequest(AppInitRequest appInfo) {
         DockerfileRequest dockerfileRequest = new DockerfileRequest();
 
         Map<String, Object> params = buildParams(appInfo);
 
-        dockerfileRequest.setAppName(appInfo.getApp_Id());
-        dockerfileRequest.setDockerfileLocation(configManager.getDockerfileLocation(appInfo.getApp_Id()));
-        dockerfileRequest.setDockerfileTemplateLocation(configManager.getDockerfileTemplateDir(appInfo.getImage_type()));
+        dockerfileRequest.setAppName(appInfo.getAppId());
+        dockerfileRequest.setDockerfileLocation(configManager.getDockerfileLocation(appInfo.getAppId()));
+        dockerfileRequest.setDockerfileTemplateLocation(configManager.getDockerfileTemplateDir(appInfo.getImageType()));
         dockerfileRequest.setDockerfileParams(params);
 
         return dockerfileRequest;
     }
 
     // TODO
-    private Map<String, Object> buildParams(AppInfo appInfo) {
+    private Map<String, Object> buildParams(AppInitRequest appInfo) {
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("path", String.format("/tmp/1.txt", appInfo.getApp_Id()));
+        params.put("path", String.format("/tmp/1.txt", appInfo.getAppId()));
 
         return params;
     }

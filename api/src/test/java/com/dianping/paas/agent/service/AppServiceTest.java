@@ -1,9 +1,7 @@
 package com.dianping.paas.agent.service;
 
-import com.dianping.paas.core.dto.AppInfo;
-import com.dianping.paas.core.dto.request.AllocateWebPackageRequest;
+import com.dianping.paas.core.dto.request.AppInitRequest;
 import com.dianping.paas.core.service.AppService;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,18 +19,19 @@ public class AppServiceTest {
     @Resource
     private AppService appService;
 
-    private AppInfo appInfo;
+    private AppInitRequest appInitRequest;
 
     @Before
     public void setUp() throws Exception {
-        appInfo = new AppInfo();
-        appInfo.setApp_Id("tomcat-app");
-        appInfo.setImage_type("tomcat-8.0");
+        appInitRequest = new AppInitRequest();
+        appInitRequest.setAppId("tomcat-app");
+        appInitRequest.setImageType("tomcat-8.0");
+        appInitRequest.setInstanceCount(1);
     }
 
     @Test
     public void testInit() throws Exception {
-        appService.init(appInfo);
+        appService.init(appInitRequest);
         Thread.sleep(30000);
     }
 }

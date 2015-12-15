@@ -7,26 +7,18 @@ import lombok.Data;
  */
 @Data
 public abstract class Response {
-    /**
-     * 本地请求是否成功
-     */
+
     private boolean success;
 
-    /**
-     * 返回码
-     */
-    private int status;
-
-    /**
-     * fail附加信息
-     */
-    private String reason = "";
-
+    private ResultCode returnCode;
 
     public void success() {
         success = true;
     }
 
+    public void fail(ResultCode returnCode) {
+        fail(returnCode.getStatus(), returnCode.getReason());
+    }
 
     public void fail() {
         fail(-1, "");
@@ -42,7 +34,8 @@ public abstract class Response {
 
     public void fail(int status, String reason) {
         this.success = false;
-        this.status = status;
-        this.reason = reason;
+        this.returnCode.setStatus(status);
+        this.returnCode.setReason(reason);
+
     }
 }

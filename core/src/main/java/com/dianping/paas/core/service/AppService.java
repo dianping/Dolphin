@@ -1,8 +1,6 @@
 package com.dianping.paas.core.service;
 
-import com.dianping.paas.core.dto.AppInfo;
-import com.dianping.paas.core.dto.request.AllocateWebPackageRequest;
-import com.dianping.paas.core.dto.response.AllocateWebPackageResponse;
+import com.dianping.paas.core.dto.request.AppInitRequest;
 import com.dianping.paas.core.entity.AppEntity;
 
 import java.util.List;
@@ -14,5 +12,6 @@ import java.util.List;
 public interface AppService {
     List<AppEntity> getAll();
 
-    void init(AppInfo appInfo);
+    void init(AppInitRequest appInfo);
+
 }

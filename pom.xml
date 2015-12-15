@@ -25,6 +25,7 @@
         <core.version>1.0-SNAPSHOT</core.version>
         <agent.version>1.0-SNAPSHOT</agent.version>
         <repository.version>1.0-SNAPSHOT</repository.version>
+        <controller.version>1.0-SNAPSHOT</controller.version>
 
         <spring.version>4.1.1.RELEASE</spring.version>
         <ibatis-sqlmap.version>2.3.4.726</ibatis-sqlmap.version>
