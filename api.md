@@ -80,7 +80,7 @@
 > 原: GET /v1/instances/{instance_ip}/restart
 
 - `POST` */apps/{app_id}/instances/scales(?count=2)*
-> 将某个应用扩(缩)容, 版本为当前正在运行的版本
+> 将某个应用扩(缩)容, 版本为当正在运行的版本前
 > 原: POST /v1/apps/{app_id}/scale
 
 - `POST` */apps/{app_id}/instances?(app_version=v1&count=2)*

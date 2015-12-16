@@ -61,9 +61,9 @@ public class InstanceServiceTest {
 
     @Test
     public void restartInstance() throws Exception {
-        InstanceStartResponse instanceStartResponse = instanceService.pullImageAndRun(instanceStartRequest);
+        instanceService.pullImageAndRun(instanceStartRequest);
 
-        instanceRestartRequest.setContainerId(instanceStartResponse.getContainerId());
+        instanceRestartRequest.setContainerId(instanceStartRequest.getContainerId());
         Response response = instanceService.restartInstance(instanceRestartRequest);
 
         Assert.assertTrue(response.isSuccess());
@@ -71,9 +71,9 @@ public class InstanceServiceTest {
 
     @Test
     public void stopInstance() throws Exception {
-        InstanceStartResponse instanceStartResponse = instanceService.pullImageAndRun(instanceStartRequest);
+        instanceService.pullImageAndRun(instanceStartRequest);
 
-        instanceStopRequest.setContainerId(instanceStartResponse.getContainerId());
+        instanceStopRequest.setContainerId(instanceStartRequest.getContainerId());
         Response response = instanceService.stopInstance(instanceStopRequest);
 
         Assert.assertTrue(response.isSuccess());
@@ -81,9 +81,9 @@ public class InstanceServiceTest {
 
     @Test
     public void removeInstance() throws Exception {
-        InstanceStartResponse instanceStartResponse = instanceService.pullImageAndRun(instanceStartRequest);
+        instanceService.pullImageAndRun(instanceStartRequest);
 
-        instanceRemoveRequest.setContainerId(instanceStartResponse.getContainerId());
+        instanceRemoveRequest.setContainerId(instanceStartRequest.getContainerId());
         Response response = instanceService.removeInstance(instanceRemoveRequest);
 
         Assert.assertTrue(response.isSuccess());

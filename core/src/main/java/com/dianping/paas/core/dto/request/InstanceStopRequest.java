@@ -9,8 +9,4 @@ import lombok.Data;
 @Data
 public class InstanceStopRequest {
     private String containerId;
-
-    public String getContainerId() {
-        return containerId;
-    }
 }

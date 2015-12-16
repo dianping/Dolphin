@@ -15,6 +15,8 @@ import java.io.IOException;
 public interface InstanceService {
     InstanceStartResponse pullImageAndRun(InstanceStartRequest instanceStartRequest);
 
+    InstanceStartResponse startInstance(InstanceStartRequest request);
+
     InstanceRestartResponse restartInstance(InstanceRestartRequest instanceRestartRequest);
 
     InstanceStopResponse stopInstance(InstanceStopRequest request);

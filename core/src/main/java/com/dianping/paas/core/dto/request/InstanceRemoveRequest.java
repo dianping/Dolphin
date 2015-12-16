@@ -9,8 +9,4 @@ import lombok.Data;
 @Data
 public class InstanceRemoveRequest {
     private String containerId;
-
-    public String getContainerId() {
-        return containerId;
-    }
 }

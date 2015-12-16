@@ -67,6 +67,19 @@ public class InstanceServiceImpl implements InstanceService {
     }
 
     @Override
+    public InstanceStartResponse startInstance(InstanceStartRequest request) {
+        logger.info(String.format("begin startInstance: %s", request));
+
+        InstanceStartResponse response = new InstanceStartResponse();
+
+        dockerContainerService.startContainer(request, response);
+
+        logger.info(String.format("end startInstance: %s", response));
+
+        return response;
+    }
+
+    @Override
     public InstanceRestartResponse restartInstance(InstanceRestartRequest request) {
         logger.info(String.format("begin restartInstance: %s", request));
 

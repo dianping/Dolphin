@@ -56,7 +56,7 @@ public class DockerContainerServiceImpl implements DockerContainerService {
             applyCreateContainerProcessorsAfterCreate(createContainerContext);
 
             containerId = createContainerResponse.getId();
-            response.setContainerId(containerId);
+            request.setContainerId(containerId);
 
             if (containerId == null) {
                 response.fail("create container failed, created containerId is null!");
@@ -79,7 +79,7 @@ public class DockerContainerServiceImpl implements DockerContainerService {
 
         try {
             // 1. create cmd
-            StartContainerCmd startContainerCmd = dockerClient.startContainerCmd(response.getContainerId());
+            StartContainerCmd startContainerCmd = dockerClient.startContainerCmd(request.getContainerId());
 
             // 2. invoke post processor before start container
             StartContainerContext startContainerContext = buildStartContainerContext(request, startContainerCmd);

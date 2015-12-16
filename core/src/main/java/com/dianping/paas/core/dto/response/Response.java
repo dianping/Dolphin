@@ -36,6 +36,5 @@ public abstract class Response {
         this.success = false;
         this.returnCode.setStatus(status);
         this.returnCode.setReason(reason);
-
     }
 }

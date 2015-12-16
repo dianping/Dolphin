@@ -12,4 +12,5 @@ public class InstanceStartRequest {
     private String appName;
     private String imageId;
     private int instanceIndex;
+    private String containerId;
 }
