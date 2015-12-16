@@ -1,10 +1,8 @@
 package com.dianping.paas.agent.service;
 
-import com.dianping.paas.core.dto.request.InstanceRestartRequest;
-import com.dianping.paas.core.dto.request.InstanceStartRequest;
-import com.dianping.paas.core.dto.request.UpgradeInstanceRequest;
-import com.dianping.paas.core.dto.response.InstanceRestartResponse;
+import com.dianping.paas.core.dto.request.*;
 import com.dianping.paas.core.dto.response.InstanceStartResponse;
+import com.dianping.paas.core.dto.response.Response;
 import com.dianping.paas.core.test.Globals;
 import org.junit.Assert;
 import org.junit.Before;
@@ -30,6 +28,10 @@ public class InstanceServiceTest {
 
     private InstanceRestartRequest instanceRestartRequest;
 
+    private InstanceStopRequest instanceStopRequest;
+
+    private InstanceRemoveRequest instanceRemoveRequest;
+
     private UpgradeInstanceRequest upgradeInstanceRequest;
 
     @Before
@@ -40,6 +42,8 @@ public class InstanceServiceTest {
         instanceStartRequest.setAppName(Globals.APP_ID);
 
         instanceRestartRequest = new InstanceRestartRequest();
+        instanceStopRequest = new InstanceStopRequest();
+        instanceRemoveRequest = new InstanceRemoveRequest();
 
         upgradeInstanceRequest = new UpgradeInstanceRequest();
         upgradeInstanceRequest.setApp_id(Globals.APP_ID);
@@ -60,10 +64,31 @@ public class InstanceServiceTest {
         InstanceStartResponse instanceStartResponse = instanceService.pullImageAndRun(instanceStartRequest);
 
         instanceRestartRequest.setContainerId(instanceStartResponse.getContainerId());
-        InstanceRestartResponse instanceRestartResponse = instanceService.restartInstance(instanceRestartRequest);
+        Response response = instanceService.restartInstance(instanceRestartRequest);
 
-        Assert.assertTrue(instanceRestartResponse.isSuccess());
+        Assert.assertTrue(response.isSuccess());
     }
+
+    @Test
+    public void stopInstance() throws Exception {
+        InstanceStartResponse instanceStartResponse = instanceService.pullImageAndRun(instanceStartRequest);
+
+        instanceStopRequest.setContainerId(instanceStartResponse.getContainerId());
+        Response response = instanceService.stopInstance(instanceStopRequest);
+
+        Assert.assertTrue(response.isSuccess());
+    }
+
+    @Test
+    public void removeInstance() throws Exception {
+        InstanceStartResponse instanceStartResponse = instanceService.pullImageAndRun(instanceStartRequest);
+
+        instanceRemoveRequest.setContainerId(instanceStartResponse.getContainerId());
+        Response response = instanceService.removeInstance(instanceRemoveRequest);
+
+        Assert.assertTrue(response.isSuccess());
+    }
+
 
     @Test
     /**

@@ -5,15 +5,16 @@ import com.dianping.paas.agent.context.RestartContainerContext;
 import com.dianping.paas.agent.context.StartContainerContext;
 import com.dianping.paas.agent.context.support.PostProcessorContainerDelegate;
 import com.dianping.paas.agent.service.DockerContainerService;
+import com.dianping.paas.core.dto.request.InstanceRemoveRequest;
 import com.dianping.paas.core.dto.request.InstanceRestartRequest;
 import com.dianping.paas.core.dto.request.InstanceStartRequest;
+import com.dianping.paas.core.dto.request.InstanceStopRequest;
+import com.dianping.paas.core.dto.response.InstanceRemoveResponse;
 import com.dianping.paas.core.dto.response.InstanceRestartResponse;
 import com.dianping.paas.core.dto.response.InstanceStartResponse;
+import com.dianping.paas.core.dto.response.InstanceStopResponse;
 import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.command.CreateContainerCmd;
-import com.github.dockerjava.api.command.CreateContainerResponse;
-import com.github.dockerjava.api.command.RestartContainerCmd;
-import com.github.dockerjava.api.command.StartContainerCmd;
+import com.github.dockerjava.api.command.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -123,6 +124,55 @@ public class DockerContainerServiceImpl implements DockerContainerService {
         }
 
         logger.info(String.format("end restartContainer: %s", response));
+    }
+
+    @Override
+    public void stopContainer(InstanceStopRequest request, InstanceStopResponse response) {
+        logger.info(String.format("begin stopContainer: %s", request));
+
+        try {
+            // 1. create cmd
+            StopContainerCmd stopContainerCmd = dockerClient.stopContainerCmd(request.getContainerId());
+
+            // 2. invoke post processors before stopContainer container
+
+            // 3. exec cmd
+            stopContainerCmd.exec();
+
+            // 4. invoke post processors after stopContainer container
+
+
+            response.success();
+        } catch (Exception e) {
+            response.fail(e.toString());
+            logger.error(String.format("stopContainer error: %s", request), e);
+        }
+
+        logger.info(String.format("end stopContainer: %s", response));
+    }
+
+    @Override
+    public void removeContainer(InstanceRemoveRequest request, InstanceRemoveResponse response) {
+        logger.info(String.format("begin removeContainer: %s", request));
+
+        try {
+            // 1. create cmd
+            RemoveContainerCmd removeContainerCmd = dockerClient.removeContainerCmd(request.getContainerId()).withForce();
+
+            // 2. invoke post processors before restart container
+
+            // 3. exec cmd
+            removeContainerCmd.exec();
+
+            // 4. invoke post processors after restart container
+
+            response.success();
+        } catch (Exception e) {
+            response.fail(e.toString());
+            logger.error(String.format("removeContainer error: %s", request), e);
+        }
+
+        logger.info(String.format("end removeContainer: %s", response));
     }
 
     private void applyCreateContainerProcessorsBeforeCreate(CreateContainerContext context) {

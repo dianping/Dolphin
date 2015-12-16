@@ -4,11 +4,11 @@ import com.dianping.paas.agent.service.DockerContainerService;
 import com.dianping.paas.agent.service.DockerImageService;
 import com.dianping.paas.agent.service.InstanceService;
 import com.dianping.paas.core.config.ConfigManager;
-import com.dianping.paas.core.dto.request.InstanceRestartRequest;
-import com.dianping.paas.core.dto.request.InstanceStartRequest;
-import com.dianping.paas.core.dto.request.UpgradeInstanceRequest;
+import com.dianping.paas.core.dto.request.*;
+import com.dianping.paas.core.dto.response.InstanceRemoveResponse;
 import com.dianping.paas.core.dto.response.InstanceRestartResponse;
 import com.dianping.paas.core.dto.response.InstanceStartResponse;
+import com.dianping.paas.core.dto.response.InstanceStopResponse;
 import com.dianping.paas.core.extension.ExtensionLoader;
 import com.dianping.paas.core.util.FileUtil;
 import org.apache.logging.log4j.LogManager;
@@ -37,6 +37,7 @@ public class InstanceServiceImpl implements InstanceService {
     private ConfigManager configManager = ExtensionLoader.getExtension(ConfigManager.class);
 
 
+    @Override
     public InstanceStartResponse pullImageAndRun(final InstanceStartRequest request) {
         InstanceStartResponse response = new InstanceStartResponse();
 
@@ -65,6 +66,7 @@ public class InstanceServiceImpl implements InstanceService {
         logger.info(String.format("end runImage: %s", response));
     }
 
+    @Override
     public InstanceRestartResponse restartInstance(InstanceRestartRequest request) {
         logger.info(String.format("begin restartInstance: %s", request));
 
@@ -76,6 +78,33 @@ public class InstanceServiceImpl implements InstanceService {
 
         return response;
     }
+
+    @Override
+    public InstanceStopResponse stopInstance(InstanceStopRequest request) {
+        logger.info(String.format("begin stopInstance: %s", request));
+
+        InstanceStopResponse response = new InstanceStopResponse();
+
+        dockerContainerService.stopContainer(request, response);
+
+        logger.info(String.format("end stopInstance: %s", response));
+
+        return response;
+    }
+
+    @Override
+    public InstanceRemoveResponse removeInstance(InstanceRemoveRequest request) {
+        logger.info(String.format("begin removeInstance: %s", request));
+
+        InstanceRemoveResponse response = new InstanceRemoveResponse();
+
+        dockerContainerService.removeContainer(request, response);
+
+        logger.info(String.format("end removeInstance: %s", response));
+
+        return response;
+    }
+
 
     public void upgrade(UpgradeInstanceRequest request) throws IOException {
         // 0. find dir of web package
