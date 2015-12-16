@@ -10,10 +10,11 @@ public abstract class Response {
 
     private boolean success;
 
-    private ResultCode returnCode;
+    private ResultCode returnCode = ResultCode.INITIAL;
 
     public void success() {
         success = true;
+        returnCode = ResultCode.SUCCESS;
     }
 
     public void fail(ResultCode returnCode) {

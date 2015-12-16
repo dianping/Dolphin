@@ -9,6 +9,8 @@ import lombok.Setter;
  */
 public enum ResultCode {
 
+    INITIAL(0, "INITIAL"),
+
     /**
      * success
      */
@@ -32,5 +34,11 @@ public enum ResultCode {
         this.reason = reason;
     }
 
-
+    @Override
+    public String toString() {
+        return "ResultCode{" +
+                "status=" + status +
+                ", reason='" + reason + '\'' +
+                '}';
+    }
 }
