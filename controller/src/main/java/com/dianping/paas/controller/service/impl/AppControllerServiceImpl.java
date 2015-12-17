@@ -6,7 +6,7 @@ import com.dianping.paas.controller.processor.step.AppInitStep;
 import com.dianping.paas.controller.record.OperationRecorder;
 import com.dianping.paas.controller.sequencer.Task;
 import com.dianping.paas.controller.sequencer.TaskSequencer;
-import com.dianping.paas.controller.service.AppService;
+import com.dianping.paas.controller.service.AppControllerService;
 import com.dianping.paas.core.dto.request.AppInitRequest;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  * Created by wangyapu on 15/12/14.
  */
 @Service
-public class AppServiceImpl implements AppService {
+public class AppControllerServiceImpl implements AppControllerService {
 
     @Resource
     private TaskSequencer taskSequencer;

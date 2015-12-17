@@ -32,24 +32,24 @@ public class InstanceServiceTest {
 
     private InstanceRemoveRequest instanceRemoveRequest;
 
-    private UpgradeInstanceRequest upgradeInstanceRequest;
+    private InstanceUpgradeRequest instanceUpgradeRequest;
 
     @Before
     public void setUp() throws Exception {
         instanceStartRequest = new InstanceStartRequest();
         instanceStartRequest.setRepository(Globals.REPOSITORY);
         instanceStartRequest.setImageId(Globals.IMAGE_ID);
-        instanceStartRequest.setAppName(Globals.APP_ID);
+        instanceStartRequest.setAppId(Globals.APP_ID);
 
         instanceRestartRequest = new InstanceRestartRequest();
         instanceStopRequest = new InstanceStopRequest();
         instanceRemoveRequest = new InstanceRemoveRequest();
 
-        upgradeInstanceRequest = new UpgradeInstanceRequest();
-        upgradeInstanceRequest.setApp_id(Globals.APP_ID);
-        upgradeInstanceRequest.setInstance_index(instanceStartRequest.getInstanceIndex());
-        upgradeInstanceRequest.setWebPackageUrl(Globals.WEB_PACKAGE_URL);
-        upgradeInstanceRequest.setInstance_index(Globals.INSTANCE_INDEX);
+        instanceUpgradeRequest = new InstanceUpgradeRequest();
+        instanceUpgradeRequest.setApp_id(Globals.APP_ID);
+        instanceUpgradeRequest.setInstance_index(instanceStartRequest.getInstanceIndex());
+        instanceUpgradeRequest.setWebPackageUrl(Globals.WEB_PACKAGE_URL);
+        instanceUpgradeRequest.setInstance_index(Globals.INSTANCE_INDEX);
     }
 
     @Test
@@ -100,8 +100,8 @@ public class InstanceServiceTest {
         // which instance_id is running in host
         String instance_id = "3cf629db2494";
 
-        upgradeInstanceRequest.setInstance_id(instance_id);
+        instanceUpgradeRequest.setInstance_id(instance_id);
 
-        instanceService.upgrade(upgradeInstanceRequest);
+        instanceService.upgradeInstance(instanceUpgradeRequest);
     }
 }

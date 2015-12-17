@@ -1,6 +1,6 @@
 package com.dianping.paas.api.controller;
 
-import com.dianping.paas.controller.service.GroupService;
+import com.dianping.paas.controller.service.GroupControllerService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,10 +14,10 @@ import javax.annotation.Resource;
 public class GroupController {
 
     @Resource
-    private GroupService groupService;
+    private GroupControllerService groupControllerService;
 
     @RequestMapping("/apps/{app_id}/groups")
     private void upgradeInstances(@PathVariable("app_id") String app_id, String app_version) {
-        groupService.upgradeInstances(app_id, app_version);
+        groupControllerService.upgradeInstances(app_id, app_version);
     }
 }

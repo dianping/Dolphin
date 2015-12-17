@@ -119,7 +119,7 @@ public class InstanceServiceImpl implements InstanceService {
     }
 
 
-    public void upgrade(UpgradeInstanceRequest request) throws IOException {
+    public void upgradeInstance(InstanceUpgradeRequest request) throws IOException {
         // 0. find dir of web package
         String webPackageRootDir = locateWebPackageRootDir(request);
 
@@ -129,6 +129,12 @@ public class InstanceServiceImpl implements InstanceService {
         // 2. restart container
         restartInstance(buildInstanceRestartRequest(request));
 
+    }
+
+    @Override
+    public void scaleInstance(InstanceScaleRequest instanceScaleRequest) {
+        // only call pullImage and run
+        pullImageAndRun(instanceScaleRequest);
     }
 
     private void downLoadWebPackage(String webPackageRootDir, String webPackageUrl) throws IOException {
@@ -141,7 +147,7 @@ public class InstanceServiceImpl implements InstanceService {
         logger.info(String.format("end downLoadWebPackage: %s->%s", webPackageUrl, webPackageRootDir));
     }
 
-    private InstanceRestartRequest buildInstanceRestartRequest(UpgradeInstanceRequest request) {
+    private InstanceRestartRequest buildInstanceRestartRequest(InstanceUpgradeRequest request) {
         InstanceRestartRequest instanceRestartRequest = new InstanceRestartRequest();
 
         instanceRestartRequest.setContainerId(request.getInstance_id());
@@ -149,7 +155,7 @@ public class InstanceServiceImpl implements InstanceService {
         return instanceRestartRequest;
     }
 
-    private String locateWebPackageRootDir(UpgradeInstanceRequest request) {
+    private String locateWebPackageRootDir(InstanceUpgradeRequest request) {
 
         return configManager.getOuterWebPackageRootDir(request.getApp_id(), request.getInstance_index());
     }

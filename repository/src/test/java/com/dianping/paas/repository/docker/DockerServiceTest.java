@@ -3,6 +3,7 @@ package com.dianping.paas.repository.docker;
 import com.dianping.paas.core.dto.request.DockerfileRequest;
 import com.dianping.paas.core.dto.response.DockerfileResponse;
 import com.dianping.paas.core.test.Globals;
+import com.google.common.collect.Maps;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Before;
@@ -31,7 +32,7 @@ public class DockerServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = Maps.newHashMap();
 
         params.put("repository", Globals.REPOSITORY);
 

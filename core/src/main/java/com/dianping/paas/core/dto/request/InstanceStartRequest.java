@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class InstanceStartRequest {
     private String repository;
-    private String appName;
+    private String appId;
     private String imageId;
     private int instanceIndex;
     private String containerId;

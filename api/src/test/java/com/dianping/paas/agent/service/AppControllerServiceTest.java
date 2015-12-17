@@ -1,6 +1,6 @@
 package com.dianping.paas.agent.service;
 
-import com.dianping.paas.controller.service.AppService;
+import com.dianping.paas.controller.service.AppControllerService;
 import com.dianping.paas.core.dto.request.AppInitRequest;
 import com.dianping.paas.core.test.Globals;
 import org.junit.Before;
@@ -15,9 +15,9 @@ import javax.annotation.Resource;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:config/spring/appcontext-*.xml")
-public class AppServiceTest {
+public class AppControllerServiceTest {
     @Resource
-    private AppService appService;
+    private AppControllerService appControllerService;
 
     private AppInitRequest appInitRequest;
 
@@ -31,7 +31,7 @@ public class AppServiceTest {
 
     @Test
     public void testInit() throws Exception {
-        appService.initApp(appInitRequest);
+        appControllerService.initApp(appInitRequest);
         Thread.sleep(30000);
     }
 }

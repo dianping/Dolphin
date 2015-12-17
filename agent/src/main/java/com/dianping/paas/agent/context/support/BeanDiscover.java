@@ -1,5 +1,6 @@
 package com.dianping.paas.agent.context.support;
 
+import com.google.common.collect.Lists;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.OrderComparator;
 import org.springframework.core.Ordered;
@@ -21,7 +22,7 @@ public class BeanDiscover {
     public <T> List<T> getBeanList(Class<T> type) {
         String[] beanNames = applicationContext.getBeanNamesForType(type);
 
-        List<T> createContainerPostProcessorList = new ArrayList<T>();
+        List<T> createContainerPostProcessorList = Lists.newArrayList();
 
         for (String beanName : beanNames) {
             T containerPostProcessor = applicationContext.getBean(beanName, type);

@@ -23,5 +23,7 @@ public interface InstanceService {
 
     InstanceRemoveResponse removeInstance(InstanceRemoveRequest request);
 
-    void upgrade(UpgradeInstanceRequest upgradeInstanceRequest) throws IOException;
+    void upgradeInstance(InstanceUpgradeRequest instanceUpgradeRequest) throws IOException;
+
+    void scaleInstance(InstanceScaleRequest instanceScaleRequest);
 }

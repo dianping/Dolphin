@@ -126,6 +126,8 @@ public interface Subject {
         String UNAVAILABLE = "instance_unavailable";
 
         String PULL_IMAGE_AND_RUN = "pull_image_and_run";
+
+        String SCALE = "instance_scale";
     }
 
 }

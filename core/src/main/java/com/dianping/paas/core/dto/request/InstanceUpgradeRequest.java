@@ -6,7 +6,7 @@ import lombok.Data;
  * Created by yuchao on 12/7/15.
  */
 @Data
-public class UpgradeInstanceRequest {
+public class InstanceUpgradeRequest {
     private String app_id;
 
     private String app_version;

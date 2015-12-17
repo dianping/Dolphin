@@ -6,6 +6,7 @@ import com.dianping.paas.core.dto.request.DockerfileRequest;
 import com.dianping.paas.core.extension.ExtensionLoader;
 import com.dianping.paas.core.message.nats.request.RepositoryRequester;
 import com.dianping.paas.test.SpringTest;
+import com.google.common.collect.Maps;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -36,7 +37,7 @@ public class RepositoryRequesterTest extends SpringTest {
     @Test
     public void newAndDeploy() throws Exception {
         DockerfileRequest dockerfileRequest = new DockerfileRequest();
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = Maps.newHashMap();
         params.put("path", "/tmp/1.txt");
 
         dockerfileRequest.setAppName("tomcat");

@@ -1,5 +1,7 @@
 package com.dianping.paas.core.util;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -27,7 +29,7 @@ import java.util.*;
 public class HttpUtil {
 
     private static final RequestConfig CONFIG = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000).build();
-    public static final HashMap<String, String> NULL_MAP = new HashMap<String, String>();
+    public static final HashMap<String, String> NULL_MAP = Maps.newHashMap();
 
     public static String post(String url) throws Exception {
         return post(url, NULL_MAP);
@@ -48,7 +50,7 @@ public class HttpUtil {
         HttpPost post = new HttpPost(url);
         post.setConfig(CONFIG);
         if (params != null) {
-            List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
+            List<NameValuePair> nameValuePairList = Lists.newArrayList();
             Set<String> keySet = params.keySet();
 
             for (String key : keySet) {

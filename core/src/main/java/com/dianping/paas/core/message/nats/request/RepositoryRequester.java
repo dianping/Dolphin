@@ -80,7 +80,7 @@ public class RepositoryRequester extends Requester {
         InstanceStartRequest instanceStartRequest = new InstanceStartRequest();
 
         instanceStartRequest.setRepository(dockerfileResponse.getRepository());
-        instanceStartRequest.setAppName(dockerfileRequest.getAppName());
+        instanceStartRequest.setAppId(dockerfileRequest.getAppName());
         instanceStartRequest.setImageId(dockerfileResponse.getImageId());
         // TODO 计算当前实例为第几个实例
         instanceStartRequest.setInstanceIndex(1);

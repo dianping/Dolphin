@@ -39,7 +39,7 @@ public class BindVolumeCreateContainerPostProcessor implements CreateContainerPo
 
 
     private Bind createBind(InstanceStartRequest request) {
-        String outer = configManager.getOuterWebPackageRootDir(request.getAppName(), request.getInstanceIndex());
+        String outer = configManager.getOuterWebPackageRootDir(request.getAppId(), request.getInstanceIndex());
         Volume inner = new Volume(configManager.getInnerWebPackageRootDir());
 
         return new Bind(outer, inner, AccessMode.rw);

@@ -1,6 +1,6 @@
 package com.dianping.paas.api.controller;
 
-import com.dianping.paas.controller.service.AppService;
+import com.dianping.paas.controller.service.AppControllerService;
 import com.dianping.paas.core.dto.request.AppInitRequest;
 import com.dianping.paas.core.dto.response.Response;
 import org.apache.logging.log4j.LogManager;
@@ -42,12 +42,12 @@ public class AppController {
 //    }
 
     @Resource
-    private AppService appService;
+    private AppControllerService appControllerService;
 
     @RequestMapping(method = RequestMethod.POST)
     public Response initApp(@RequestBody AppInitRequest appInitRequest) {
         if (validAppInitRequest(appInitRequest)) {
-            appService.initApp(appInitRequest);
+            appControllerService.initApp(appInitRequest);
         }
         return null;
     }

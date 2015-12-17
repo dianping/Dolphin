@@ -1,6 +1,6 @@
 package com.dianping.paas.agent.service;
 
-import com.dianping.paas.controller.service.GroupService;
+import com.dianping.paas.controller.service.GroupControllerService;
 import com.dianping.paas.test.SpringTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,14 +10,14 @@ import javax.annotation.Resource;
 /**
  * Created by yuchao on 12/7/15.
  */
-public class GroupServiceTest extends SpringTest {
+public class GroupControllerServiceTest extends SpringTest {
 
     private String app_id;
 
     private String app_version;
 
     @Resource
-    private GroupService groupService;
+    private GroupControllerService groupControllerService;
 
     @Before
     public void setUp() throws Exception {
@@ -28,7 +28,7 @@ public class GroupServiceTest extends SpringTest {
     @Test
     public void testUpgradeInstances() throws Exception {
         // need /data/paas/webpackages/token token is zip file && start web server
-        groupService.upgradeInstances(app_id, app_version);
+        groupControllerService.upgradeInstances(app_id, app_version);
 
         Thread.sleep(10000);
     }

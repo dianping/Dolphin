@@ -1,5 +1,6 @@
 package com.dianping.paas.repository.template;
 
+import com.google.common.collect.Maps;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -27,7 +28,7 @@ public class TemplateServiceTest {
         String templateLocation = getClass().getClassLoader().getResource("template.ftl").getPath();
         templateFile = new File(templateLocation);
         templateContent = "hello, ${name}...";
-        root = new HashMap<String, Object>();
+        root = Maps.newHashMap();
         root.put("name", "chao.yu");
 
         templateService = new TemplateServiceFreemarkerImpl();
