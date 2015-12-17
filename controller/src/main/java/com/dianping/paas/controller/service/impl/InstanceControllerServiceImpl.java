@@ -1,10 +1,7 @@
 package com.dianping.paas.controller.service.impl;
 
 import com.dianping.paas.controller.service.InstanceControllerService;
-import com.dianping.paas.core.dto.request.InstanceRemoveRequest;
-import com.dianping.paas.core.dto.request.InstanceScaleRequest;
-import com.dianping.paas.core.dto.request.InstanceStartRequest;
-import com.dianping.paas.core.dto.request.InstanceStopRequest;
+import com.dianping.paas.core.dto.request.*;
 import com.dianping.paas.core.message.nats.request.AgentRequester;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
@@ -55,6 +52,25 @@ public class InstanceControllerServiceImpl implements InstanceControllerService 
         for (InstanceRemoveRequest instanceRemoveRequest : instanceRemoveRequestList) {
             agentRequester.removeInstance(instanceRemoveRequest);
         }
+    }
+
+    @Override
+    public void restartAllInstances(String appId) {
+        List<InstanceRestartRequest> instanceRestartRequestList = buildInstanceRestartRequest(appId);
+
+        for (InstanceRestartRequest instanceRestartRequest : instanceRestartRequestList) {
+            agentRequester.restartInstance(instanceRestartRequest);
+        }
+    }
+
+    /**
+     * TODO 验证, 查数据库, 构造nats消息
+     */
+    private List<InstanceRestartRequest> buildInstanceRestartRequest(String appId) {
+        List<InstanceRestartRequest> instanceRestartRequestList = Lists.newArrayList();
+        // ...
+
+        return instanceRestartRequestList;
     }
 
 

@@ -1,10 +1,7 @@
 package com.dianping.paas.core.message.nats.request;
 
 import com.dianping.paas.core.dto.request.*;
-import com.dianping.paas.core.dto.response.InstanceRemoveResponse;
-import com.dianping.paas.core.dto.response.InstanceScaleResponse;
-import com.dianping.paas.core.dto.response.InstanceStartResponse;
-import com.dianping.paas.core.dto.response.InstanceStopResponse;
+import com.dianping.paas.core.dto.response.*;
 import com.dianping.paas.core.message.nats.MessageCallBack;
 import com.dianping.paas.core.message.nats.subscribe.Subject;
 import org.apache.logging.log4j.LogManager;
@@ -117,6 +114,27 @@ public class AgentRequester extends Requester {
             @Override
             public void timeout() {
                 logger.error(String.format("timeout removeInstance: %s", request));
+            }
+        });
+    }
+
+    public void restartInstance(final InstanceRestartRequest request) {
+        logger.info(String.format("begin restartInstance: %s", request));
+
+        requestAsync(Subject.Instance.RESTART, request, new MessageCallBack<InstanceRestartResponse>(InstanceRestartResponse.class) {
+            @Override
+            public void success(InstanceRestartResponse response) {
+                logger.info(String.format("success restartInstance: %s", response));
+            }
+
+            @Override
+            public void error(Throwable throwable) {
+                logger.error(String.format("error restartInstance: %s", request), throwable);
+            }
+
+            @Override
+            public void timeout() {
+                logger.error(String.format("timeout restartInstance: %s", request));
             }
         });
     }

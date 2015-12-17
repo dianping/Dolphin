@@ -75,7 +75,6 @@ public class AgentSubscriber extends Subscriber {
         });
     }
 
-
     @Subscribe(Subject.Instance.SCALE)
     public void scaleInstance(final Message message) {
         run(new Runnable() {
@@ -112,6 +111,24 @@ public class AgentSubscriber extends Subscriber {
         });
     }
 
+    @Subscribe(Subject.Instance.RESTART)
+    public void restartInstance(final Message message) {
+        run(new Runnable() {
+            public void run() {
+                InstanceRestartRequest instanceRestartRequest = null;
+
+                try {
+                    instanceRestartRequest = getPayload(message, InstanceRestartRequest.class);
+                    // restartInstance 为 异步,不需要响应
+                    instanceService.restartInstance(instanceRestartRequest);
+                } catch (Exception e) {
+                    logger.error(String.format("error when restartInstance: %s", instanceRestartRequest), e);
+                }
+
+            }
+        });
+    }
+
     @Subscribe(Subject.Instance.UPGRADE)
     public void upgradeInstance(final Message message) {
         run(new Runnable() {
@@ -129,5 +146,4 @@ public class AgentSubscriber extends Subscriber {
             }
         });
     }
-
 }

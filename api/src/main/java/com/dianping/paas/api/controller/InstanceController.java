@@ -37,4 +37,9 @@ public class InstanceController {
     public void removeAllInstances(@PathVariable String appId) {
         instanceControllerService.removeAllInstances(appId);
     }
+
+    @RequestMapping(value = "/apps/{appId}/instances/restarts", method = RequestMethod.POST)
+    public void restartAllInstances(@PathVariable String appId) {
+        instanceControllerService.restartAllInstances(appId);
+    }
 }
