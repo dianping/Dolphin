@@ -1,10 +1,7 @@
 package com.dianping.paas.agent.message.nats.subscribe;
 
 import com.dianping.paas.agent.service.InstanceService;
-import com.dianping.paas.core.dto.request.InstanceScaleRequest;
-import com.dianping.paas.core.dto.request.InstanceStartRequest;
-import com.dianping.paas.core.dto.request.InstanceStopRequest;
-import com.dianping.paas.core.dto.request.InstanceUpgradeRequest;
+import com.dianping.paas.core.dto.request.*;
 import com.dianping.paas.core.message.nats.subscribe.Subject;
 import com.dianping.paas.core.message.nats.subscribe.Subscriber;
 import nats.client.Message;
@@ -91,6 +88,24 @@ public class AgentSubscriber extends Subscriber {
                     instanceService.scaleInstance(instanceScaleRequest);
                 } catch (Exception e) {
                     logger.error(String.format("error when scaleInstance: %s", instanceScaleRequest), e);
+                }
+
+            }
+        });
+    }
+
+    @Subscribe(Subject.Instance.REMOVE)
+    public void removeInstance(final Message message) {
+        run(new Runnable() {
+            public void run() {
+                InstanceRemoveRequest instanceRemoveRequest = null;
+
+                try {
+                    instanceRemoveRequest = getPayload(message, InstanceRemoveRequest.class);
+                    // removeInstance 为 异步,不需要响应
+                    instanceService.removeInstance(instanceRemoveRequest);
+                } catch (Exception e) {
+                    logger.error(String.format("error when removeInstance: %s", instanceRemoveRequest), e);
                 }
 
             }

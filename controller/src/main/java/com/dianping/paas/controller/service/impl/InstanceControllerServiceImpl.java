@@ -1,6 +1,7 @@
 package com.dianping.paas.controller.service.impl;
 
 import com.dianping.paas.controller.service.InstanceControllerService;
+import com.dianping.paas.core.dto.request.InstanceRemoveRequest;
 import com.dianping.paas.core.dto.request.InstanceScaleRequest;
 import com.dianping.paas.core.dto.request.InstanceStartRequest;
 import com.dianping.paas.core.dto.request.InstanceStopRequest;
@@ -45,6 +46,26 @@ public class InstanceControllerServiceImpl implements InstanceControllerService 
         for (InstanceScaleRequest instanceScaleRequest : instanceScaleRequestList) {
             agentRequester.scaleInstance(instanceScaleRequest);
         }
+    }
+
+    @Override
+    public void removeAllInstances(String appId) {
+        List<InstanceRemoveRequest> instanceRemoveRequestList = buildInstanceRemoveRequest(appId);
+
+        for (InstanceRemoveRequest instanceRemoveRequest : instanceRemoveRequestList) {
+            agentRequester.removeInstance(instanceRemoveRequest);
+        }
+    }
+
+
+    /**
+     * TODO 验证, 查数据库, 构造nats消息
+     */
+    private List<InstanceRemoveRequest> buildInstanceRemoveRequest(String appId) {
+        List<InstanceRemoveRequest> instanceRemoveRequestList = Lists.newArrayList();
+        // ...
+
+        return instanceRemoveRequestList;
     }
 
     /**

@@ -32,4 +32,9 @@ public class InstanceController {
     public void scaleInstance(@PathVariable String appId, int count) {
         instanceControllerService.scaleInstance(appId, count);
     }
+
+    @RequestMapping(value = "/apps/{appId}/instances", method = RequestMethod.DELETE)
+    public void removeAllInstances(@PathVariable String appId) {
+        instanceControllerService.removeAllInstances(appId);
+    }
 }

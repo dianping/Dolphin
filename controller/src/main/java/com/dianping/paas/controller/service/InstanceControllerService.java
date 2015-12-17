@@ -10,4 +10,6 @@ public interface InstanceControllerService {
     void stopAllInstances(String appId);
 
     void startAllInstances(String appId);
+
+    void removeAllInstances(String appId);
 }

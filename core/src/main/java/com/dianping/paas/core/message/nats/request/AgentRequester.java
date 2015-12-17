@@ -1,9 +1,7 @@
 package com.dianping.paas.core.message.nats.request;
 
-import com.dianping.paas.core.dto.request.InstanceScaleRequest;
-import com.dianping.paas.core.dto.request.InstanceStartRequest;
-import com.dianping.paas.core.dto.request.InstanceStopRequest;
-import com.dianping.paas.core.dto.request.InstanceUpgradeRequest;
+import com.dianping.paas.core.dto.request.*;
+import com.dianping.paas.core.dto.response.InstanceRemoveResponse;
 import com.dianping.paas.core.dto.response.InstanceScaleResponse;
 import com.dianping.paas.core.dto.response.InstanceStartResponse;
 import com.dianping.paas.core.dto.response.InstanceStopResponse;
@@ -80,15 +78,6 @@ public class AgentRequester extends Requester {
         });
     }
 
-    public void upgradeInstance(InstanceUpgradeRequest request) {
-        logger.info(String.format("begin upgradeInstance: %s", request));
-
-        request.setInstance_id("b6175f138d8e");
-//      requestAsync(Subject.Instance.UPGRADE + request.getAgent_ip(), request);
-        requestAsync(Subject.Instance.UPGRADE, request);
-
-    }
-
     public void scaleInstance(final InstanceScaleRequest request) {
         logger.info(String.format("begin scaleInstance: %s", request));
 
@@ -108,6 +97,36 @@ public class AgentRequester extends Requester {
                 logger.error(String.format("timeout scaleInstance: %s", request));
             }
         });
+
+    }
+
+    public void removeInstance(final InstanceRemoveRequest request) {
+        logger.info(String.format("begin removeInstance: %s", request));
+
+        requestAsync(Subject.Instance.REMOVE, request, new MessageCallBack<InstanceRemoveResponse>(InstanceRemoveResponse.class) {
+            @Override
+            public void success(InstanceRemoveResponse response) {
+                logger.info(String.format("success removeInstance: %s", response));
+            }
+
+            @Override
+            public void error(Throwable throwable) {
+                logger.error(String.format("error removeInstance: %s", request), throwable);
+            }
+
+            @Override
+            public void timeout() {
+                logger.error(String.format("timeout removeInstance: %s", request));
+            }
+        });
+    }
+
+    public void upgradeInstance(InstanceUpgradeRequest request) {
+        logger.info(String.format("begin upgradeInstance: %s", request));
+
+        request.setInstance_id("b6175f138d8e");
+//      requestAsync(Subject.Instance.UPGRADE + request.getAgent_ip(), request);
+        requestAsync(Subject.Instance.UPGRADE, request);
 
     }
 }

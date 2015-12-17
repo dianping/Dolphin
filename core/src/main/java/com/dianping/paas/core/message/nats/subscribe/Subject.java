@@ -131,6 +131,7 @@ public interface Subject {
         String START = "instance_start";
         String STOP = "instance_stop";
         String SCALE = "instance_scale";
+        String REMOVE = "instance_remove";
     }
 
 }
