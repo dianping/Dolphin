@@ -2,6 +2,7 @@ package com.dianping.paas.controller.service.impl;
 
 import com.dianping.paas.controller.service.InstanceControllerService;
 import com.dianping.paas.core.dto.request.InstanceScaleRequest;
+import com.dianping.paas.core.dto.request.InstanceStartRequest;
 import com.dianping.paas.core.dto.request.InstanceStopRequest;
 import com.dianping.paas.core.message.nats.request.AgentRequester;
 import com.google.common.collect.Lists;
@@ -20,11 +21,11 @@ public class InstanceControllerServiceImpl implements InstanceControllerService 
     private AgentRequester agentRequester;
 
     @Override
-    public void scaleInstance(String appId, int count) {
-        List<InstanceScaleRequest> instanceScaleRequestList = buildInstanceScaleRequest(appId, count);
+    public void startAllInstances(String appId) {
+        List<InstanceStartRequest> instanceStartRequestList = buildInstanceStartRequest(appId);
 
-        for (InstanceScaleRequest instanceScaleRequest : instanceScaleRequestList) {
-            agentRequester.scaleInstance(instanceScaleRequest);
+        for (InstanceStartRequest instanceStartRequest : instanceStartRequestList) {
+            agentRequester.startInstance(instanceStartRequest);
         }
     }
 
@@ -35,6 +36,25 @@ public class InstanceControllerServiceImpl implements InstanceControllerService 
         for (InstanceStopRequest instanceScaleRequest : instanceStopRequestList) {
             agentRequester.stopInstance(instanceScaleRequest);
         }
+    }
+
+    @Override
+    public void scaleInstance(String appId, int count) {
+        List<InstanceScaleRequest> instanceScaleRequestList = buildInstanceScaleRequest(appId, count);
+
+        for (InstanceScaleRequest instanceScaleRequest : instanceScaleRequestList) {
+            agentRequester.scaleInstance(instanceScaleRequest);
+        }
+    }
+
+    /**
+     * TODO 验证, 查数据库, 构造nats消息
+     */
+    private List<InstanceStartRequest> buildInstanceStartRequest(String appId) {
+        List<InstanceStartRequest> instanceStartRequestList = Lists.newArrayList();
+        // ...
+
+        return instanceStartRequestList;
     }
 
     /**

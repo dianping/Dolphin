@@ -42,6 +42,24 @@ public class AgentSubscriber extends Subscriber {
         });
     }
 
+    @Subscribe(Subject.Instance.START)
+    public void startInstance(final Message message) {
+        run(new Runnable() {
+            public void run() {
+                InstanceStartRequest instanceStartRequest = null;
+
+                try {
+                    instanceStartRequest = getPayload(message, InstanceStartRequest.class);
+                    // startInstance 为 异步,不需要响应
+                    instanceService.startInstance(instanceStartRequest);
+                } catch (Exception e) {
+                    logger.error(String.format("error when startInstance: %s", instanceStartRequest), e);
+                }
+
+            }
+        });
+    }
+
     @Subscribe(Subject.Instance.STOP)
     public void stopInstance(final Message message) {
         run(new Runnable() {
@@ -61,24 +79,6 @@ public class AgentSubscriber extends Subscriber {
     }
 
 
-    @Subscribe(Subject.Instance.UPGRADE)
-    public void upgradeInstance(final Message message) {
-        run(new Runnable() {
-            public void run() {
-                InstanceUpgradeRequest instanceUpgradeRequest = null;
-
-                try {
-                    instanceUpgradeRequest = getPayload(message, InstanceUpgradeRequest.class);
-                    // upgradeInstance 为 异步,不需要响应
-                    instanceService.upgradeInstance(instanceUpgradeRequest);
-                } catch (Exception e) {
-                    logger.error(String.format("error when upgradeInstance: %s", instanceUpgradeRequest), e);
-                }
-
-            }
-        });
-    }
-
     @Subscribe(Subject.Instance.SCALE)
     public void scaleInstance(final Message message) {
         run(new Runnable() {
@@ -91,6 +91,24 @@ public class AgentSubscriber extends Subscriber {
                     instanceService.scaleInstance(instanceScaleRequest);
                 } catch (Exception e) {
                     logger.error(String.format("error when scaleInstance: %s", instanceScaleRequest), e);
+                }
+
+            }
+        });
+    }
+
+    @Subscribe(Subject.Instance.UPGRADE)
+    public void upgradeInstance(final Message message) {
+        run(new Runnable() {
+            public void run() {
+                InstanceUpgradeRequest instanceUpgradeRequest = null;
+
+                try {
+                    instanceUpgradeRequest = getPayload(message, InstanceUpgradeRequest.class);
+                    // upgradeInstance 为 异步,不需要响应
+                    instanceService.upgradeInstance(instanceUpgradeRequest);
+                } catch (Exception e) {
+                    logger.error(String.format("error when upgradeInstance: %s", instanceUpgradeRequest), e);
                 }
 
             }

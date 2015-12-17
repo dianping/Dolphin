@@ -18,9 +18,9 @@ public class InstanceController {
     @Resource
     private InstanceControllerService instanceControllerService;
 
-    @RequestMapping(value = "/apps/{appId}/instance/scales", method = RequestMethod.POST)
-    public void scaleInstance(@PathVariable String appId, int count) {
-        instanceControllerService.scaleInstance(appId, count);
+    @RequestMapping(value = "/apps/{appId}/instance/startups", method = RequestMethod.POST)
+    public void startAllInstances(@PathVariable String appId) {
+        instanceControllerService.startAllInstances(appId);
     }
 
     @RequestMapping(value = "/apps/{appId}/instance/shutdowns", method = RequestMethod.POST)
@@ -28,4 +28,8 @@ public class InstanceController {
         instanceControllerService.stopAllInstances(appId);
     }
 
+    @RequestMapping(value = "/apps/{appId}/instance/scales", method = RequestMethod.POST)
+    public void scaleInstance(@PathVariable String appId, int count) {
+        instanceControllerService.scaleInstance(appId, count);
+    }
 }

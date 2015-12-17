@@ -42,6 +42,25 @@ public class AgentRequester extends Requester {
 
     }
 
+    public void startInstance(final InstanceStartRequest request) {
+        requestAsync(Subject.Instance.START, request, new MessageCallBack<InstanceStartResponse>(InstanceStartResponse.class) {
+            @Override
+            public void success(InstanceStartResponse response) {
+                logger.info(String.format("success startInstance: %s", response));
+            }
+
+            @Override
+            public void error(Throwable throwable) {
+                logger.error(String.format("error startInstance: %s", request), throwable);
+            }
+
+            @Override
+            public void timeout() {
+                logger.error(String.format("timeout startInstance: %s", request));
+            }
+        });
+    }
+
     public void stopInstance(final InstanceStopRequest request) {
         requestAsync(Subject.Instance.STOP, request, new MessageCallBack<InstanceStopResponse>(InstanceStopResponse.class) {
             @Override

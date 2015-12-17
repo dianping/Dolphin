@@ -8,4 +8,6 @@ public interface InstanceControllerService {
     void scaleInstance(String appId, int count);
 
     void stopAllInstances(String appId);
+
+    void startAllInstances(String appId);
 }
