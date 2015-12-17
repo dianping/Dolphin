@@ -22,4 +22,10 @@ public class InstanceController {
     public void scaleInstance(@PathVariable String appId, int count) {
         instanceControllerService.scaleInstance(appId, count);
     }
+
+    @RequestMapping(value = "/apps/{appId}/instance/shutdowns", method = RequestMethod.POST)
+    public void stopAllInstances(@PathVariable String appId) {
+        instanceControllerService.stopAllInstances(appId);
+    }
+
 }

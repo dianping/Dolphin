@@ -128,6 +128,8 @@ public interface Subject {
         String PULL_IMAGE_AND_RUN = "pull_image_and_run";
 
         String SCALE = "instance_scale";
+
+        String STOP = "instance_stop";
     }
 
 }

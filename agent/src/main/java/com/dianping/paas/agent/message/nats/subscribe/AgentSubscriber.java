@@ -3,6 +3,7 @@ package com.dianping.paas.agent.message.nats.subscribe;
 import com.dianping.paas.agent.service.InstanceService;
 import com.dianping.paas.core.dto.request.InstanceScaleRequest;
 import com.dianping.paas.core.dto.request.InstanceStartRequest;
+import com.dianping.paas.core.dto.request.InstanceStopRequest;
 import com.dianping.paas.core.dto.request.InstanceUpgradeRequest;
 import com.dianping.paas.core.message.nats.subscribe.Subject;
 import com.dianping.paas.core.message.nats.subscribe.Subscriber;
@@ -40,6 +41,25 @@ public class AgentSubscriber extends Subscriber {
             }
         });
     }
+
+    @Subscribe(Subject.Instance.STOP)
+    public void stopInstance(final Message message) {
+        run(new Runnable() {
+            public void run() {
+                InstanceStopRequest instanceStopRequest = null;
+
+                try {
+                    instanceStopRequest = getPayload(message, InstanceStopRequest.class);
+                    // stopInstance 为 异步,不需要响应
+                    instanceService.stopInstance(instanceStopRequest);
+                } catch (Exception e) {
+                    logger.error(String.format("error when stopInstance: %s", instanceStopRequest), e);
+                }
+
+            }
+        });
+    }
+
 
     @Subscribe(Subject.Instance.UPGRADE)
     public void upgradeInstance(final Message message) {

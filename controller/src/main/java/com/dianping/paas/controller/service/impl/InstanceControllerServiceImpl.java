@@ -2,6 +2,7 @@ package com.dianping.paas.controller.service.impl;
 
 import com.dianping.paas.controller.service.InstanceControllerService;
 import com.dianping.paas.core.dto.request.InstanceScaleRequest;
+import com.dianping.paas.core.dto.request.InstanceStopRequest;
 import com.dianping.paas.core.message.nats.request.AgentRequester;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,27 @@ public class InstanceControllerServiceImpl implements InstanceControllerService 
         }
     }
 
+    @Override
+    public void stopAllInstances(String appId) {
+        List<InstanceStopRequest> instanceStopRequestList = buildInstanceStopRequest(appId);
+
+        for (InstanceStopRequest instanceScaleRequest : instanceStopRequestList) {
+            agentRequester.stopInstance(instanceScaleRequest);
+        }
+    }
+
     /**
-     * TODO 验证, 插数据库, 构造发送给nats的消息
+     * TODO 验证, 查数据库, 构造nats消息
+     */
+    private List<InstanceStopRequest> buildInstanceStopRequest(String appId) {
+        List<InstanceStopRequest> instanceStopRequestList = Lists.newArrayList();
+        // ...
+
+        return instanceStopRequestList;
+    }
+
+    /**
+     * TODO 验证, 插数据库, 构造nats消息
      */
     private List<InstanceScaleRequest> buildInstanceScaleRequest(String appId, int count) {
         List<InstanceScaleRequest> instanceScaleRequestList = Lists.newArrayList();

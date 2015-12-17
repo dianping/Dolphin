@@ -6,4 +6,6 @@ package com.dianping.paas.controller.service;
  */
 public interface InstanceControllerService {
     void scaleInstance(String appId, int count);
+
+    void stopAllInstances(String appId);
 }

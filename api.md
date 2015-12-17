@@ -55,7 +55,7 @@
 > 删除某个app的所有实例
 > 原: POST /v1/instances/app/{app_id}/delete
 
-- `POST` */apps/{app_id}/instances/shutdowns*
+- `POST` */apps/{app_id}/instance/shutdowns*
 > 关闭某个app的所有实例
 > 原: POST /v1/instances/app/{app_id}/shutdowns
 

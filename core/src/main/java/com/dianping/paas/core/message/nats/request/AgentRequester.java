@@ -2,9 +2,11 @@ package com.dianping.paas.core.message.nats.request;
 
 import com.dianping.paas.core.dto.request.InstanceScaleRequest;
 import com.dianping.paas.core.dto.request.InstanceStartRequest;
+import com.dianping.paas.core.dto.request.InstanceStopRequest;
 import com.dianping.paas.core.dto.request.InstanceUpgradeRequest;
 import com.dianping.paas.core.dto.response.InstanceScaleResponse;
 import com.dianping.paas.core.dto.response.InstanceStartResponse;
+import com.dianping.paas.core.dto.response.InstanceStopResponse;
 import com.dianping.paas.core.message.nats.MessageCallBack;
 import com.dianping.paas.core.message.nats.subscribe.Subject;
 import org.apache.logging.log4j.LogManager;
@@ -38,6 +40,25 @@ public class AgentRequester extends Requester {
             }
         });
 
+    }
+
+    public void stopInstance(final InstanceStopRequest request) {
+        requestAsync(Subject.Instance.STOP, request, new MessageCallBack<InstanceStopResponse>(InstanceStopResponse.class) {
+            @Override
+            public void success(InstanceStopResponse response) {
+                logger.info(String.format("success stopInstance: %s", response));
+            }
+
+            @Override
+            public void error(Throwable throwable) {
+                logger.error(String.format("error stopInstance: %s", request), throwable);
+            }
+
+            @Override
+            public void timeout() {
+                logger.error(String.format("timeout stopInstance: %s", request));
+            }
+        });
     }
 
     public void upgradeInstance(InstanceUpgradeRequest request) {
