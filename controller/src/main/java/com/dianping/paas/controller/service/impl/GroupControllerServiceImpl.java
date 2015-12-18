@@ -9,7 +9,6 @@ import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,7 +33,7 @@ public class GroupControllerServiceImpl implements GroupControllerService {
     private List<InstanceUpgradeRequest> buildUpgradeInstanceRequests(String app_id, String app_version) {
         List<InstanceUpgradeRequest> requests = Lists.newArrayList();
 
-        List<InstanceEntity> instanceEntityList = instanceDal.getRunningInstances(app_id, app_version);
+        List<InstanceEntity> instanceEntityList = instanceDal.getRunningInstanceList(app_id, app_version);
         String webPackageUrl = getWebPackageUrl(app_id, app_version);
 
         for (InstanceEntity instanceEntity : instanceEntityList) {

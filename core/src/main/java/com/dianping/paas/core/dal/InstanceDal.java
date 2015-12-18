@@ -2,6 +2,7 @@ package com.dianping.paas.core.dal;
 
 import com.dianping.paas.core.dal.dao.InstanceDao;
 import com.dianping.paas.core.dal.entity.InstanceEntity;
+import com.dianping.paas.core.dto.request.InstanceFilterRequest;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -18,7 +19,17 @@ public class InstanceDal {
     private InstanceDao instanceDao;
 
     // TODO 数据库中拉取正在运行的实例
-    public List<InstanceEntity> getRunningInstances(String app_id, String app_version) {
+    public List<InstanceEntity> getRunningInstanceList(String app_id, String app_version) {
+        return null;
+    }
+
+    // TODO 根据条件拉取InstanceList
+    public List<InstanceEntity> getFilteredInstanceList(InstanceFilterRequest instanceFilterRequest) {
+        return null;
+    }
+
+    // TODO 根据appId获取InstanceList
+    public List<InstanceEntity> getInstanceByAppId(String appId) {
         return null;
     }
 }

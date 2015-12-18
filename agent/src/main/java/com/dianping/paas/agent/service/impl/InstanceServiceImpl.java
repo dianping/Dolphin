@@ -80,19 +80,6 @@ public class InstanceServiceImpl implements InstanceService {
     }
 
     @Override
-    public InstanceRestartResponse restartInstance(InstanceRestartRequest request) {
-        logger.info(String.format("begin restartInstance: %s", request));
-
-        InstanceRestartResponse response = new InstanceRestartResponse();
-
-        dockerContainerService.restartContainer(request, response);
-
-        logger.info(String.format("end restartInstance: %s", response));
-
-        return response;
-    }
-
-    @Override
     public InstanceStopResponse stopInstance(InstanceStopRequest request) {
         logger.info(String.format("begin stopInstance: %s", request));
 
@@ -101,6 +88,19 @@ public class InstanceServiceImpl implements InstanceService {
         dockerContainerService.stopContainer(request, response);
 
         logger.info(String.format("end stopInstance: %s", response));
+
+        return response;
+    }
+
+    @Override
+    public InstanceRestartResponse restartInstance(InstanceRestartRequest request) {
+        logger.info(String.format("begin restartInstance: %s", request));
+
+        InstanceRestartResponse response = new InstanceRestartResponse();
+
+        dockerContainerService.restartContainer(request, response);
+
+        logger.info(String.format("end restartInstance: %s", response));
 
         return response;
     }
@@ -119,6 +119,12 @@ public class InstanceServiceImpl implements InstanceService {
     }
 
 
+    @Override
+    public void scaleInstance(InstanceScaleRequest instanceScaleRequest) {
+        // only call pullImage and run
+        pullImageAndRun(instanceScaleRequest);
+    }
+
     public void upgradeInstance(InstanceUpgradeRequest request) throws IOException {
         // 0. find dir of web package
         String webPackageRootDir = locateWebPackageRootDir(request);
@@ -129,12 +135,6 @@ public class InstanceServiceImpl implements InstanceService {
         // 2. restart container
         restartInstance(buildInstanceRestartRequest(request));
 
-    }
-
-    @Override
-    public void scaleInstance(InstanceScaleRequest instanceScaleRequest) {
-        // only call pullImage and run
-        pullImageAndRun(instanceScaleRequest);
     }
 
     private void downLoadWebPackage(String webPackageRootDir, String webPackageUrl) throws IOException {

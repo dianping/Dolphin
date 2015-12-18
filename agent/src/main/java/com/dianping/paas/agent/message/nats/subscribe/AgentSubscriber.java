@@ -75,18 +75,18 @@ public class AgentSubscriber extends Subscriber {
         });
     }
 
-    @Subscribe(Subject.Instance.SCALE)
-    public void scaleInstance(final Message message) {
+    @Subscribe(Subject.Instance.RESTART)
+    public void restartInstance(final Message message) {
         run(new Runnable() {
             public void run() {
-                InstanceScaleRequest instanceScaleRequest = null;
+                InstanceRestartRequest instanceRestartRequest = null;
 
                 try {
-                    instanceScaleRequest = getPayload(message, InstanceScaleRequest.class);
-                    // scaleInstance 为 异步,不需要响应
-                    instanceService.scaleInstance(instanceScaleRequest);
+                    instanceRestartRequest = getPayload(message, InstanceRestartRequest.class);
+                    // restartInstance 为 异步,不需要响应
+                    instanceService.restartInstance(instanceRestartRequest);
                 } catch (Exception e) {
-                    logger.error(String.format("error when scaleInstance: %s", instanceScaleRequest), e);
+                    logger.error(String.format("error when restartInstance: %s", instanceRestartRequest), e);
                 }
 
             }
@@ -111,18 +111,18 @@ public class AgentSubscriber extends Subscriber {
         });
     }
 
-    @Subscribe(Subject.Instance.RESTART)
-    public void restartInstance(final Message message) {
+    @Subscribe(Subject.Instance.SCALE)
+    public void scaleInstance(final Message message) {
         run(new Runnable() {
             public void run() {
-                InstanceRestartRequest instanceRestartRequest = null;
+                InstanceScaleRequest instanceScaleRequest = null;
 
                 try {
-                    instanceRestartRequest = getPayload(message, InstanceRestartRequest.class);
-                    // restartInstance 为 异步,不需要响应
-                    instanceService.restartInstance(instanceRestartRequest);
+                    instanceScaleRequest = getPayload(message, InstanceScaleRequest.class);
+                    // scaleInstance 为 异步,不需要响应
+                    instanceService.scaleInstance(instanceScaleRequest);
                 } catch (Exception e) {
-                    logger.error(String.format("error when restartInstance: %s", instanceRestartRequest), e);
+                    logger.error(String.format("error when scaleInstance: %s", instanceScaleRequest), e);
                 }
 
             }

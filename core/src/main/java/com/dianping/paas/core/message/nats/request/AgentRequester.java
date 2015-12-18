@@ -75,26 +75,25 @@ public class AgentRequester extends Requester {
         });
     }
 
-    public void scaleInstance(final InstanceScaleRequest request) {
-        logger.info(String.format("begin scaleInstance: %s", request));
+    public void restartInstance(final InstanceRestartRequest request) {
+        logger.info(String.format("begin restartInstance: %s", request));
 
-        requestAsync(Subject.Instance.SCALE, request, new MessageCallBack<InstanceScaleResponse>(InstanceScaleResponse.class) {
+        requestAsync(Subject.Instance.RESTART, request, new MessageCallBack<InstanceRestartResponse>(InstanceRestartResponse.class) {
             @Override
-            public void success(InstanceScaleResponse response) {
-                logger.info(String.format("success scaleInstance: %s", response));
+            public void success(InstanceRestartResponse response) {
+                logger.info(String.format("success restartInstance: %s", response));
             }
 
             @Override
             public void error(Throwable throwable) {
-                logger.error(String.format("error scaleInstance: %s", request), throwable);
+                logger.error(String.format("error restartInstance: %s", request), throwable);
             }
 
             @Override
             public void timeout() {
-                logger.error(String.format("timeout scaleInstance: %s", request));
+                logger.error(String.format("timeout restartInstance: %s", request));
             }
         });
-
     }
 
     public void removeInstance(final InstanceRemoveRequest request) {
@@ -118,25 +117,26 @@ public class AgentRequester extends Requester {
         });
     }
 
-    public void restartInstance(final InstanceRestartRequest request) {
-        logger.info(String.format("begin restartInstance: %s", request));
+    public void scaleInstance(final InstanceScaleRequest request) {
+        logger.info(String.format("begin scaleInstance: %s", request));
 
-        requestAsync(Subject.Instance.RESTART, request, new MessageCallBack<InstanceRestartResponse>(InstanceRestartResponse.class) {
+        requestAsync(Subject.Instance.SCALE, request, new MessageCallBack<InstanceScaleResponse>(InstanceScaleResponse.class) {
             @Override
-            public void success(InstanceRestartResponse response) {
-                logger.info(String.format("success restartInstance: %s", response));
+            public void success(InstanceScaleResponse response) {
+                logger.info(String.format("success scaleInstance: %s", response));
             }
 
             @Override
             public void error(Throwable throwable) {
-                logger.error(String.format("error restartInstance: %s", request), throwable);
+                logger.error(String.format("error scaleInstance: %s", request), throwable);
             }
 
             @Override
             public void timeout() {
-                logger.error(String.format("timeout restartInstance: %s", request));
+                logger.error(String.format("timeout scaleInstance: %s", request));
             }
         });
+
     }
 
     public void upgradeInstance(InstanceUpgradeRequest request) {
