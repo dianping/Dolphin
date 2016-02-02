@@ -10,8 +10,6 @@ import java.util.HashMap;
  * Created by yuchao on 2016/02/01 15:20.
  */
 public enum ProcStatus {
-
-
     RUNNING("State:\tR (running)"),
     SLEEPING("State:\tS (sleeping)"),
     ZOMBIE("State:\tZ (zombie)"),
@@ -20,15 +18,20 @@ public enum ProcStatus {
     DISK_SLEEP("State:\tD (disk sleep)"),
     TRACING_STOP("State:\tT (tracing stop)");
 
-
     @Getter
     private final String statusStr;
+
+    public static final HashMap<String, ProcStatus> STATUS_STR_MAP = Maps.newHashMap();
+
+    static {
+        for (ProcStatus procStatus : ProcStatus.values()) {
+            STATUS_STR_MAP.put(procStatus.getStatusStr(), procStatus);
+        }
+    }
 
     ProcStatus(String statusStr) {
         this.statusStr = statusStr;
     }
-
-    public static final HashMap<String, ProcStatus> STATUS_STR_MAP = Maps.newHashMap();
 
     public static ProcStatus convertStatus(String statusStr) {
         ProcStatus procStatus = STATUS_STR_MAP.get(statusStr);
@@ -40,12 +43,4 @@ public enum ProcStatus {
 
         return procStatus;
     }
-
-    static {
-        for (ProcStatus procStatus : ProcStatus.values()) {
-            STATUS_STR_MAP.put(procStatus.getStatusStr(), procStatus);
-        }
-    }
-
-
 }

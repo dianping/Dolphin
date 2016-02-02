@@ -34,7 +34,6 @@ public class DefaultProcReader implements ProcReader {
 
     @Override
     public List<File> listContainerCgroupFiles() throws FileNotFoundException {
-
         File file = new File(cgroupBasePath);
         if (!file.exists()) {
             throw new FileNotFoundException(cgroupBasePath + " is not exist!");
@@ -46,7 +45,6 @@ public class DefaultProcReader implements ProcReader {
                 return pathname.getName().length() == containerNameLength;
             }
         }));
-
     }
 
     @Override

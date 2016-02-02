@@ -9,14 +9,11 @@ import com.dianping.paas.proc.load.TaskInfo;
  * Created by yuchao on 2016/01/28 20:16.
  */
 public class LoadCalculator {
-
-
     public static final int FSHIFT = 11;
     public static final int FIXED_1 = (1 << FSHIFT);
     public static final int EXP_1 = 1884;
     public static final int EXP_5 = 2014;
     public static final int EXP_15 = 2037;
-
 
     private static long calcLoad(long load, long exp, long active) {
         load *= exp;
@@ -52,20 +49,18 @@ public class LoadCalculator {
         return x >> FSHIFT;
     }
 
+
     private static long getLoadFrac(long x) {
         return getLoadInt((x & (FIXED_1 - 1)) * 100);
     }
 
     private static String getLoadStr(Load pLoad, TaskInfo taskInfo) {
-
         Load load = getLoad(pLoad, FIXED_1 / 200, 0);
 
-        String loadStr = String.format("%d.%02d %d.%02d %d.%02d %d/%d 99999\n",
+        return String.format("%d.%02d %d.%02d %d.%02d %d/%d 99999\n",
                 getLoadInt(load.getLoad1()), getLoadFrac(load.getLoad1()),
                 getLoadInt(load.getLoad5()), getLoadFrac(load.getLoad5()),
                 getLoadInt(load.getLoad15()), getLoadFrac(load.getLoad15()),
                 taskInfo.getRunningTaskCount(), taskInfo.getTotalTaskCount());
-
-        return loadStr;
     }
 }

@@ -9,5 +9,6 @@ import lombok.Data;
 @Data
 public class TaskInfo {
     private int runningTaskCount;
+
     private int totalTaskCount;
 }
