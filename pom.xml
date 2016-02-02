@@ -19,6 +19,7 @@
         <module>repository</module>
         <module>router</module>
         <module>docker-spring</module>
+        <module>docker-proc</module>
     </modules>
 
     <properties>
