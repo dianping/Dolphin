@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * yapu.wang@dianping.com
  * Created by wangyapu on 15/12/14.
  */
 @Data

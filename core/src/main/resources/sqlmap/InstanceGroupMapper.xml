@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dianping.paas.core.dal.dao.InstanceGroupDao">
+    <insert id="insert" parameterType="InstanceGroupEntity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO instance_group (app_id, name, max_instance)
+        VALUES (#{appId}, #{name}, #{maxInstance})
+    </insert>
+    <select id="findInstanceGroupByAppId" resultType="com.dianping.paas.core.dal.entity.InstanceGroupEntity">
+        SELECT * FROM instance_group WHERE app_id = #{appId}
+    </select>
+</mapper>

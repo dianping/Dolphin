@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dianping.paas.core.dal.dao.AppConfigDao">
+    <insert id="insert" parameterType="AppConfigEntity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO app_config (app_id, warm_up_url, ldap_base, phoenix_kernel_version, creation_date, last_modified_date)
+        VALUES (#{appId}, #{warmUpUrl}, #{ldapBase}, #{phoenixKernelVersion}, #{creationDate}, #{lastModifiedDate})
+    </insert>
+    <select id="findByAppId" resultType="AppConfigEntity">
+        SELECT * FROM app_config WHERE app_id = #{appId}
+    </select>
+</mapper>

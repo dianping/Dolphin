@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dianping.paas.core.dal.dao.OperationDao">
+    <insert id="insert" parameterType="OperationEntity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO operation (app_id, type, state, creation_date, last_modified_date)
+        VALUES (#{appId}, #{type}, #{state}, #{creationDate}, #{lastModifiedDate})
+    </insert>
+    <update id="updateOperation" parameterType="OperationEntity">
+        UPDATE operation
+        SET
+        state = #{state}
+        WHERE id = #{id}
+    </update>
+</mapper>

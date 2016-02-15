@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dianping.paas.core.dal.dao.OperationDetailDao">
+    <insert id="insert" parameterType="OperationDetailEntity" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO operation_detail (operation_id, total_step, done_step, raw_log, msg)
+        VALUES (#{operationId}, #{totalStep}, #{doneStep}, #{rawLog}, #{msg})
+    </insert>
+    <update id="updateRawLogAndMsg" parameterType="OperationDetailEntity">
+        UPDATE operation_detail
+        SET
+        raw_log = #{rawLog}, msg = #{msg}
+        WHERE id = #{id}
+    </update>
+</mapper>

@@ -245,5 +245,5 @@ public interface ConfigManager {
 
     String getDockerfileLocation(String app_id);
 
-    String getOuterWebPackageRootDir(String appName, int instanceIndex);
+    String getOuterWebPackageRootDir(String appName, long instanceIndex);
 }

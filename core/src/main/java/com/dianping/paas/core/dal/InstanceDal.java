@@ -32,4 +32,17 @@ public class InstanceDal {
     public List<InstanceEntity> getInstanceByAppId(String appId) {
         return null;
     }
+
+    public int countNonRemovedInstanceByGroupId(long groupId) {
+        return instanceDao.countNonRemovedInstanceByGroupId(groupId);
+    }
+
+    public List<InstanceEntity> findUpgradeableInstances(String appId) {
+
+        return instanceDao.findUpgradeableInstances(appId);
+    }
+
+    public long insert(InstanceEntity instance) {
+        return instanceDao.insert(instance);
+    }
 }

@@ -1,4 +1,4 @@
-package com.dianping.paas.controller.dto.depoly.entity;
+package com.dianping.paas.core.dal.entity;
 
 
 import lombok.Data;
@@ -10,7 +10,7 @@ import java.util.Date;
  * Created by wangyapu on 15/12/15.
  */
 @Data
-public class Operation {
+public class OperationEntity {
     private long id;
 
     private String appId;

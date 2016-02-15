@@ -13,7 +13,7 @@ public class AppInitRequest {
 
     private String type;
 
-    private String level;
+    private int level;
 
     private String owner;
 

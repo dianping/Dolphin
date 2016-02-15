@@ -15,7 +15,7 @@ public class InstanceUpgradeRequest {
 
     private String instance_id;
 
-    private int instance_index;
+    private long instance_index;
 
     private String agent_ip;
 }

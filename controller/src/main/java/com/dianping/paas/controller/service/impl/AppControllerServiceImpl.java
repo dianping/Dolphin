@@ -1,16 +1,17 @@
 package com.dianping.paas.controller.service.impl;
 
-import com.dianping.paas.controller.dto.depoly.entity.Operation;
-import com.dianping.paas.controller.dto.depoly.entity.OperationContext;
 import com.dianping.paas.controller.processor.step.AppInitStep;
-import com.dianping.paas.controller.record.OperationRecorder;
-import com.dianping.paas.controller.sequencer.Task;
-import com.dianping.paas.controller.sequencer.TaskSequencer;
 import com.dianping.paas.controller.service.AppControllerService;
+import com.dianping.paas.core.dal.AppDal;
+import com.dianping.paas.core.dal.entity.AppEntity;
 import com.dianping.paas.core.dto.request.AppInitRequest;
+import com.dianping.paas.core.dto.response.AsyncOperationResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * yapu.wang@dianping.com
@@ -19,27 +20,35 @@ import javax.annotation.Resource;
 @Service
 public class AppControllerServiceImpl implements AppControllerService {
 
-    @Resource
-    private TaskSequencer taskSequencer;
-
-    @Resource
-    private OperationRecorder operationRecorder;
+    public static final Logger logger = LogManager.getLogger(AppControllerServiceImpl.class);
 
     @Resource
     private AppInitStep appInitStep;
 
-    public long initApp(AppInitRequest appInitRequest) {
+    @Resource
+    private AppDal appDal;
 
-        appInitStep.saveAppInfo(appInitRequest);
-
-        final OperationContext opCtx = new OperationContext();
-        opCtx.setAppId(appInitRequest.getAppId());
-        return taskSequencer.queueAndRun(opCtx, Operation.TYPE_CREATE, new Task() {
-            @Override
-            public void execute() {
-
-            }
-        });
-
+    @Override
+    public List<AppEntity> findAllApp() {
+        return appDal.findAll();
     }
+
+    @Override
+    public AsyncOperationResponse initApp(AppInitRequest appInitRequest) {
+        AsyncOperationResponse response = new AsyncOperationResponse();
+
+        try {
+            appInitStep.validAppInitRequest(appInitRequest);
+            appInitStep.saveAppInfo(appInitRequest, response);
+            appInitStep.saveInstanceGroupInfo(appInitRequest);
+            long opId = appInitStep.receiveOperationId(appInitRequest);
+            response.setOperationId(opId);
+            response.success();
+        } catch (Exception e) {
+            logger.error("init app fail : " + response.getReturnCode().getReason());
+        }
+        return response;
+    }
+
+
 }

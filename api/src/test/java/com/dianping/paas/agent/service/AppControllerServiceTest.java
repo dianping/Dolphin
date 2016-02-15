@@ -27,6 +27,7 @@ public class AppControllerServiceTest {
         appInitRequest.setAppId(Globals.APP_ID);
         appInitRequest.setImageType(Globals.IMAGE_TYPE);
         appInitRequest.setInstanceCount(1);
+        appInitRequest.setAppPlanId(1);
     }
 
     @Test

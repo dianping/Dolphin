@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dianping.paas.core.dal.dao.QuotaDao">
+    <insert id="insert" useGeneratedKeys="true" parameterType="QuotaEntity" keyProperty="id">
+        INSERT INTO quota (min_instance_count, max_instance_count, cpu, cpu_sharable, memory)
+        VALUES (#{minInstanceCount}, #{maxInstanceCount}, #{cpu}, #{cpuSharable}, #{memory})
+    </insert>
+</mapper>
