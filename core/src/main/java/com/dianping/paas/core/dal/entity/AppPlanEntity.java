@@ -15,6 +15,5 @@ public class AppPlanEntity {
     private double cpu;
     private int cpuSharable;
     private long memory;
-    private long keyId;
 
 }

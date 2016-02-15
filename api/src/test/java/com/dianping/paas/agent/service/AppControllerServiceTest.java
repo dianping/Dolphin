@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import javax.annotation.Resource;
 
 /**
@@ -25,9 +26,12 @@ public class AppControllerServiceTest {
     public void setUp() throws Exception {
         appInitRequest = new AppInitRequest();
         appInitRequest.setAppId(Globals.APP_ID);
-        appInitRequest.setImageType(Globals.IMAGE_TYPE);
+        appInitRequest.setImage(Globals.IMAGE);
+        appInitRequest.setType(Globals.APP_TYPE);
+        appInitRequest.setOwner(Globals.APP_OWNER);
         appInitRequest.setInstanceCount(1);
         appInitRequest.setAppPlanId(1);
+
     }
 
     @Test

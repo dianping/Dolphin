@@ -34,7 +34,7 @@ public class InstanceDal {
     }
 
     public int countNonRemovedInstanceByGroupId(long groupId) {
-        return instanceDao.countNonRemovedInstanceByGroupId(groupId);
+        return instanceDao.countNonRemovedInstanceByGroupId(groupId).size();
     }
 
     public List<InstanceEntity> findUpgradeableInstances(String appId) {

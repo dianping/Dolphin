@@ -1,7 +1,6 @@
 package com.dianping.paas.repository.template;
 
 import com.dianping.paas.core.util.TempFileGenerator;
-import com.dianping.paas.core.spring.conditional.annotation.AgentModule;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;

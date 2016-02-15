@@ -5,7 +5,6 @@ import com.dianping.paas.core.config.ConfigManager;
 import com.dianping.paas.core.dal.entity.AppEntity;
 import com.dianping.paas.core.dto.request.AppInitRequest;
 import com.dianping.paas.core.dto.response.AsyncOperationResponse;
-import com.dianping.paas.core.dto.response.Response;
 import com.dianping.paas.core.extension.ExtensionLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,7 +36,7 @@ public class AppController {
         return appControllerService.findAllApp();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/init", method = RequestMethod.POST)
     @ResponseBody
     public AsyncOperationResponse initApp(@RequestBody AppInitRequest appInitRequest) {
         return appControllerService.initApp(appInitRequest);

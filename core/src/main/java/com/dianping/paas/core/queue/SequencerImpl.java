@@ -22,10 +22,19 @@ public class SequencerImpl<T> implements Sequencer<T> {
 
     private Set<String> toBeDoneTaskIds = new HashSet<String>();
 
+    @Override
     public synchronized void offer(String id, T obj) {
+        DefaultTask task = new DefaultTask(id, obj);
 
+        if (hasUndoneTask(id)) {
+            offerToWaitingQueue(id, task);
+        } else {
+            recordNewUndoneTask(id);
+            offerToReadyQueue(task);
+        }
     }
 
+    @Override
     public SequencedObject<T> take() throws InterruptedException {
         return readyTasks.take();
     }

@@ -21,6 +21,4 @@ public class OperationDetailEntity {
 
     private String msg;
 
-    private long keyId;
-
 }

@@ -35,7 +35,5 @@ public class AppInitRequest {
 
     private String machineLabel;
 
-    private String imageType;
-
     private int instanceCount;
 }

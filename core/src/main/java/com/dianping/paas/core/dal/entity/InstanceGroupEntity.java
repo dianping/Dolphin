@@ -16,5 +16,4 @@ public class InstanceGroupEntity {
 
     private int maxInstance;
 
-    private long keyId;
 }

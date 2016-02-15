@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dianping.paas.core.dal.dao.AppPlanDao">
-    <select id="findByPK" resultType="AppPlanEntity">
+
+    <resultMap id="AppPlanResultMap" type="AppPlanEntity">
+        <id property="id" column="id" />
+        <result property="name" column="name"/>
+        <result property="minInstanceCount" column="min_instance_count"/>
+        <result property="maxInstanceCount" column="max_instance_count"/>
+        <result property="cpu" column="cpu"/>
+        <result property="cpuSharable" column="cpu_sharable"/>
+        <result property="memory" column="memory"/>
+    </resultMap>
+
+    <select id="findByPK" resultMap="AppPlanResultMap">
         SELECT * FROM app_plan WHERE id = #{id}
     </select>
 </mapper>

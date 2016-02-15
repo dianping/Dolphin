@@ -1,10 +1,10 @@
 package com.dianping.paas.controller.record.impl;
 
 import com.dianping.paas.controller.dto.depoly.entity.DeploymentDetail;
-import com.dianping.paas.core.dal.entity.OperationDetailEntity;
 import com.dianping.paas.controller.record.OperationRecorder;
 import com.dianping.paas.core.dal.OperationDal;
 import com.dianping.paas.core.dal.OperationDetailDal;
+import com.dianping.paas.core.dal.entity.OperationDetailEntity;
 import com.dianping.paas.core.dal.entity.OperationEntity;
 import org.springframework.stereotype.Component;
 
@@ -41,6 +41,8 @@ public class OperationRecorderImpl implements OperationRecorder {
         operation.setCreationDate(new Date());
         operation.setState(OperationEntity.STATUS_IN_PROGRESS);
         operation.setType(operationType);
+        operation.setCreationDate(new Date());
+        operation.setLastModifiedDate(new Date());
         return operationDal.insert(operation);
     }
 

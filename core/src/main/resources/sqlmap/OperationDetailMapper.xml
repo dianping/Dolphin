@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dianping.paas.core.dal.dao.OperationDetailDao">
+
+    <resultMap id="OperationDetailResultMap" type="OperationDetailEntity">
+        <id property="id" column="id" />
+        <result property="operationId" column="operation_id"/>
+        <result property="totalStep" column="total_step"/>
+        <result property="doneStep" column="done_step"/>
+        <result property="rawLog" column="raw_log"/>
+        <result property="msg" column="msg"/>
+    </resultMap>
+
     <insert id="insert" parameterType="OperationDetailEntity" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO operation_detail (operation_id, total_step, done_step, raw_log, msg)
         VALUES (#{operationId}, #{totalStep}, #{doneStep}, #{rawLog}, #{msg})

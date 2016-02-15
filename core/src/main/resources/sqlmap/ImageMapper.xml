@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dianping.paas.core.dal.dao.ImageDao">
-    <select id="getByImageType" resultType="ImageEntity">
+
+    <resultMap id="ImageResultMap" type="ImageEntity">
+        <id property="id" column="id" />
+        <result property="imageType" column="image_type"/>
+        <result property="dockerfileTemplate" column="dockerfile_template"/>
+        <result property="creationDate" column="creation_date"/>
+        <result property="lastModifiedDate" column="last_modified_date"/>
+    </resultMap>
+
+    <select id="getByImageType" resultMap="ImageResultMap">
         SELECT * FROM image WHERE image_type = #{imageType}
     </select>
 </mapper>

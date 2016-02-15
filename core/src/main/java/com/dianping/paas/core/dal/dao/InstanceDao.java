@@ -9,7 +9,7 @@ import java.util.List;
  * Created by yuchao on 2015/12/15 14:11.
  */
 public interface InstanceDao {
-    int countNonRemovedInstanceByGroupId(long groupId);
+    List<InstanceEntity> countNonRemovedInstanceByGroupId(long groupId);
 
     List<InstanceEntity> findUpgradeableInstances(String appId);
 

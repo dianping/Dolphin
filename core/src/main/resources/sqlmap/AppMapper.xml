@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dianping.paas.core.dal.dao.AppDao">
+
+    <resultMap id="AppResultMap" type="AppEntity">
+        <id property="id" column="id" />
+        <result property="appId" column="app_id"/>
+        <result property="type" column="type"/>
+        <result property="owner" column="owner"/>
+        <result property="quotaId" column="quota_id"/>
+        <result property="level" column="level"/>
+        <result property="appPlanName" column="app_plan_name"/>
+        <result property="creationDate" column="creation_date"/>
+        <result property="lastModifiedDate" column="last_modified_date"/>
+        <result property="image" column="image"/>
+        <result property="machineLabel" column="machine_label"/>
+
+    </resultMap>
+
     <insert id="insert" parameterType="AppEntity" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO app (app_id, type, owner, quota_id, level, app_plan_name, creation_date, last_modified_date, image, machine_label)
         VALUES (#{appId}, #{type}, #{owner}, #{quotaId}, #{level}, #{appPlanName}, #{creationDate}, #{lastModifiedDate}, #{image}, #{machineLabel})
     </insert>
 
-    <select id="findAll" resultType="com.dianping.paas.core.dal.entity.AppEntity">
+    <select id="findAll" resultMap="AppResultMap">
         SELECT * FROM app
     </select>
 
-    <select id="findByAppId" resultType="com.dianping.paas.core.dal.entity.AppEntity">
+    <select id="findByAppId" resultMap="AppResultMap">
         SELECT * FROM app WHERE app_id = #{appId}
     </select>
 </mapper>
