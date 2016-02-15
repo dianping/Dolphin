@@ -1,5 +1,7 @@
 package com.dianping.paas.core.queue;
 
+import org.springframework.stereotype.Component;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
@@ -11,6 +13,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * yapu.wang@dianping.com
  * Created by wangyapu on 15/12/14.
  */
+@Component
 public class SequencerImpl<T> implements Sequencer<T> {
 
     private BlockingQueue<SequencedObject<T>> readyTasks = new LinkedBlockingQueue<SequencedObject<T>>();

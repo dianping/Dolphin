@@ -1,7 +1,11 @@
 package com.dianping.paas.controller.service;
 
 
+import com.dianping.paas.core.dal.entity.AppEntity;
 import com.dianping.paas.core.dto.request.AppInitRequest;
+import com.dianping.paas.core.dto.response.AsyncOperationResponse;
+
+import java.util.List;
 
 /**
  * yapu.wang@dianping.com
@@ -9,6 +13,7 @@ import com.dianping.paas.core.dto.request.AppInitRequest;
  */
 public interface AppService {
 
-    long initApp(AppInitRequest appInitRequest);
+    AsyncOperationResponse initApp(AppInitRequest appInitRequest);
 
+    List<AppEntity> findAllApp();
 }

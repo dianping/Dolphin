@@ -9,7 +9,9 @@ import java.util.List;
  */
 public interface AppDao {
 
-    AppEntity getByAppId(String appId);
-
     List<AppEntity> findAll();
+
+    AppEntity findByAppId(String appId);
+
+    long insert(AppEntity app);
 }

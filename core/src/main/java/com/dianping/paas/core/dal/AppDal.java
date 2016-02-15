@@ -17,7 +17,15 @@ public class AppDal {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     private AppDao appDao;
 
-    public List<AppEntity> getAll() {
+    public List<AppEntity> findAll() {
         return appDao.findAll();
+    }
+
+    public AppEntity findByAppId(String appId) {
+        return appDao.findByAppId(appId);
+    }
+
+    public long insert(AppEntity app){
+        return appDao.insert(app);
     }
 }

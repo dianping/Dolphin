@@ -17,7 +17,15 @@ public enum ResultCode {
     /**
      * 1~99: general error
      */
-    ERROR(1, "default or unknown error");
+    ERROR(1, "default or unknown error"),
+
+    /**
+     * 1001~9999: database error
+     */
+    DB_APP_PLAN_NOT_EXIST(1000, "the appPlanId is not valid, can not find it database"),
+
+    DB_APP_EXIST(1001,"the app already exists");
+
 
     @Getter
     @Setter

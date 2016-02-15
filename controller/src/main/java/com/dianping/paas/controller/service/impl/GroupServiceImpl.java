@@ -41,8 +41,8 @@ public class GroupServiceImpl implements GroupService {
             request.setApp_id(app_id);
             request.setWebPackageUrl(webPackageUrl);
             request.setApp_version(app_version);
-            request.setInstance_index(instanceEntity.getInstance_index());
-            request.setAgent_ip(instanceEntity.getAgent_ip());
+            request.setInstance_index(instanceEntity.getInstanceIndex());
+            request.setAgent_ip(instanceEntity.getAgentIp());
             requests.add(request);
         }
 
