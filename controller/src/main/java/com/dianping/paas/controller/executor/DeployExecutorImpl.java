@@ -4,11 +4,13 @@ import com.dianping.paas.controller.dto.depoly.entity.HostOperation;
 import com.dianping.paas.controller.dto.depoly.entity.OperationContext;
 import com.dianping.paas.controller.executor.context.InstanceDeployContext;
 import com.dianping.paas.controller.message.facade.AgentFacade;
+import com.dianping.paas.controller.message.facade.RepositoryFacade;
 import com.dianping.paas.controller.record.OperationListener;
 import com.dianping.paas.controller.strategy.InstanceGroupStrategy;
 import com.dianping.paas.controller.strategy.InstanceIndexAllocater;
 import com.dianping.paas.core.dal.entity.AppConfigEntity;
 import com.dianping.paas.core.dal.entity.AppEntity;
+import com.dianping.paas.core.dto.response.AllocateWebPackageResponse;
 import com.dianping.paas.core.dto.response.NewInstanceAndDeployWarResponse;
 import com.dianping.paas.core.util.ClosureHandler;
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +21,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeoutException;
 
 /**
  * yapu.wang@dianping.com
@@ -37,6 +40,14 @@ public class DeployExecutorImpl implements DeployExecutor {
 
     @Resource
     private AgentFacade agentFacade;
+
+    @Resource
+    private RepositoryFacade repositoryFacade;
+
+    @Override
+    public AllocateWebPackageResponse allocateRespository(String appId, String appVersion, String md5) throws TimeoutException {
+        return repositoryFacade.allocate(appId, appVersion, md5);
+    }
 
     @Override
     public List<InstanceDeployContext> prepareInstanceDeployContext(OperationContext opCtx, AppEntity app, AppConfigEntity appConfig, int instanceCount, boolean tryOnline) {
@@ -68,17 +79,17 @@ public class DeployExecutorImpl implements DeployExecutor {
     }
 
     @Override
-    public void create(OperationContext opCtx, List<InstanceDeployContext> instanceDeployContexts, OperationListener deployListener) {
+    public void create(OperationContext opCtx, List<InstanceDeployContext> instanceDeployContexts, OperationListener operationListener) {
         StatusCumulator sc = new StatusCumulator();
         Semaphore smf = new Semaphore(0);
         int startedTask = 0;
 
         try {
-            deployListener.onStart(instanceDeployContexts.size());
+            operationListener.onStart(instanceDeployContexts.size());
 
             for (InstanceDeployContext deployCtx : instanceDeployContexts) {
                 startedTask++;
-                doCreateAsync(deployCtx, deployListener, sc, smf);
+                doCreateAsync(deployCtx, operationListener, sc, smf);
             }
         } catch (Exception e) {
             logger.error(String.format("Error deploy operation %s on context %s", opCtx, instanceDeployContexts), e);
@@ -88,7 +99,7 @@ public class DeployExecutorImpl implements DeployExecutor {
                 smf.acquire(startedTask);
             } catch (InterruptedException e) {
             }
-            notifyDeployListener(sc.allSuccess(), deployListener);
+            notifyDeployListener(sc.allSuccess(), operationListener);
         }
     }
 

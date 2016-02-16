@@ -12,6 +12,7 @@ import com.dianping.paas.controller.sequencer.TaskSequencer;
 import com.dianping.paas.core.dal.*;
 import com.dianping.paas.core.dal.entity.*;
 import com.dianping.paas.core.dto.request.AppInitRequest;
+import com.dianping.paas.core.dto.response.AllocateWebPackageResponse;
 import com.dianping.paas.core.dto.response.AsyncOperationResponse;
 import com.dianping.paas.core.dto.response.ResultCode;
 import org.apache.logging.log4j.LogManager;
@@ -125,6 +126,18 @@ public class AppInitStep {
         instanceGroupDal.insert(instanceGroup2);
     }
 
+    public AllocateWebPackageResponse allocatePkgToRespository(AppInitRequest appInitRequest) {
+
+        AllocateWebPackageResponse allocateWebPackageResponse = new AllocateWebPackageResponse();
+
+        try {
+            allocateWebPackageResponse = deployExecutor.allocateRespository(appInitRequest.getAppId(), APP_INIT_VERSION, "");
+        } catch (Exception e) {
+            logger.error("error when allocate package", e);
+        }
+
+        return allocateWebPackageResponse;
+    }
 
     public long receiveOperationId(final AppInitRequest appInitRequest) {
         final OperationContext opCtx = new OperationContext();
@@ -152,5 +165,6 @@ public class AppInitStep {
 
 
     }
+
 
 }

@@ -114,7 +114,7 @@ public class DefaultConfigManager implements ConfigManager {
     }
 
     public String getLocalRepositoryBaseDir() {
-        return null;
+        return "/data/paas/local/";
     }
 
     public int getRouterRequestTimeout() {

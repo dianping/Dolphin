@@ -7,8 +7,11 @@ import lombok.Data;
  */
 @Data
 public class AllocateWebPackageRequest {
-    private String app_id;
 
-    private String app_version;
+    private String md5;
+
+    private String appId;
+
+    private String appVersion;
 
 }

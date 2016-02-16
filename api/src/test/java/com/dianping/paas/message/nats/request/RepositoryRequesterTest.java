@@ -11,7 +11,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -28,8 +27,8 @@ public class RepositoryRequesterTest extends SpringTest {
     @Test
     public void uploadWebPackage() throws Exception {
         AllocateWebPackageRequest request = new AllocateWebPackageRequest();
-        request.setApp_id("test");
-        request.setApp_version("v1");
+        request.setAppId("test");
+        request.setAppVersion("v1");
 
         Assert.assertNotNull(repositoryRequester.allocateWebPackage(request));
     }

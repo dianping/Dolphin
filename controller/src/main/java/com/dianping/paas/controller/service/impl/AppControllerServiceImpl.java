@@ -41,6 +41,8 @@ public class AppControllerServiceImpl implements AppControllerService {
             appInitStep.validAppInitRequest(appInitRequest);
             appInitStep.saveAppInfo(appInitRequest, response);
             appInitStep.saveInstanceGroupInfo(appInitRequest);
+            appInitStep.allocatePkgToRespository(appInitRequest);
+
             long opId = appInitStep.receiveOperationId(appInitRequest);
             response.setOperationId(opId);
             response.success();
