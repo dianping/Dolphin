@@ -2,7 +2,9 @@ package com.dianping.paas.repository.service.impl;
 
 import com.dianping.paas.core.config.ConfigManager;
 import com.dianping.paas.core.dal.AppFileDal;
+import com.dianping.paas.core.dal.AppVersionDal;
 import com.dianping.paas.core.dal.entity.AppFileEntity;
+import com.dianping.paas.core.dal.entity.AppVersionEntity;
 import com.dianping.paas.core.dto.request.AllocateWebPackageRequest;
 import com.dianping.paas.core.dto.request.DownloadWebPackageRequest;
 import com.dianping.paas.core.dto.request.UploadWebPackageRequest;
@@ -36,6 +38,9 @@ public class WebPackageServiceImpl implements WebPackageService {
     private AppFileDal appFileDal;
 
     @Resource
+    private AppVersionDal appVersionDal;
+
+    @Resource
     private ConfigManager configManager;
 
     public AllocateWebPackageResponse allocate(AllocateWebPackageRequest request) {
@@ -48,7 +53,7 @@ public class WebPackageServiceImpl implements WebPackageService {
             AppFileEntity appFile = allocateAppFile(request);
             appFileDal.insert(appFile);
 
-            String repositoryUploadUrl = WebPackageUtil.generateUploadUrl();
+            String repositoryUploadUrl = WebPackageUtil.generateUploadUrl(appFile.getToken());
             response.setUploadUrl(repositoryUploadUrl);
             response.success();
         } catch (Exception e) {
@@ -87,6 +92,7 @@ public class WebPackageServiceImpl implements WebPackageService {
         try {
             Files.write(request.getFile().getBytes(), webPackageFile);
             response.success();
+            saveOrUpdateAppVersion(request.getToken());
         } catch (IOException e) {
             response.fail(e.toString());
             logger.error(String.format("error when upload: %s", request), e);
@@ -95,6 +101,27 @@ public class WebPackageServiceImpl implements WebPackageService {
         logger.info(String.format("end upload WebPackage: %s", response));
 
         return response;
+    }
+
+    private void saveOrUpdateAppVersion(String token) {
+        AppFileEntity appFile = appFileDal.findAppFileByToken(token);
+
+        AppVersionEntity appVersion = new AppVersionEntity();
+        appVersion.setAppId(appFile.getAppId());
+        appVersion.setVersion(appFile.getAppVersion());
+        appVersion.setAppFileId(appFile.getId());
+
+        AppVersionEntity oldVersion = appVersionDal.findByAppIdAndVersion(appFile.getAppId(), appFile.getAppVersion());
+
+        if (oldVersion == null) {
+            appVersion.setCreationDate(new Date());
+            appVersion.setLastModifiedDate(new Date());
+            appVersionDal.insert(appVersion);
+        } else {
+            appVersion.setId(oldVersion.getId());
+            appVersion.setLastModifiedDate(new Date());
+            appVersionDal.update(appVersion);
+        }
     }
 
 

@@ -21,4 +21,7 @@ public class AppFileDal {
         return appFileDao.insert(appFile);
     }
 
+    public AppFileEntity findAppFileByToken(String token) {
+        return appFileDao.findAppFileByToken(token);
+    }
 }

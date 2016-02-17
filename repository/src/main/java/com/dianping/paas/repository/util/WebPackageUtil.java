@@ -5,7 +5,6 @@ import com.dianping.paas.core.extension.ExtensionLoader;
 import com.dianping.paas.core.util.FileUtil;
 
 import java.io.File;
-import java.util.UUID;
 
 /**
  * Created by yuchao on 12/4/15.
@@ -21,13 +20,9 @@ public class WebPackageUtil {
     }
 
 
-    public static String generateUploadUrl() {
+    public static String generateUploadUrl(String token) {
 
-        return configManager.getRepositoryUploadUrl(newToken());
+        return configManager.getRepositoryUploadUrl(token);
     }
 
-    public static String newToken() {
-
-        return UUID.randomUUID().toString();
-    }
 }

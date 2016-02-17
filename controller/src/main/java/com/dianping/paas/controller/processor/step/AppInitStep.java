@@ -15,11 +15,13 @@ import com.dianping.paas.core.dto.request.AppInitRequest;
 import com.dianping.paas.core.dto.response.AllocateWebPackageResponse;
 import com.dianping.paas.core.dto.response.AsyncOperationResponse;
 import com.dianping.paas.core.dto.response.ResultCode;
+import com.dianping.paas.core.util.HttpUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -126,7 +128,7 @@ public class AppInitStep {
         instanceGroupDal.insert(instanceGroup2);
     }
 
-    public AllocateWebPackageResponse allocatePkgToRespository(AppInitRequest appInitRequest) {
+    public AllocateWebPackageResponse allocatePkgToRepository(AppInitRequest appInitRequest) {
 
         AllocateWebPackageResponse allocateWebPackageResponse = new AllocateWebPackageResponse();
 
@@ -137,6 +139,14 @@ public class AppInitStep {
         }
 
         return allocateWebPackageResponse;
+    }
+
+    public void uploadPkgToRepository(AllocateWebPackageResponse allocateWebPackageResponse) throws Exception {
+
+        // file to test
+        File file = new File("/data/appdatas/paas/hello.war");
+        HttpUtil.post(allocateWebPackageResponse.getUploadUrl(), file);
+
     }
 
     public long receiveOperationId(final AppInitRequest appInitRequest) {
@@ -165,6 +175,5 @@ public class AppInitStep {
 
 
     }
-
 
 }

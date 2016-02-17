@@ -174,11 +174,11 @@ public class DefaultConfigManager implements ConfigManager {
     }
 
     public String getRepositoryDownloadUrl(String token) {
-        return String.format("%s/%s&token=%s", getRepositoryHost(), "repositories/webpackages/downloads", token);
+        return String.format("%s/%s&token=%s", getRepositoryHost(), "v1/repository/webpackages", token);
     }
 
     public String getRepositoryUploadUrl(String token) {
-        return String.format("%s/%s?token=%s", getRepositoryHost(), "repositories/webpackages/uploads", token);
+        return String.format("%s/%s?token=%s", getRepositoryHost(), "v1/repository/webpackages", token);
     }
 
     public int getAgentMonitorPeriod() {
@@ -476,7 +476,7 @@ public class DefaultConfigManager implements ConfigManager {
     }
 
     public String getWebPackageBaseDir() {
-        return "/data/paas/repository/webpackages";
+        return "/data/paas/local";
     }
 
     public String getDockerfileTemplateDir(String imageType) {

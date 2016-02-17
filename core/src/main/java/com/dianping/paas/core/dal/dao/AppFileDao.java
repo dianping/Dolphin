@@ -10,4 +10,5 @@ public interface AppFileDao {
 
     long insert(AppFileEntity appFile);
 
+    AppFileEntity findAppFileByToken(String token);
 }

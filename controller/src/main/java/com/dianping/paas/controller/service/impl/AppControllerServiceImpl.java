@@ -5,6 +5,7 @@ import com.dianping.paas.controller.service.AppControllerService;
 import com.dianping.paas.core.dal.AppDal;
 import com.dianping.paas.core.dal.entity.AppEntity;
 import com.dianping.paas.core.dto.request.AppInitRequest;
+import com.dianping.paas.core.dto.response.AllocateWebPackageResponse;
 import com.dianping.paas.core.dto.response.AsyncOperationResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,8 +42,8 @@ public class AppControllerServiceImpl implements AppControllerService {
             appInitStep.validAppInitRequest(appInitRequest);
             appInitStep.saveAppInfo(appInitRequest, response);
             appInitStep.saveInstanceGroupInfo(appInitRequest);
-            appInitStep.allocatePkgToRespository(appInitRequest);
-
+            AllocateWebPackageResponse allocateWebPackageResponse = appInitStep.allocatePkgToRepository(appInitRequest);
+            appInitStep.uploadPkgToRepository(allocateWebPackageResponse);
             long opId = appInitStep.receiveOperationId(appInitRequest);
             response.setOperationId(opId);
             response.success();

@@ -13,14 +13,21 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * chao.yu@dianping.com
@@ -79,6 +86,22 @@ public class HttpUtil {
 
         HttpPost post = createPost(url, null);
         post.setEntity(new StringEntity(requestBody, ContentType.APPLICATION_JSON));
+        String body = invoke(client, post);
+
+        closeClient(client);
+
+        return body;
+    }
+
+    public static String post(String url, File file) throws Exception {
+
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        builder.addPart("file", new FileBody(file));
+
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPost post = createPost(url, null);
+        post.setEntity(builder.build());
         String body = invoke(client, post);
 
         closeClient(client);
